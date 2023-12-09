@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Pushification.PuppeteerDriver;
+using System;
 using System.Windows.Forms;
 
 namespace Pushification
@@ -16,7 +15,13 @@ namespace Pushification
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new MainWindow());
+
+            // Внедрение зависимостей
+            var serviceProvider = new ServiceCollection()
+             .AddScoped<DriverManager>()
+             
+             .BuildServiceProvider();
         }
     }
 }

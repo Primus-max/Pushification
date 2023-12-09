@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Windows.Automation;
 using System.Windows.Forms;
-using AutoItX3Lib;
-using AutoIt;
 
 
 namespace Pushification
 {
-    public partial class Form1 : Form
+    public partial class MainWindow : Form
     {
-         private AutomationElement lastFocusedElement;
-        public Form1()
+        private AutomationElement lastFocusedElement;
+        public MainWindow()
         {
             InitializeComponent();
 
+            // Метод для подписки на разные нативные события винды
             Automation.AddAutomationFocusChangedEventHandler((sender, e) =>
             {
                 AutomationElement focusedElement = sender as AutomationElement;

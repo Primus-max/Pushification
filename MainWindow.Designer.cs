@@ -1,6 +1,6 @@
 ﻿namespace Pushification
 {
-    partial class Form1
+    partial class MainWindow
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -30,13 +30,13 @@
         {
             this.SuspendLayout();
             // 
-            // Form1
+            // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(579, 783);
+            this.Name = "MainWindow";
+            this.Text = "ПУШИФИКАТОР";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 
