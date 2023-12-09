@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pushification", "Pushification.csproj", "{C2CD04FB-D1F4-4519-A3CD-A0200DD269B4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C2CD04FB-D1F4-4519-A3CD-A0200DD269B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2CD04FB-D1F4-4519-A3CD-A0200DD269B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2CD04FB-D1F4-4519-A3CD-A0200DD269B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2CD04FB-D1F4-4519-A3CD-A0200DD269B4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F6D092D8-CEBA-4E0B-90EA-F312F041B46F}
+	EndGlobalSection
+EndGlobal
