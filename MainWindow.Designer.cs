@@ -37,8 +37,16 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.Mode2Tab = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.MaxTimePageLoadingTextBox = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.BeforeAllowTimeoutTextBox = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.TabMainPanel.SuspendLayout();
             this.Mode1Tab.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // TabMainPanel
@@ -66,6 +74,7 @@
             // 
             // Mode1Tab
             // 
+            this.Mode1Tab.Controls.Add(this.groupBox1);
             this.Mode1Tab.Controls.Add(this.button1);
             this.Mode1Tab.Controls.Add(this.textBox1);
             this.Mode1Tab.Controls.Add(this.label3);
@@ -134,6 +143,75 @@
             this.Mode2Tab.Text = "Mode-2";
             this.Mode2Tab.UseVisualStyleBackColor = true;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.BeforeAllowTimeoutTextBox);
+            this.groupBox1.Controls.Add(this.MaxTimePageLoadingTextBox);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Location = new System.Drawing.Point(22, 241);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(886, 243);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Таймауты";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Location = new System.Drawing.Point(13, 44);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(260, 20);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Ожидание загрузки страницы";
+            // 
+            // MaxTimePageLoadingTextBox
+            // 
+            this.MaxTimePageLoadingTextBox.Location = new System.Drawing.Point(294, 34);
+            this.MaxTimePageLoadingTextBox.Name = "MaxTimePageLoadingTextBox";
+            this.MaxTimePageLoadingTextBox.Size = new System.Drawing.Size(83, 30);
+            this.MaxTimePageLoadingTextBox.TabIndex = 2;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label6.Location = new System.Drawing.Point(394, 44);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(41, 20);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "сек.";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.Location = new System.Drawing.Point(13, 93);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(267, 20);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Время перед под-ской на push";
+            // 
+            // BeforeAllowTimeoutTextBox
+            // 
+            this.BeforeAllowTimeoutTextBox.Location = new System.Drawing.Point(294, 83);
+            this.BeforeAllowTimeoutTextBox.Name = "BeforeAllowTimeoutTextBox";
+            this.BeforeAllowTimeoutTextBox.Size = new System.Drawing.Size(83, 30);
+            this.BeforeAllowTimeoutTextBox.TabIndex = 2;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label7.Location = new System.Drawing.Point(394, 93);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(41, 20);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "сек.";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -145,6 +223,8 @@
             this.TabMainPanel.ResumeLayout(false);
             this.Mode1Tab.ResumeLayout(false);
             this.Mode1Tab.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -160,6 +240,13 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox MaxTimePageLoadingTextBox;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox BeforeAllowTimeoutTextBox;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label5;
     }
 }
 
