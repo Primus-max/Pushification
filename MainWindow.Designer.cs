@@ -30,43 +30,74 @@
         {
             this.TabMainPanel = new System.Windows.Forms.TabControl();
             this.LogsTab = new System.Windows.Forms.TabPage();
+            this.label18 = new System.Windows.Forms.Label();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.Mode1Tab = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.StartOptionOneTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.label15 = new System.Windows.Forms.Label();
+            this.TimeOptionOneTextBox = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.IP = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.CountIPDeletionTextBox = new System.Windows.Forms.TextBox();
+            this.CountIPTextBlock = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ProxyWaitingTimeoutTextBox = new System.Windows.Forms.TextBox();
+            this.AfterAllowTimeoutTextBox = new System.Windows.Forms.TextBox();
+            this.BeforeAllowTimeoutTextBox = new System.Windows.Forms.TextBox();
+            this.MaxTimePageLoadingTextBox = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.Mode2Tab = new System.Windows.Forms.TabPage();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.MaxTimePageLoadingTextBox = new System.Windows.Forms.TextBox();
-            this.BeforeAllowTimeoutTextBox = new System.Windows.Forms.TextBox();
-            this.AfterAllowTimeoutTextBox = new System.Windows.Forms.TextBox();
-            this.ProxyWaitingTimeoutTextBox = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.IP = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.CountIPTextBlock = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.CountIPDeletionTextBox = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.StartOptionOneTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.TimeOptionOneTextBox = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
+            this.SrartButton = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.SleepBeforeProcessKillIgnoreTextBox = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.MaxTimeToWaitNotificationIgnoreTextBox = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.TimeToWaitNotificationClickTextBox = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.SleepBetweenClickTextBox = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.SleepAfterAllNotificationsClickTextBox = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.SleepBeforeUnsubscribeTextBox = new System.Windows.Forms.TextBox();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.SleepAfterUnsubscribeTextBox = new System.Windows.Forms.TextBox();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.SleepBeforeProfileDeletionTextBox = new System.Windows.Forms.TextBox();
+            this.label34 = new System.Windows.Forms.Label();
             this.TabMainPanel.SuspendLayout();
+            this.LogsTab.SuspendLayout();
             this.Mode1Tab.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.IP.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.IP.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.Mode2Tab.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // TabMainPanel
@@ -84,6 +115,9 @@
             // 
             // LogsTab
             // 
+            this.LogsTab.Controls.Add(this.SrartButton);
+            this.LogsTab.Controls.Add(this.label18);
+            this.LogsTab.Controls.Add(this.richTextBox1);
             this.LogsTab.Location = new System.Drawing.Point(4, 44);
             this.LogsTab.Name = "LogsTab";
             this.LogsTab.Padding = new System.Windows.Forms.Padding(3);
@@ -91,6 +125,24 @@
             this.LogsTab.TabIndex = 0;
             this.LogsTab.Text = "Logs";
             this.LogsTab.UseVisualStyleBackColor = true;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label18.Location = new System.Drawing.Point(6, 21);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(178, 29);
+            this.label18.TabIndex = 1;
+            this.label18.Text = "Логирование :";
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(6, 62);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(920, 633);
+            this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.Text = "";
             // 
             // Mode1Tab
             // 
@@ -109,6 +161,257 @@
             this.Mode1Tab.TabIndex = 1;
             this.Mode1Tab.Text = "Mode-1";
             this.Mode1Tab.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.StartOptionOneTimePicker);
+            this.groupBox2.Controls.Add(this.label15);
+            this.groupBox2.Controls.Add(this.TimeOptionOneTextBox);
+            this.groupBox2.Controls.Add(this.label16);
+            this.groupBox2.Controls.Add(this.label17);
+            this.groupBox2.Location = new System.Drawing.Point(22, 543);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(886, 122);
+            this.groupBox2.TabIndex = 7;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Время работы режима";
+            // 
+            // StartOptionOneTimePicker
+            // 
+            this.StartOptionOneTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.StartOptionOneTimePicker.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.StartOptionOneTimePicker.Location = new System.Drawing.Point(247, 46);
+            this.StartOptionOneTimePicker.Name = "StartOptionOneTimePicker";
+            this.StartOptionOneTimePicker.Size = new System.Drawing.Size(136, 30);
+            this.StartOptionOneTimePicker.TabIndex = 1;
+            this.StartOptionOneTimePicker.Value = new System.DateTime(2023, 12, 10, 17, 14, 0, 0);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label15.Location = new System.Drawing.Point(450, 55);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(164, 20);
+            this.label15.TabIndex = 0;
+            this.label15.Text = "Закончить через :";
+            // 
+            // TimeOptionOneTextBox
+            // 
+            this.TimeOptionOneTextBox.Location = new System.Drawing.Point(627, 45);
+            this.TimeOptionOneTextBox.Name = "TimeOptionOneTextBox";
+            this.TimeOptionOneTextBox.Size = new System.Drawing.Size(83, 30);
+            this.TimeOptionOneTextBox.TabIndex = 2;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label16.Location = new System.Drawing.Point(13, 56);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(160, 20);
+            this.label16.TabIndex = 0;
+            this.label16.Text = "Начать работу в :";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label17.Location = new System.Drawing.Point(716, 56);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(45, 20);
+            this.label17.TabIndex = 0;
+            this.label17.Text = "мин.";
+            this.label17.Click += new System.EventHandler(this.label7_Click);
+            // 
+            // IP
+            // 
+            this.IP.Controls.Add(this.label13);
+            this.IP.Controls.Add(this.label10);
+            this.IP.Controls.Add(this.CountIPDeletionTextBox);
+            this.IP.Controls.Add(this.CountIPTextBlock);
+            this.IP.Controls.Add(this.label14);
+            this.IP.Controls.Add(this.label7);
+            this.IP.Location = new System.Drawing.Point(22, 421);
+            this.IP.Name = "IP";
+            this.IP.Size = new System.Drawing.Size(886, 85);
+            this.IP.TabIndex = 6;
+            this.IP.TabStop = false;
+            this.IP.Text = "IP";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label13.Location = new System.Drawing.Point(450, 41);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(268, 20);
+            this.label13.TabIndex = 0;
+            this.label13.Text = "Кол-во IP для ужадения за раз";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label10.Location = new System.Drawing.Point(13, 44);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(208, 20);
+            this.label10.TabIndex = 0;
+            this.label10.Text = "Кол-во IP для удаления";
+            // 
+            // CountIPDeletionTextBox
+            // 
+            this.CountIPDeletionTextBox.Location = new System.Drawing.Point(716, 34);
+            this.CountIPDeletionTextBox.Name = "CountIPDeletionTextBox";
+            this.CountIPDeletionTextBox.Size = new System.Drawing.Size(83, 30);
+            this.CountIPDeletionTextBox.TabIndex = 2;
+            // 
+            // CountIPTextBlock
+            // 
+            this.CountIPTextBlock.Location = new System.Drawing.Point(247, 34);
+            this.CountIPTextBlock.Name = "CountIPTextBlock";
+            this.CountIPTextBlock.Size = new System.Drawing.Size(83, 30);
+            this.CountIPTextBlock.TabIndex = 2;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label14.Location = new System.Drawing.Point(805, 44);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(37, 20);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "шт.";
+            this.label14.Click += new System.EventHandler(this.label7_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label7.Location = new System.Drawing.Point(336, 44);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(73, 20);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "шт. max";
+            this.label7.Click += new System.EventHandler(this.label7_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.ProxyWaitingTimeoutTextBox);
+            this.groupBox1.Controls.Add(this.AfterAllowTimeoutTextBox);
+            this.groupBox1.Controls.Add(this.BeforeAllowTimeoutTextBox);
+            this.groupBox1.Controls.Add(this.MaxTimePageLoadingTextBox);
+            this.groupBox1.Controls.Add(this.label12);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.label11);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Location = new System.Drawing.Point(22, 241);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(886, 156);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Таймауты";
+            // 
+            // ProxyWaitingTimeoutTextBox
+            // 
+            this.ProxyWaitingTimeoutTextBox.Location = new System.Drawing.Point(716, 83);
+            this.ProxyWaitingTimeoutTextBox.Name = "ProxyWaitingTimeoutTextBox";
+            this.ProxyWaitingTimeoutTextBox.Size = new System.Drawing.Size(83, 30);
+            this.ProxyWaitingTimeoutTextBox.TabIndex = 2;
+            // 
+            // AfterAllowTimeoutTextBox
+            // 
+            this.AfterAllowTimeoutTextBox.Location = new System.Drawing.Point(716, 34);
+            this.AfterAllowTimeoutTextBox.Name = "AfterAllowTimeoutTextBox";
+            this.AfterAllowTimeoutTextBox.Size = new System.Drawing.Size(83, 30);
+            this.AfterAllowTimeoutTextBox.TabIndex = 2;
+            // 
+            // BeforeAllowTimeoutTextBox
+            // 
+            this.BeforeAllowTimeoutTextBox.Location = new System.Drawing.Point(294, 83);
+            this.BeforeAllowTimeoutTextBox.Name = "BeforeAllowTimeoutTextBox";
+            this.BeforeAllowTimeoutTextBox.Size = new System.Drawing.Size(83, 30);
+            this.BeforeAllowTimeoutTextBox.TabIndex = 2;
+            // 
+            // MaxTimePageLoadingTextBox
+            // 
+            this.MaxTimePageLoadingTextBox.Location = new System.Drawing.Point(294, 34);
+            this.MaxTimePageLoadingTextBox.Name = "MaxTimePageLoadingTextBox";
+            this.MaxTimePageLoadingTextBox.Size = new System.Drawing.Size(83, 30);
+            this.MaxTimePageLoadingTextBox.TabIndex = 2;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label12.Location = new System.Drawing.Point(805, 93);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(41, 20);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "сек.";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label9.Location = new System.Drawing.Point(805, 44);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(41, 20);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "сек.";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label11.Location = new System.Drawing.Point(450, 93);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(203, 20);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "Ожидание внешнего IP";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label6.Location = new System.Drawing.Point(383, 44);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(41, 20);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "сек.";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label8.Location = new System.Drawing.Point(450, 44);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(260, 20);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Ожидание после \"разрешить\"";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.Location = new System.Drawing.Point(13, 93);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(267, 20);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Время перед под-ской на push";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Location = new System.Drawing.Point(13, 44);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(260, 20);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Ожидание загрузки страницы";
             // 
             // button1
             // 
@@ -157,6 +460,7 @@
             // 
             // Mode2Tab
             // 
+            this.Mode2Tab.Controls.Add(this.groupBox3);
             this.Mode2Tab.Location = new System.Drawing.Point(4, 44);
             this.Mode2Tab.Name = "Mode2Tab";
             this.Mode2Tab.Padding = new System.Windows.Forms.Padding(3);
@@ -165,256 +469,271 @@
             this.Mode2Tab.Text = "Mode-2";
             this.Mode2Tab.UseVisualStyleBackColor = true;
             // 
-            // label11
+            // SrartButton
             // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label11.Location = new System.Drawing.Point(450, 93);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(203, 20);
-            this.label11.TabIndex = 0;
-            this.label11.Text = "Ожидание внешнего IP";
+            this.SrartButton.Location = new System.Drawing.Point(615, 707);
+            this.SrartButton.Name = "SrartButton";
+            this.SrartButton.Size = new System.Drawing.Size(226, 54);
+            this.SrartButton.TabIndex = 2;
+            this.SrartButton.Text = "Запустить";
+            this.SrartButton.UseVisualStyleBackColor = true;
             // 
-            // label4
+            // groupBox3
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(13, 44);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(260, 20);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Ожидание загрузки страницы";
+            this.groupBox3.Controls.Add(this.SleepAfterUnsubscribeTextBox);
+            this.groupBox3.Controls.Add(this.SleepAfterAllNotificationsClickTextBox);
+            this.groupBox3.Controls.Add(this.MaxTimeToWaitNotificationIgnoreTextBox);
+            this.groupBox3.Controls.Add(this.SleepBeforeProfileDeletionTextBox);
+            this.groupBox3.Controls.Add(this.SleepBeforeUnsubscribeTextBox);
+            this.groupBox3.Controls.Add(this.SleepBetweenClickTextBox);
+            this.groupBox3.Controls.Add(this.TimeToWaitNotificationClickTextBox);
+            this.groupBox3.Controls.Add(this.SleepBeforeProcessKillIgnoreTextBox);
+            this.groupBox3.Controls.Add(this.label32);
+            this.groupBox3.Controls.Add(this.label22);
+            this.groupBox3.Controls.Add(this.label34);
+            this.groupBox3.Controls.Add(this.label30);
+            this.groupBox3.Controls.Add(this.label26);
+            this.groupBox3.Controls.Add(this.label24);
+            this.groupBox3.Controls.Add(this.label28);
+            this.groupBox3.Controls.Add(this.label20);
+            this.groupBox3.Controls.Add(this.label21);
+            this.groupBox3.Controls.Add(this.label29);
+            this.groupBox3.Controls.Add(this.label25);
+            this.groupBox3.Controls.Add(this.label23);
+            this.groupBox3.Controls.Add(this.label33);
+            this.groupBox3.Controls.Add(this.label31);
+            this.groupBox3.Controls.Add(this.label27);
+            this.groupBox3.Controls.Add(this.label19);
+            this.groupBox3.Location = new System.Drawing.Point(15, 17);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(901, 414);
+            this.groupBox3.TabIndex = 0;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Тайминги";
             // 
-            // label5
+            // label19
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(13, 93);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(267, 20);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Время перед под-ской на push";
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label19.Location = new System.Drawing.Point(16, 35);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(320, 40);
+            this.label19.TabIndex = 0;
+            this.label19.Text = "Задержка перед закрытием браузер\r\nпосле того как пришли уведомления";
             // 
-            // label8
+            // SleepBeforeProcessKillIgnoreTextBox
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label8.Location = new System.Drawing.Point(450, 44);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(260, 20);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Ожидание после \"разрешить\"";
+            this.SleepBeforeProcessKillIgnoreTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SleepBeforeProcessKillIgnoreTextBox.Location = new System.Drawing.Point(360, 41);
+            this.SleepBeforeProcessKillIgnoreTextBox.Name = "SleepBeforeProcessKillIgnoreTextBox";
+            this.SleepBeforeProcessKillIgnoreTextBox.Size = new System.Drawing.Size(74, 34);
+            this.SleepBeforeProcessKillIgnoreTextBox.TabIndex = 1;
             // 
-            // label6
+            // label20
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.Location = new System.Drawing.Point(383, 44);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(41, 20);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "сек.";
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label20.Location = new System.Drawing.Point(440, 55);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(41, 20);
+            this.label20.TabIndex = 0;
+            this.label20.Text = "сек.";
             // 
-            // label7
+            // label21
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.Location = new System.Drawing.Point(336, 44);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(73, 20);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "шт. max";
-            this.label7.Click += new System.EventHandler(this.label7_Click);
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label21.Location = new System.Drawing.Point(16, 94);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(323, 40);
+            this.label21.TabIndex = 0;
+            this.label21.Text = "Макс. время ожидания уведомлений \r\nпри ignore";
             // 
-            // label9
+            // MaxTimeToWaitNotificationIgnoreTextBox
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label9.Location = new System.Drawing.Point(805, 44);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(41, 20);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "сек.";
+            this.MaxTimeToWaitNotificationIgnoreTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.MaxTimeToWaitNotificationIgnoreTextBox.Location = new System.Drawing.Point(360, 100);
+            this.MaxTimeToWaitNotificationIgnoreTextBox.Name = "MaxTimeToWaitNotificationIgnoreTextBox";
+            this.MaxTimeToWaitNotificationIgnoreTextBox.Size = new System.Drawing.Size(74, 34);
+            this.MaxTimeToWaitNotificationIgnoreTextBox.TabIndex = 1;
             // 
-            // label12
+            // label22
             // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label12.Location = new System.Drawing.Point(805, 93);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(41, 20);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "сек.";
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label22.Location = new System.Drawing.Point(440, 181);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(41, 20);
+            this.label22.TabIndex = 0;
+            this.label22.Text = "сек.";
             // 
-            // MaxTimePageLoadingTextBox
+            // label23
             // 
-            this.MaxTimePageLoadingTextBox.Location = new System.Drawing.Point(294, 34);
-            this.MaxTimePageLoadingTextBox.Name = "MaxTimePageLoadingTextBox";
-            this.MaxTimePageLoadingTextBox.Size = new System.Drawing.Size(83, 30);
-            this.MaxTimePageLoadingTextBox.TabIndex = 2;
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label23.Location = new System.Drawing.Point(505, 35);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(206, 40);
+            this.label23.TabIndex = 0;
+            this.label23.Text = "Макс. время ожидания \r\nуведомлений при click";
             // 
-            // BeforeAllowTimeoutTextBox
+            // TimeToWaitNotificationClickTextBox
             // 
-            this.BeforeAllowTimeoutTextBox.Location = new System.Drawing.Point(294, 83);
-            this.BeforeAllowTimeoutTextBox.Name = "BeforeAllowTimeoutTextBox";
-            this.BeforeAllowTimeoutTextBox.Size = new System.Drawing.Size(83, 30);
-            this.BeforeAllowTimeoutTextBox.TabIndex = 2;
+            this.TimeToWaitNotificationClickTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.TimeToWaitNotificationClickTextBox.Location = new System.Drawing.Point(744, 41);
+            this.TimeToWaitNotificationClickTextBox.Name = "TimeToWaitNotificationClickTextBox";
+            this.TimeToWaitNotificationClickTextBox.Size = new System.Drawing.Size(74, 34);
+            this.TimeToWaitNotificationClickTextBox.TabIndex = 1;
             // 
-            // AfterAllowTimeoutTextBox
+            // label24
             // 
-            this.AfterAllowTimeoutTextBox.Location = new System.Drawing.Point(716, 34);
-            this.AfterAllowTimeoutTextBox.Name = "AfterAllowTimeoutTextBox";
-            this.AfterAllowTimeoutTextBox.Size = new System.Drawing.Size(83, 30);
-            this.AfterAllowTimeoutTextBox.TabIndex = 2;
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label24.Location = new System.Drawing.Point(824, 55);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(41, 20);
+            this.label24.TabIndex = 0;
+            this.label24.Text = "сек.";
             // 
-            // ProxyWaitingTimeoutTextBox
+            // label25
             // 
-            this.ProxyWaitingTimeoutTextBox.Location = new System.Drawing.Point(716, 83);
-            this.ProxyWaitingTimeoutTextBox.Name = "ProxyWaitingTimeoutTextBox";
-            this.ProxyWaitingTimeoutTextBox.Size = new System.Drawing.Size(83, 30);
-            this.ProxyWaitingTimeoutTextBox.TabIndex = 2;
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label25.Location = new System.Drawing.Point(505, 94);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(233, 40);
+            this.label25.TabIndex = 0;
+            this.label25.Text = "Задержка между кликами \r\nпо уведомлениям";
             // 
-            // groupBox1
+            // SleepBetweenClickTextBox
             // 
-            this.groupBox1.Controls.Add(this.ProxyWaitingTimeoutTextBox);
-            this.groupBox1.Controls.Add(this.AfterAllowTimeoutTextBox);
-            this.groupBox1.Controls.Add(this.BeforeAllowTimeoutTextBox);
-            this.groupBox1.Controls.Add(this.MaxTimePageLoadingTextBox);
-            this.groupBox1.Controls.Add(this.label12);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.label11);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Location = new System.Drawing.Point(22, 241);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(886, 156);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Таймауты";
+            this.SleepBetweenClickTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SleepBetweenClickTextBox.Location = new System.Drawing.Point(744, 100);
+            this.SleepBetweenClickTextBox.Name = "SleepBetweenClickTextBox";
+            this.SleepBetweenClickTextBox.Size = new System.Drawing.Size(74, 34);
+            this.SleepBetweenClickTextBox.TabIndex = 1;
             // 
-            // IP
+            // label26
             // 
-            this.IP.Controls.Add(this.label13);
-            this.IP.Controls.Add(this.label10);
-            this.IP.Controls.Add(this.CountIPDeletionTextBox);
-            this.IP.Controls.Add(this.CountIPTextBlock);
-            this.IP.Controls.Add(this.label14);
-            this.IP.Controls.Add(this.label7);
-            this.IP.Location = new System.Drawing.Point(22, 421);
-            this.IP.Name = "IP";
-            this.IP.Size = new System.Drawing.Size(886, 85);
-            this.IP.TabIndex = 6;
-            this.IP.TabStop = false;
-            this.IP.Text = "IP";
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label26.Location = new System.Drawing.Point(824, 114);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(41, 20);
+            this.label26.TabIndex = 0;
+            this.label26.Text = "сек.";
             // 
-            // label10
+            // label27
             // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label10.Location = new System.Drawing.Point(13, 44);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(208, 20);
-            this.label10.TabIndex = 0;
-            this.label10.Text = "Кол-во IP для удаления";
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label27.Location = new System.Drawing.Point(16, 161);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(216, 40);
+            this.label27.TabIndex = 0;
+            this.label27.Text = "Задержка после кликов \r\nпо уведомлениям";
             // 
-            // CountIPTextBlock
+            // SleepAfterAllNotificationsClickTextBox
             // 
-            this.CountIPTextBlock.Location = new System.Drawing.Point(247, 34);
-            this.CountIPTextBlock.Name = "CountIPTextBlock";
-            this.CountIPTextBlock.Size = new System.Drawing.Size(83, 30);
-            this.CountIPTextBlock.TabIndex = 2;
+            this.SleepAfterAllNotificationsClickTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SleepAfterAllNotificationsClickTextBox.Location = new System.Drawing.Point(360, 167);
+            this.SleepAfterAllNotificationsClickTextBox.Name = "SleepAfterAllNotificationsClickTextBox";
+            this.SleepAfterAllNotificationsClickTextBox.Size = new System.Drawing.Size(74, 34);
+            this.SleepAfterAllNotificationsClickTextBox.TabIndex = 1;
             // 
-            // label13
+            // label28
             // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label13.Location = new System.Drawing.Point(450, 41);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(268, 20);
-            this.label13.TabIndex = 0;
-            this.label13.Text = "Кол-во IP для ужадения за раз";
+            this.label28.AutoSize = true;
+            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label28.Location = new System.Drawing.Point(440, 114);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(41, 20);
+            this.label28.TabIndex = 0;
+            this.label28.Text = "сек.";
             // 
-            // CountIPDeletionTextBox
+            // label29
             // 
-            this.CountIPDeletionTextBox.Location = new System.Drawing.Point(716, 34);
-            this.CountIPDeletionTextBox.Name = "CountIPDeletionTextBox";
-            this.CountIPDeletionTextBox.Size = new System.Drawing.Size(83, 30);
-            this.CountIPDeletionTextBox.TabIndex = 2;
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label29.Location = new System.Drawing.Point(505, 141);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(231, 60);
+            this.label29.TabIndex = 0;
+            this.label29.Text = "Задержка \r\nпосле открытия браузера \r\nпри удалении";
             // 
-            // label14
+            // SleepBeforeUnsubscribeTextBox
             // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label14.Location = new System.Drawing.Point(805, 44);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(37, 20);
-            this.label14.TabIndex = 0;
-            this.label14.Text = "шт.";
-            this.label14.Click += new System.EventHandler(this.label7_Click);
+            this.SleepBeforeUnsubscribeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SleepBeforeUnsubscribeTextBox.Location = new System.Drawing.Point(742, 167);
+            this.SleepBeforeUnsubscribeTextBox.Name = "SleepBeforeUnsubscribeTextBox";
+            this.SleepBeforeUnsubscribeTextBox.Size = new System.Drawing.Size(74, 34);
+            this.SleepBeforeUnsubscribeTextBox.TabIndex = 1;
             // 
-            // groupBox2
+            // label30
             // 
-            this.groupBox2.Controls.Add(this.StartOptionOneTimePicker);
-            this.groupBox2.Controls.Add(this.label15);
-            this.groupBox2.Controls.Add(this.TimeOptionOneTextBox);
-            this.groupBox2.Controls.Add(this.label16);
-            this.groupBox2.Controls.Add(this.label17);
-            this.groupBox2.Location = new System.Drawing.Point(22, 543);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(886, 122);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Время работы режима";
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label30.Location = new System.Drawing.Point(822, 181);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(41, 20);
+            this.label30.TabIndex = 0;
+            this.label30.Text = "сек.";
             // 
-            // StartOptionOneTimePicker
+            // label31
             // 
-            this.StartOptionOneTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.StartOptionOneTimePicker.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.StartOptionOneTimePicker.Location = new System.Drawing.Point(247, 46);
-            this.StartOptionOneTimePicker.Name = "StartOptionOneTimePicker";
-            this.StartOptionOneTimePicker.Size = new System.Drawing.Size(136, 30);
-            this.StartOptionOneTimePicker.TabIndex = 1;
-            this.StartOptionOneTimePicker.Value = new System.DateTime(2023, 12, 10, 17, 14, 0, 0);
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label31.Location = new System.Drawing.Point(16, 227);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(229, 40);
+            this.label31.TabIndex = 0;
+            this.label31.Text = "Задержка \r\nпосле сброса разрешения";
             // 
-            // label16
+            // SleepAfterUnsubscribeTextBox
             // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label16.Location = new System.Drawing.Point(13, 56);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(160, 20);
-            this.label16.TabIndex = 0;
-            this.label16.Text = "Начать работу в :";
+            this.SleepAfterUnsubscribeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SleepAfterUnsubscribeTextBox.Location = new System.Drawing.Point(360, 233);
+            this.SleepAfterUnsubscribeTextBox.Name = "SleepAfterUnsubscribeTextBox";
+            this.SleepAfterUnsubscribeTextBox.Size = new System.Drawing.Size(74, 34);
+            this.SleepAfterUnsubscribeTextBox.TabIndex = 1;
             // 
-            // label15
+            // label32
             // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label15.Location = new System.Drawing.Point(450, 55);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(164, 20);
-            this.label15.TabIndex = 0;
-            this.label15.Text = "Закончить через :";
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label32.Location = new System.Drawing.Point(440, 247);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(41, 20);
+            this.label32.TabIndex = 0;
+            this.label32.Text = "сек.";
             // 
-            // TimeOptionOneTextBox
+            // label33
             // 
-            this.TimeOptionOneTextBox.Location = new System.Drawing.Point(627, 45);
-            this.TimeOptionOneTextBox.Name = "TimeOptionOneTextBox";
-            this.TimeOptionOneTextBox.Size = new System.Drawing.Size(83, 30);
-            this.TimeOptionOneTextBox.TabIndex = 2;
+            this.label33.AutoSize = true;
+            this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label33.Location = new System.Drawing.Point(509, 227);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(182, 40);
+            this.label33.TabIndex = 0;
+            this.label33.Text = "Задержка перед \r\nудалением профиля";
             // 
-            // label17
+            // SleepBeforeProfileDeletionTextBox
             // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label17.Location = new System.Drawing.Point(716, 56);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(45, 20);
-            this.label17.TabIndex = 0;
-            this.label17.Text = "мин.";
-            this.label17.Click += new System.EventHandler(this.label7_Click);
+            this.SleepBeforeProfileDeletionTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SleepBeforeProfileDeletionTextBox.Location = new System.Drawing.Point(742, 233);
+            this.SleepBeforeProfileDeletionTextBox.Name = "SleepBeforeProfileDeletionTextBox";
+            this.SleepBeforeProfileDeletionTextBox.Size = new System.Drawing.Size(74, 34);
+            this.SleepBeforeProfileDeletionTextBox.TabIndex = 1;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label34.Location = new System.Drawing.Point(822, 247);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(41, 20);
+            this.label34.TabIndex = 0;
+            this.label34.Text = "сек.";
             // 
             // MainWindow
             // 
@@ -425,14 +744,19 @@
             this.Name = "MainWindow";
             this.Text = "ПУШИФИКАТОР";
             this.TabMainPanel.ResumeLayout(false);
+            this.LogsTab.ResumeLayout(false);
+            this.LogsTab.PerformLayout();
             this.Mode1Tab.ResumeLayout(false);
             this.Mode1Tab.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.IP.ResumeLayout(false);
-            this.IP.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.IP.ResumeLayout(false);
+            this.IP.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.Mode2Tab.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -473,6 +797,34 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox TimeOptionOneTextBox;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Button SrartButton;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.TextBox MaxTimeToWaitNotificationIgnoreTextBox;
+        private System.Windows.Forms.TextBox SleepBeforeProcessKillIgnoreTextBox;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.TextBox TimeToWaitNotificationClickTextBox;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.TextBox SleepAfterAllNotificationsClickTextBox;
+        private System.Windows.Forms.TextBox SleepBetweenClickTextBox;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.TextBox SleepAfterUnsubscribeTextBox;
+        private System.Windows.Forms.TextBox SleepBeforeUnsubscribeTextBox;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.TextBox SleepBeforeProfileDeletionTextBox;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label33;
     }
 }
 
