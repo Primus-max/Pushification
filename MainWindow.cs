@@ -56,14 +56,38 @@ namespace Pushification
             return false;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+
+
+
+
+
+
+
+
+
+        #region РЕЖИМ-1
+
+        #endregion
+
+        #region РЕЖИМ-2
+
+
+        #endregion
+
+        private void OpenFileButton_Click(object sender, EventArgs e)
         {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Title = "Выберите файл с прокси";
+                openFileDialog.Filter = "Текстовые файлы|*.txt|Все файлы|*.*";
 
-        }
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string selectedFilePath = openFileDialog.FileName;
 
-        private void LogsTab_Click(object sender, EventArgs e)
-        {
-
+                    // Далее можно использовать выбранный файл (selectedFilePath) для ваших нужд
+                }
+            }
         }
     }
 }
