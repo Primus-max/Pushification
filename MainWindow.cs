@@ -60,5 +60,10 @@ namespace Pushification
         {
 
         }
+
+        private void LogsTab_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

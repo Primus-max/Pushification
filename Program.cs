@@ -19,8 +19,7 @@ namespace Pushification
 
             // Внедрение зависимостей
             var serviceProvider = new ServiceCollection()
-             .AddScoped<DriverManager>()
-             
+             .AddScoped<DriverManager>()             
              .BuildServiceProvider();
         }
     }

@@ -1,0 +1,18 @@
+{
+  "ProxyList": ["proxy3", "proxy4"],
+  "PercentToDelete": 50,
+  "PercentToClick": 50,
+  "SleepBeforeProcessKillIgnore": 5,
+  "MaxTimeToWaitNotificationIgnore": 30,
+  "TimeToWaitNotificationClick": 20,
+  "MinNumberOfClicks": 1,
+  "MaxNumberOfClicks": 5,
+  "SleepBetweenClick": 2,
+  "SleepAfterAllNotificationsClick": 10,
+  "SleepBeforeUnsubscribe": 5,
+  "SleepAfterUnsubscribe": 5,
+  "SleepBeforeProfileDeletion": 10,
+  "Headless": true,
+  "ProxyForIgnore": true,
+  "NotificationClose": true
+}

@@ -1,0 +1,13 @@
+{
+  "URL": "https://example.com",
+  "ProxyList": ["proxy1", "proxy2"],
+  "MaxTimePageLoading": 30,
+  "BeforeAllowTimeout": 5,
+  "AfterAllowTimeout": 10,
+  "MaxTimeGettingOutIP": 20,
+  "ProxyWaitingTimeout": 60,
+  "CountIP": 100,
+  "CountIPDeletion": 10,
+  "StartOptionOne": "08:00 AM",
+  "TimeOptionOne": 180
+}
