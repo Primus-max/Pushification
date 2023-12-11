@@ -20,8 +20,10 @@ namespace Pushification
             _pushSettings = new PushNotificationModeSettings();
             _subscriptionSettings = new SubscriptionModeSettings();
 
-
+            // Инициализация полей форм из json
             LoadSubscriptonSettingsData();
+            LoadPushNotificationSettingsData();
+
             // Метод для подписки на разные нативные события винды
             //Automation.AddAutomationFocusChangedEventHandler((sender, e) =>
             //{
@@ -286,6 +288,27 @@ namespace Pushification
             _pushSettings.SaveToJson();
         }
 
+        private void LoadPushNotificationSettingsData()
+        {
+            _pushSettings = PushNotificationModeSettings.LoadFromJson();
+
+            SleepBeforeProcessKillIgnoreTextBox.Text = _pushSettings.SleepBeforeProcessKillIgnore.ToString();
+            TimeToWaitNotificationClickTextBox.Text = _pushSettings.TimeToWaitNotificationClick.ToString();
+            MaxTimeToWaitNotificationIgnoreTextBox.Text = _pushSettings.MaxTimeToWaitNotificationIgnore.ToString();
+            SleepBetweenClickTextBox.Text = _pushSettings.SleepBetweenClick.ToString();
+            SleepAfterAllNotificationsClickTextBox.Text = _pushSettings.SleepAfterAllNotificationsClick.ToString();
+            SleepBeforeUnsubscribeTextBox.Text = _pushSettings.SleepBeforeUnsubscribe.ToString();
+            SleepAfterUnsubscribeTextBox.Text = _pushSettings.SleepAfterUnsubscribe.ToString();
+            SleepBeforeProfileDeletionTextBox.Text = _pushSettings.SleepBeforeProfileDeletion.ToString();
+            PercentToDeleteTextBox.Text = _pushSettings.PercentToDelete.ToString();
+            PercentToClickTextBox.Text = _pushSettings.PercentToClick.ToString();
+            MinNumberOfClicksTextBox.Text = _pushSettings.MinNumberOfClicks.ToString();
+            MaxNumberOfClicksTextBox.Text = _pushSettings.MaxNumberOfClicks.ToString();
+            ProxyForIgnoreCheckBox.Checked = _pushSettings.ProxyForIgnore;
+            NotificationCloseByButtonCheckBox.Checked = _pushSettings.NotificationCloseByButton;
+            HeadlessModeCheckBox.Checked = _pushSettings.HeadlessMode;
+
+        }
 
 
 
@@ -302,6 +325,6 @@ namespace Pushification
 
         #endregion
 
-     
+
     }
 }
