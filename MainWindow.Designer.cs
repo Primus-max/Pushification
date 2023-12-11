@@ -127,12 +127,12 @@
             this.TabMainPanel.Controls.Add(this.Mode1Tab);
             this.TabMainPanel.Controls.Add(this.Mode2Tab);
             this.TabMainPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.TabMainPanel.Location = new System.Drawing.Point(9, 10);
-            this.TabMainPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TabMainPanel.Location = new System.Drawing.Point(12, 12);
+            this.TabMainPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TabMainPanel.Name = "TabMainPanel";
             this.TabMainPanel.Padding = new System.Drawing.Point(8, 8);
             this.TabMainPanel.SelectedIndex = 0;
-            this.TabMainPanel.Size = new System.Drawing.Size(705, 710);
+            this.TabMainPanel.Size = new System.Drawing.Size(940, 874);
             this.TabMainPanel.TabIndex = 0;
             // 
             // LogsTab
@@ -140,21 +140,21 @@
             this.LogsTab.Controls.Add(this.SrartButton);
             this.LogsTab.Controls.Add(this.label18);
             this.LogsTab.Controls.Add(this.richTextBox1);
-            this.LogsTab.Location = new System.Drawing.Point(4, 39);
-            this.LogsTab.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.LogsTab.Location = new System.Drawing.Point(4, 44);
+            this.LogsTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.LogsTab.Name = "LogsTab";
-            this.LogsTab.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.LogsTab.Size = new System.Drawing.Size(697, 667);
+            this.LogsTab.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.LogsTab.Size = new System.Drawing.Size(932, 826);
             this.LogsTab.TabIndex = 0;
             this.LogsTab.Text = "Logs";
             this.LogsTab.UseVisualStyleBackColor = true;
             // 
             // SrartButton
             // 
-            this.SrartButton.Location = new System.Drawing.Point(512, 608);
-            this.SrartButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SrartButton.Location = new System.Drawing.Point(683, 748);
+            this.SrartButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SrartButton.Name = "SrartButton";
-            this.SrartButton.Size = new System.Drawing.Size(170, 44);
+            this.SrartButton.Size = new System.Drawing.Size(227, 54);
             this.SrartButton.TabIndex = 2;
             this.SrartButton.Text = "Запустить";
             this.SrartButton.UseVisualStyleBackColor = true;
@@ -163,19 +163,18 @@
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label18.Location = new System.Drawing.Point(4, 17);
-            this.label18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label18.Location = new System.Drawing.Point(5, 21);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(139, 24);
+            this.label18.Size = new System.Drawing.Size(178, 29);
             this.label18.TabIndex = 1;
             this.label18.Text = "Логирование :";
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(8, 50);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.richTextBox1.Location = new System.Drawing.Point(11, 62);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(674, 538);
+            this.richTextBox1.Size = new System.Drawing.Size(897, 661);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -189,13 +188,13 @@
             this.Mode1Tab.Controls.Add(this.label3);
             this.Mode1Tab.Controls.Add(this.label2);
             this.Mode1Tab.Controls.Add(this.label1);
-            this.Mode1Tab.Location = new System.Drawing.Point(4, 39);
-            this.Mode1Tab.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Mode1Tab.Location = new System.Drawing.Point(4, 44);
+            this.Mode1Tab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Mode1Tab.Name = "Mode1Tab";
-            this.Mode1Tab.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.Mode1Tab.Size = new System.Drawing.Size(697, 667);
+            this.Mode1Tab.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Mode1Tab.Size = new System.Drawing.Size(932, 826);
             this.Mode1Tab.TabIndex = 1;
-            this.Mode1Tab.Text = "Mode-1";
+            this.Mode1Tab.Text = "Подписка";
             this.Mode1Tab.UseVisualStyleBackColor = true;
             // 
             // groupBox2
@@ -205,11 +204,11 @@
             this.groupBox2.Controls.Add(this.TimeOptionOneTextBox);
             this.groupBox2.Controls.Add(this.label16);
             this.groupBox2.Controls.Add(this.label17);
-            this.groupBox2.Location = new System.Drawing.Point(16, 441);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Location = new System.Drawing.Point(21, 543);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox2.Size = new System.Drawing.Size(664, 99);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox2.Size = new System.Drawing.Size(885, 122);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Время работы режима";
@@ -218,10 +217,10 @@
             // 
             this.StartOptionOneTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.StartOptionOneTimePicker.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.StartOptionOneTimePicker.Location = new System.Drawing.Point(185, 37);
-            this.StartOptionOneTimePicker.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.StartOptionOneTimePicker.Location = new System.Drawing.Point(247, 46);
+            this.StartOptionOneTimePicker.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.StartOptionOneTimePicker.Name = "StartOptionOneTimePicker";
-            this.StartOptionOneTimePicker.Size = new System.Drawing.Size(103, 26);
+            this.StartOptionOneTimePicker.Size = new System.Drawing.Size(136, 30);
             this.StartOptionOneTimePicker.TabIndex = 1;
             this.StartOptionOneTimePicker.Value = new System.DateTime(2023, 12, 10, 17, 14, 0, 0);
             // 
@@ -229,29 +228,27 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label15.Location = new System.Drawing.Point(338, 45);
-            this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label15.Location = new System.Drawing.Point(451, 55);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(129, 17);
+            this.label15.Size = new System.Drawing.Size(164, 20);
             this.label15.TabIndex = 0;
             this.label15.Text = "Закончить через :";
             // 
             // TimeOptionOneTextBox
             // 
-            this.TimeOptionOneTextBox.Location = new System.Drawing.Point(470, 37);
-            this.TimeOptionOneTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TimeOptionOneTextBox.Location = new System.Drawing.Point(627, 46);
+            this.TimeOptionOneTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TimeOptionOneTextBox.Name = "TimeOptionOneTextBox";
-            this.TimeOptionOneTextBox.Size = new System.Drawing.Size(63, 26);
+            this.TimeOptionOneTextBox.Size = new System.Drawing.Size(83, 30);
             this.TimeOptionOneTextBox.TabIndex = 2;
             // 
             // label16
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label16.Location = new System.Drawing.Point(10, 46);
-            this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label16.Location = new System.Drawing.Point(13, 57);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(125, 17);
+            this.label16.Size = new System.Drawing.Size(160, 20);
             this.label16.TabIndex = 0;
             this.label16.Text = "Начать работу в :";
             // 
@@ -259,10 +256,9 @@
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label17.Location = new System.Drawing.Point(537, 46);
-            this.label17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label17.Location = new System.Drawing.Point(716, 57);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(37, 17);
+            this.label17.Size = new System.Drawing.Size(45, 20);
             this.label17.TabIndex = 0;
             this.label17.Text = "мин.";
             // 
@@ -274,11 +270,11 @@
             this.IP.Controls.Add(this.CountIPTextBlock);
             this.IP.Controls.Add(this.label14);
             this.IP.Controls.Add(this.label7);
-            this.IP.Location = new System.Drawing.Point(16, 342);
-            this.IP.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.IP.Location = new System.Drawing.Point(21, 421);
+            this.IP.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.IP.Name = "IP";
-            this.IP.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.IP.Size = new System.Drawing.Size(664, 69);
+            this.IP.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.IP.Size = new System.Drawing.Size(885, 85);
             this.IP.TabIndex = 6;
             this.IP.TabStop = false;
             this.IP.Text = "IP";
@@ -287,10 +283,9 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label13.Location = new System.Drawing.Point(338, 33);
-            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label13.Location = new System.Drawing.Point(451, 41);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(211, 17);
+            this.label13.Size = new System.Drawing.Size(268, 20);
             this.label13.TabIndex = 0;
             this.label13.Text = "Кол-во IP для ужадения за раз";
             // 
@@ -298,37 +293,35 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label10.Location = new System.Drawing.Point(10, 36);
-            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label10.Location = new System.Drawing.Point(13, 44);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(164, 17);
+            this.label10.Size = new System.Drawing.Size(208, 20);
             this.label10.TabIndex = 0;
             this.label10.Text = "Кол-во IP для удаления";
             // 
             // CountIPDeletionTextBox
             // 
-            this.CountIPDeletionTextBox.Location = new System.Drawing.Point(537, 28);
-            this.CountIPDeletionTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CountIPDeletionTextBox.Location = new System.Drawing.Point(716, 34);
+            this.CountIPDeletionTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CountIPDeletionTextBox.Name = "CountIPDeletionTextBox";
-            this.CountIPDeletionTextBox.Size = new System.Drawing.Size(63, 26);
+            this.CountIPDeletionTextBox.Size = new System.Drawing.Size(83, 30);
             this.CountIPDeletionTextBox.TabIndex = 2;
             // 
             // CountIPTextBlock
             // 
-            this.CountIPTextBlock.Location = new System.Drawing.Point(185, 28);
-            this.CountIPTextBlock.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CountIPTextBlock.Location = new System.Drawing.Point(247, 34);
+            this.CountIPTextBlock.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CountIPTextBlock.Name = "CountIPTextBlock";
-            this.CountIPTextBlock.Size = new System.Drawing.Size(63, 26);
+            this.CountIPTextBlock.Size = new System.Drawing.Size(83, 30);
             this.CountIPTextBlock.TabIndex = 2;
             // 
             // label14
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label14.Location = new System.Drawing.Point(604, 36);
-            this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label14.Location = new System.Drawing.Point(805, 44);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(30, 17);
+            this.label14.Size = new System.Drawing.Size(37, 20);
             this.label14.TabIndex = 0;
             this.label14.Text = "шт.";
             // 
@@ -336,10 +329,9 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.Location = new System.Drawing.Point(252, 36);
-            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label7.Location = new System.Drawing.Point(336, 44);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(59, 17);
+            this.label7.Size = new System.Drawing.Size(73, 20);
             this.label7.TabIndex = 0;
             this.label7.Text = "шт. max";
             // 
@@ -356,55 +348,54 @@
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Location = new System.Drawing.Point(16, 196);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Location = new System.Drawing.Point(21, 241);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox1.Size = new System.Drawing.Size(664, 127);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Size = new System.Drawing.Size(885, 156);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Таймауты";
             // 
             // ProxyWaitingTimeoutTextBox
             // 
-            this.ProxyWaitingTimeoutTextBox.Location = new System.Drawing.Point(537, 67);
-            this.ProxyWaitingTimeoutTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ProxyWaitingTimeoutTextBox.Location = new System.Drawing.Point(716, 82);
+            this.ProxyWaitingTimeoutTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ProxyWaitingTimeoutTextBox.Name = "ProxyWaitingTimeoutTextBox";
-            this.ProxyWaitingTimeoutTextBox.Size = new System.Drawing.Size(63, 26);
+            this.ProxyWaitingTimeoutTextBox.Size = new System.Drawing.Size(83, 30);
             this.ProxyWaitingTimeoutTextBox.TabIndex = 2;
             // 
             // AfterAllowTimeoutTextBox
             // 
-            this.AfterAllowTimeoutTextBox.Location = new System.Drawing.Point(537, 28);
-            this.AfterAllowTimeoutTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.AfterAllowTimeoutTextBox.Location = new System.Drawing.Point(716, 34);
+            this.AfterAllowTimeoutTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.AfterAllowTimeoutTextBox.Name = "AfterAllowTimeoutTextBox";
-            this.AfterAllowTimeoutTextBox.Size = new System.Drawing.Size(63, 26);
+            this.AfterAllowTimeoutTextBox.Size = new System.Drawing.Size(83, 30);
             this.AfterAllowTimeoutTextBox.TabIndex = 2;
             // 
             // BeforeAllowTimeoutTextBox
             // 
-            this.BeforeAllowTimeoutTextBox.Location = new System.Drawing.Point(220, 67);
-            this.BeforeAllowTimeoutTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BeforeAllowTimeoutTextBox.Location = new System.Drawing.Point(293, 82);
+            this.BeforeAllowTimeoutTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.BeforeAllowTimeoutTextBox.Name = "BeforeAllowTimeoutTextBox";
-            this.BeforeAllowTimeoutTextBox.Size = new System.Drawing.Size(63, 26);
+            this.BeforeAllowTimeoutTextBox.Size = new System.Drawing.Size(83, 30);
             this.BeforeAllowTimeoutTextBox.TabIndex = 2;
             // 
             // MaxTimePageLoadingTextBox
             // 
-            this.MaxTimePageLoadingTextBox.Location = new System.Drawing.Point(220, 28);
-            this.MaxTimePageLoadingTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MaxTimePageLoadingTextBox.Location = new System.Drawing.Point(293, 34);
+            this.MaxTimePageLoadingTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaxTimePageLoadingTextBox.Name = "MaxTimePageLoadingTextBox";
-            this.MaxTimePageLoadingTextBox.Size = new System.Drawing.Size(63, 26);
+            this.MaxTimePageLoadingTextBox.Size = new System.Drawing.Size(83, 30);
             this.MaxTimePageLoadingTextBox.TabIndex = 2;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label12.Location = new System.Drawing.Point(604, 76);
-            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label12.Location = new System.Drawing.Point(805, 94);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(34, 17);
+            this.label12.Size = new System.Drawing.Size(41, 20);
             this.label12.TabIndex = 0;
             this.label12.Text = "сек.";
             // 
@@ -412,10 +403,9 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label9.Location = new System.Drawing.Point(604, 36);
-            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label9.Location = new System.Drawing.Point(805, 44);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(34, 17);
+            this.label9.Size = new System.Drawing.Size(41, 20);
             this.label9.TabIndex = 0;
             this.label9.Text = "сек.";
             // 
@@ -423,10 +413,9 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label11.Location = new System.Drawing.Point(338, 76);
-            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label11.Location = new System.Drawing.Point(451, 94);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(159, 17);
+            this.label11.Size = new System.Drawing.Size(203, 20);
             this.label11.TabIndex = 0;
             this.label11.Text = "Ожидание внешнего IP";
             // 
@@ -434,10 +423,9 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.Location = new System.Drawing.Point(287, 36);
-            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label6.Location = new System.Drawing.Point(383, 44);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(34, 17);
+            this.label6.Size = new System.Drawing.Size(41, 20);
             this.label6.TabIndex = 0;
             this.label6.Text = "сек.";
             // 
@@ -445,10 +433,9 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label8.Location = new System.Drawing.Point(338, 36);
-            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label8.Location = new System.Drawing.Point(451, 44);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(205, 17);
+            this.label8.Size = new System.Drawing.Size(260, 20);
             this.label8.TabIndex = 0;
             this.label8.Text = "Ожидание после \"разрешить\"";
             // 
@@ -456,10 +443,9 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(10, 76);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Location = new System.Drawing.Point(13, 94);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(212, 17);
+            this.label5.Size = new System.Drawing.Size(267, 20);
             this.label5.TabIndex = 0;
             this.label5.Text = "Время перед под-ской на push";
             // 
@@ -467,19 +453,18 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(10, 36);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Location = new System.Drawing.Point(13, 44);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(205, 17);
+            this.label4.Size = new System.Drawing.Size(260, 20);
             this.label4.TabIndex = 0;
             this.label4.Text = "Ожидание загрузки страницы";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(237, 124);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Location = new System.Drawing.Point(316, 153);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(210, 38);
+            this.button1.Size = new System.Drawing.Size(280, 47);
             this.button1.TabIndex = 4;
             this.button1.Text = "Выбрать файл с прокси\r\n";
             this.button1.UseVisualStyleBackColor = true;
@@ -488,39 +473,36 @@
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.Location = new System.Drawing.Point(237, 51);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox1.Location = new System.Drawing.Point(316, 63);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(404, 35);
+            this.textBox1.Size = new System.Drawing.Size(537, 41);
             this.textBox1.TabIndex = 3;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(470, 141);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Location = new System.Drawing.Point(627, 174);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(57, 20);
+            this.label3.Size = new System.Drawing.Size(70, 25);
             this.label3.TabIndex = 2;
             this.label3.Text = "Всего:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(26, 141);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Location = new System.Drawing.Point(35, 174);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(143, 20);
+            this.label2.Size = new System.Drawing.Size(176, 25);
             this.label2.TabIndex = 2;
             this.label2.Text = "Загрузить прокси";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(26, 64);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(35, 79);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(176, 20);
+            this.label1.Size = new System.Drawing.Size(213, 25);
             this.label1.TabIndex = 2;
             this.label1.Text = "Ссылка для перехода";
             // 
@@ -530,13 +512,13 @@
             this.Mode2Tab.Controls.Add(this.Клики);
             this.Mode2Tab.Controls.Add(this.groupBox4);
             this.Mode2Tab.Controls.Add(this.groupBox3);
-            this.Mode2Tab.Location = new System.Drawing.Point(4, 39);
-            this.Mode2Tab.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Mode2Tab.Location = new System.Drawing.Point(4, 44);
+            this.Mode2Tab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Mode2Tab.Name = "Mode2Tab";
-            this.Mode2Tab.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.Mode2Tab.Size = new System.Drawing.Size(697, 667);
+            this.Mode2Tab.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Mode2Tab.Size = new System.Drawing.Size(932, 826);
             this.Mode2Tab.TabIndex = 2;
-            this.Mode2Tab.Text = "Mode-2";
+            this.Mode2Tab.Text = "Приём";
             this.Mode2Tab.UseVisualStyleBackColor = true;
             // 
             // groupBox5
@@ -544,11 +526,11 @@
             this.groupBox5.Controls.Add(this.HeadlessModeCheckBox);
             this.groupBox5.Controls.Add(this.NotificationCloseByButtonCheckBox);
             this.groupBox5.Controls.Add(this.ProxyForIgnoreCheckBox);
-            this.groupBox5.Location = new System.Drawing.Point(11, 514);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox5.Location = new System.Drawing.Point(15, 633);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox5.Size = new System.Drawing.Size(676, 111);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox5.Size = new System.Drawing.Size(901, 137);
             this.groupBox5.TabIndex = 1;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Разное";
@@ -557,10 +539,10 @@
             // 
             this.HeadlessModeCheckBox.AutoSize = true;
             this.HeadlessModeCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.HeadlessModeCheckBox.Location = new System.Drawing.Point(464, 54);
-            this.HeadlessModeCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.HeadlessModeCheckBox.Location = new System.Drawing.Point(619, 66);
+            this.HeadlessModeCheckBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.HeadlessModeCheckBox.Name = "HeadlessModeCheckBox";
-            this.HeadlessModeCheckBox.Size = new System.Drawing.Size(199, 21);
+            this.HeadlessModeCheckBox.Size = new System.Drawing.Size(245, 24);
             this.HeadlessModeCheckBox.TabIndex = 2;
             this.HeadlessModeCheckBox.Text = "Запуск в режиме headless";
             this.HeadlessModeCheckBox.UseVisualStyleBackColor = true;
@@ -569,10 +551,10 @@
             // 
             this.NotificationCloseByButtonCheckBox.AutoSize = true;
             this.NotificationCloseByButtonCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.NotificationCloseByButtonCheckBox.Location = new System.Drawing.Point(208, 46);
-            this.NotificationCloseByButtonCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NotificationCloseByButtonCheckBox.Location = new System.Drawing.Point(277, 57);
+            this.NotificationCloseByButtonCheckBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.NotificationCloseByButtonCheckBox.Name = "NotificationCloseByButtonCheckBox";
-            this.NotificationCloseByButtonCheckBox.Size = new System.Drawing.Size(223, 38);
+            this.NotificationCloseByButtonCheckBox.Size = new System.Drawing.Size(283, 44);
             this.NotificationCloseByButtonCheckBox.TabIndex = 2;
             this.NotificationCloseByButtonCheckBox.Text = "Закрывать пуш уведомления \r\n(на крестик)";
             this.NotificationCloseByButtonCheckBox.UseVisualStyleBackColor = true;
@@ -581,10 +563,10 @@
             // 
             this.ProxyForIgnoreCheckBox.AutoSize = true;
             this.ProxyForIgnoreCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ProxyForIgnoreCheckBox.Location = new System.Drawing.Point(15, 46);
-            this.ProxyForIgnoreCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ProxyForIgnoreCheckBox.Location = new System.Drawing.Point(20, 57);
+            this.ProxyForIgnoreCheckBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ProxyForIgnoreCheckBox.Name = "ProxyForIgnoreCheckBox";
-            this.ProxyForIgnoreCheckBox.Size = new System.Drawing.Size(149, 38);
+            this.ProxyForIgnoreCheckBox.Size = new System.Drawing.Size(184, 44);
             this.ProxyForIgnoreCheckBox.TabIndex = 2;
             this.ProxyForIgnoreCheckBox.Text = "Режим ignore \r\n(с прокси или без)";
             this.ProxyForIgnoreCheckBox.UseVisualStyleBackColor = true;
@@ -597,11 +579,11 @@
             this.Клики.Controls.Add(this.MaxNumberOfClicksTextBox);
             this.Клики.Controls.Add(this.label41);
             this.Клики.Controls.Add(this.label42);
-            this.Клики.Location = new System.Drawing.Point(11, 402);
-            this.Клики.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Клики.Location = new System.Drawing.Point(15, 495);
+            this.Клики.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Клики.Name = "Клики";
-            this.Клики.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.Клики.Size = new System.Drawing.Size(676, 96);
+            this.Клики.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Клики.Size = new System.Drawing.Size(901, 118);
             this.Клики.TabIndex = 1;
             this.Клики.TabStop = false;
             this.Клики.Text = "Клики по уведомлениям";
@@ -609,20 +591,19 @@
             // MinNumberOfClicksTextBox
             // 
             this.MinNumberOfClicksTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MinNumberOfClicksTextBox.Location = new System.Drawing.Point(178, 34);
-            this.MinNumberOfClicksTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MinNumberOfClicksTextBox.Location = new System.Drawing.Point(237, 42);
+            this.MinNumberOfClicksTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MinNumberOfClicksTextBox.Name = "MinNumberOfClicksTextBox";
-            this.MinNumberOfClicksTextBox.Size = new System.Drawing.Size(56, 29);
+            this.MinNumberOfClicksTextBox.Size = new System.Drawing.Size(73, 34);
             this.MinNumberOfClicksTextBox.TabIndex = 1;
             // 
             // label39
             // 
             this.label39.AutoSize = true;
             this.label39.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label39.Location = new System.Drawing.Point(379, 46);
-            this.label39.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label39.Location = new System.Drawing.Point(505, 57);
             this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(105, 17);
+            this.label39.Size = new System.Drawing.Size(133, 20);
             this.label39.TabIndex = 0;
             this.label39.Text = "Максимальное";
             // 
@@ -630,30 +611,28 @@
             // 
             this.label40.AutoSize = true;
             this.label40.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label40.Location = new System.Drawing.Point(12, 46);
-            this.label40.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label40.Location = new System.Drawing.Point(16, 57);
             this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(99, 17);
+            this.label40.Size = new System.Drawing.Size(125, 20);
             this.label40.TabIndex = 0;
             this.label40.Text = "Минимальное";
             // 
             // MaxNumberOfClicksTextBox
             // 
             this.MaxNumberOfClicksTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MaxNumberOfClicksTextBox.Location = new System.Drawing.Point(538, 34);
-            this.MaxNumberOfClicksTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MaxNumberOfClicksTextBox.Location = new System.Drawing.Point(717, 42);
+            this.MaxNumberOfClicksTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaxNumberOfClicksTextBox.Name = "MaxNumberOfClicksTextBox";
-            this.MaxNumberOfClicksTextBox.Size = new System.Drawing.Size(56, 29);
+            this.MaxNumberOfClicksTextBox.Size = new System.Drawing.Size(73, 34);
             this.MaxNumberOfClicksTextBox.TabIndex = 1;
             // 
             // label41
             // 
             this.label41.AutoSize = true;
             this.label41.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label41.Location = new System.Drawing.Point(598, 46);
-            this.label41.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label41.Location = new System.Drawing.Point(797, 57);
             this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(30, 17);
+            this.label41.Size = new System.Drawing.Size(37, 20);
             this.label41.TabIndex = 0;
             this.label41.Text = "шт.";
             // 
@@ -661,10 +640,9 @@
             // 
             this.label42.AutoSize = true;
             this.label42.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label42.Location = new System.Drawing.Point(238, 46);
-            this.label42.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label42.Location = new System.Drawing.Point(317, 57);
             this.label42.Name = "label42";
-            this.label42.Size = new System.Drawing.Size(30, 17);
+            this.label42.Size = new System.Drawing.Size(37, 20);
             this.label42.TabIndex = 0;
             this.label42.Text = "шт.";
             // 
@@ -676,11 +654,11 @@
             this.groupBox4.Controls.Add(this.PercentToClickTextBox);
             this.groupBox4.Controls.Add(this.label38);
             this.groupBox4.Controls.Add(this.label36);
-            this.groupBox4.Location = new System.Drawing.Point(11, 282);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox4.Location = new System.Drawing.Point(15, 347);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox4.Size = new System.Drawing.Size(676, 103);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox4.Size = new System.Drawing.Size(901, 127);
             this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Шансы";
@@ -688,20 +666,19 @@
             // PercentToDeleteTextBox
             // 
             this.PercentToDeleteTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.PercentToDeleteTextBox.Location = new System.Drawing.Point(178, 37);
-            this.PercentToDeleteTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PercentToDeleteTextBox.Location = new System.Drawing.Point(237, 46);
+            this.PercentToDeleteTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.PercentToDeleteTextBox.Name = "PercentToDeleteTextBox";
-            this.PercentToDeleteTextBox.Size = new System.Drawing.Size(56, 29);
+            this.PercentToDeleteTextBox.Size = new System.Drawing.Size(73, 34);
             this.PercentToDeleteTextBox.TabIndex = 1;
             // 
             // label37
             // 
             this.label37.AutoSize = true;
             this.label37.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label37.Location = new System.Drawing.Point(379, 49);
-            this.label37.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label37.Location = new System.Drawing.Point(505, 60);
             this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(139, 17);
+            this.label37.Size = new System.Drawing.Size(175, 20);
             this.label37.TabIndex = 0;
             this.label37.Text = "Шанс на режим click";
             // 
@@ -709,30 +686,28 @@
             // 
             this.label35.AutoSize = true;
             this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label35.Location = new System.Drawing.Point(12, 49);
-            this.label35.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label35.Location = new System.Drawing.Point(16, 60);
             this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(151, 17);
+            this.label35.Size = new System.Drawing.Size(186, 20);
             this.label35.TabIndex = 0;
             this.label35.Text = "Шанс на режим delete";
             // 
             // PercentToClickTextBox
             // 
             this.PercentToClickTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.PercentToClickTextBox.Location = new System.Drawing.Point(538, 37);
-            this.PercentToClickTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PercentToClickTextBox.Location = new System.Drawing.Point(717, 46);
+            this.PercentToClickTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.PercentToClickTextBox.Name = "PercentToClickTextBox";
-            this.PercentToClickTextBox.Size = new System.Drawing.Size(56, 29);
+            this.PercentToClickTextBox.Size = new System.Drawing.Size(73, 34);
             this.PercentToClickTextBox.TabIndex = 1;
             // 
             // label38
             // 
             this.label38.AutoSize = true;
             this.label38.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label38.Location = new System.Drawing.Point(598, 49);
-            this.label38.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label38.Location = new System.Drawing.Point(797, 60);
             this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(20, 17);
+            this.label38.Size = new System.Drawing.Size(24, 20);
             this.label38.TabIndex = 0;
             this.label38.Text = "%";
             // 
@@ -740,10 +715,9 @@
             // 
             this.label36.AutoSize = true;
             this.label36.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label36.Location = new System.Drawing.Point(238, 49);
-            this.label36.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label36.Location = new System.Drawing.Point(317, 60);
             this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(20, 17);
+            this.label36.Size = new System.Drawing.Size(24, 20);
             this.label36.TabIndex = 0;
             this.label36.Text = "%";
             // 
@@ -773,11 +747,11 @@
             this.groupBox3.Controls.Add(this.label31);
             this.groupBox3.Controls.Add(this.label27);
             this.groupBox3.Controls.Add(this.label19);
-            this.groupBox3.Location = new System.Drawing.Point(11, 14);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Location = new System.Drawing.Point(15, 17);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox3.Size = new System.Drawing.Size(676, 251);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox3.Size = new System.Drawing.Size(901, 309);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Тайминги";
@@ -785,83 +759,82 @@
             // SleepAfterUnsubscribeTextBox
             // 
             this.SleepAfterUnsubscribeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SleepAfterUnsubscribeTextBox.Location = new System.Drawing.Point(270, 189);
-            this.SleepAfterUnsubscribeTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SleepAfterUnsubscribeTextBox.Location = new System.Drawing.Point(360, 233);
+            this.SleepAfterUnsubscribeTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SleepAfterUnsubscribeTextBox.Name = "SleepAfterUnsubscribeTextBox";
-            this.SleepAfterUnsubscribeTextBox.Size = new System.Drawing.Size(56, 29);
+            this.SleepAfterUnsubscribeTextBox.Size = new System.Drawing.Size(73, 34);
             this.SleepAfterUnsubscribeTextBox.TabIndex = 1;
             // 
             // SleepAfterAllNotificationsClickTextBox
             // 
             this.SleepAfterAllNotificationsClickTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SleepAfterAllNotificationsClickTextBox.Location = new System.Drawing.Point(270, 136);
-            this.SleepAfterAllNotificationsClickTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SleepAfterAllNotificationsClickTextBox.Location = new System.Drawing.Point(360, 167);
+            this.SleepAfterAllNotificationsClickTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SleepAfterAllNotificationsClickTextBox.Name = "SleepAfterAllNotificationsClickTextBox";
-            this.SleepAfterAllNotificationsClickTextBox.Size = new System.Drawing.Size(56, 29);
+            this.SleepAfterAllNotificationsClickTextBox.Size = new System.Drawing.Size(73, 34);
             this.SleepAfterAllNotificationsClickTextBox.TabIndex = 1;
             // 
             // MaxTimeToWaitNotificationIgnoreTextBox
             // 
             this.MaxTimeToWaitNotificationIgnoreTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MaxTimeToWaitNotificationIgnoreTextBox.Location = new System.Drawing.Point(270, 81);
-            this.MaxTimeToWaitNotificationIgnoreTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MaxTimeToWaitNotificationIgnoreTextBox.Location = new System.Drawing.Point(360, 100);
+            this.MaxTimeToWaitNotificationIgnoreTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaxTimeToWaitNotificationIgnoreTextBox.Name = "MaxTimeToWaitNotificationIgnoreTextBox";
-            this.MaxTimeToWaitNotificationIgnoreTextBox.Size = new System.Drawing.Size(56, 29);
+            this.MaxTimeToWaitNotificationIgnoreTextBox.Size = new System.Drawing.Size(73, 34);
             this.MaxTimeToWaitNotificationIgnoreTextBox.TabIndex = 1;
             // 
             // SleepBeforeProfileDeletionTextBox
             // 
             this.SleepBeforeProfileDeletionTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SleepBeforeProfileDeletionTextBox.Location = new System.Drawing.Point(556, 189);
-            this.SleepBeforeProfileDeletionTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SleepBeforeProfileDeletionTextBox.Location = new System.Drawing.Point(741, 233);
+            this.SleepBeforeProfileDeletionTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SleepBeforeProfileDeletionTextBox.Name = "SleepBeforeProfileDeletionTextBox";
-            this.SleepBeforeProfileDeletionTextBox.Size = new System.Drawing.Size(56, 29);
+            this.SleepBeforeProfileDeletionTextBox.Size = new System.Drawing.Size(73, 34);
             this.SleepBeforeProfileDeletionTextBox.TabIndex = 1;
             // 
             // SleepBeforeUnsubscribeTextBox
             // 
             this.SleepBeforeUnsubscribeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SleepBeforeUnsubscribeTextBox.Location = new System.Drawing.Point(556, 136);
-            this.SleepBeforeUnsubscribeTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SleepBeforeUnsubscribeTextBox.Location = new System.Drawing.Point(741, 167);
+            this.SleepBeforeUnsubscribeTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SleepBeforeUnsubscribeTextBox.Name = "SleepBeforeUnsubscribeTextBox";
-            this.SleepBeforeUnsubscribeTextBox.Size = new System.Drawing.Size(56, 29);
+            this.SleepBeforeUnsubscribeTextBox.Size = new System.Drawing.Size(73, 34);
             this.SleepBeforeUnsubscribeTextBox.TabIndex = 1;
             // 
             // SleepBetweenClickTextBox
             // 
             this.SleepBetweenClickTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SleepBetweenClickTextBox.Location = new System.Drawing.Point(558, 81);
-            this.SleepBetweenClickTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SleepBetweenClickTextBox.Location = new System.Drawing.Point(744, 100);
+            this.SleepBetweenClickTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SleepBetweenClickTextBox.Name = "SleepBetweenClickTextBox";
-            this.SleepBetweenClickTextBox.Size = new System.Drawing.Size(56, 29);
+            this.SleepBetweenClickTextBox.Size = new System.Drawing.Size(73, 34);
             this.SleepBetweenClickTextBox.TabIndex = 1;
             // 
             // TimeToWaitNotificationClickTextBox
             // 
             this.TimeToWaitNotificationClickTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.TimeToWaitNotificationClickTextBox.Location = new System.Drawing.Point(558, 33);
-            this.TimeToWaitNotificationClickTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TimeToWaitNotificationClickTextBox.Location = new System.Drawing.Point(744, 41);
+            this.TimeToWaitNotificationClickTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TimeToWaitNotificationClickTextBox.Name = "TimeToWaitNotificationClickTextBox";
-            this.TimeToWaitNotificationClickTextBox.Size = new System.Drawing.Size(56, 29);
+            this.TimeToWaitNotificationClickTextBox.Size = new System.Drawing.Size(73, 34);
             this.TimeToWaitNotificationClickTextBox.TabIndex = 1;
             // 
             // SleepBeforeProcessKillIgnoreTextBox
             // 
             this.SleepBeforeProcessKillIgnoreTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SleepBeforeProcessKillIgnoreTextBox.Location = new System.Drawing.Point(270, 33);
-            this.SleepBeforeProcessKillIgnoreTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SleepBeforeProcessKillIgnoreTextBox.Location = new System.Drawing.Point(360, 41);
+            this.SleepBeforeProcessKillIgnoreTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SleepBeforeProcessKillIgnoreTextBox.Name = "SleepBeforeProcessKillIgnoreTextBox";
-            this.SleepBeforeProcessKillIgnoreTextBox.Size = new System.Drawing.Size(56, 29);
+            this.SleepBeforeProcessKillIgnoreTextBox.Size = new System.Drawing.Size(73, 34);
             this.SleepBeforeProcessKillIgnoreTextBox.TabIndex = 1;
             // 
             // label32
             // 
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label32.Location = new System.Drawing.Point(330, 201);
-            this.label32.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label32.Location = new System.Drawing.Point(440, 247);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(34, 17);
+            this.label32.Size = new System.Drawing.Size(41, 20);
             this.label32.TabIndex = 0;
             this.label32.Text = "сек.";
             // 
@@ -869,10 +842,9 @@
             // 
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label22.Location = new System.Drawing.Point(330, 147);
-            this.label22.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label22.Location = new System.Drawing.Point(440, 181);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(34, 17);
+            this.label22.Size = new System.Drawing.Size(41, 20);
             this.label22.TabIndex = 0;
             this.label22.Text = "сек.";
             // 
@@ -880,10 +852,9 @@
             // 
             this.label34.AutoSize = true;
             this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label34.Location = new System.Drawing.Point(616, 201);
-            this.label34.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label34.Location = new System.Drawing.Point(821, 247);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(34, 17);
+            this.label34.Size = new System.Drawing.Size(41, 20);
             this.label34.TabIndex = 0;
             this.label34.Text = "сек.";
             // 
@@ -891,10 +862,9 @@
             // 
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label30.Location = new System.Drawing.Point(616, 147);
-            this.label30.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label30.Location = new System.Drawing.Point(821, 181);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(34, 17);
+            this.label30.Size = new System.Drawing.Size(41, 20);
             this.label30.TabIndex = 0;
             this.label30.Text = "сек.";
             // 
@@ -902,10 +872,9 @@
             // 
             this.label26.AutoSize = true;
             this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label26.Location = new System.Drawing.Point(618, 93);
-            this.label26.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label26.Location = new System.Drawing.Point(824, 114);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(34, 17);
+            this.label26.Size = new System.Drawing.Size(41, 20);
             this.label26.TabIndex = 0;
             this.label26.Text = "сек.";
             // 
@@ -913,10 +882,9 @@
             // 
             this.label24.AutoSize = true;
             this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label24.Location = new System.Drawing.Point(618, 45);
-            this.label24.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label24.Location = new System.Drawing.Point(824, 55);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(34, 17);
+            this.label24.Size = new System.Drawing.Size(41, 20);
             this.label24.TabIndex = 0;
             this.label24.Text = "сек.";
             // 
@@ -924,10 +892,9 @@
             // 
             this.label28.AutoSize = true;
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label28.Location = new System.Drawing.Point(330, 93);
-            this.label28.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label28.Location = new System.Drawing.Point(440, 114);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(34, 17);
+            this.label28.Size = new System.Drawing.Size(41, 20);
             this.label28.TabIndex = 0;
             this.label28.Text = "сек.";
             // 
@@ -935,10 +902,9 @@
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label20.Location = new System.Drawing.Point(330, 45);
-            this.label20.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label20.Location = new System.Drawing.Point(440, 55);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(34, 17);
+            this.label20.Size = new System.Drawing.Size(41, 20);
             this.label20.TabIndex = 0;
             this.label20.Text = "сек.";
             // 
@@ -946,10 +912,9 @@
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label21.Location = new System.Drawing.Point(12, 76);
-            this.label21.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label21.Location = new System.Drawing.Point(16, 94);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(253, 34);
+            this.label21.Size = new System.Drawing.Size(323, 40);
             this.label21.TabIndex = 0;
             this.label21.Text = "Макс. время ожидания уведомлений \r\nпри ignore";
             // 
@@ -957,10 +922,9 @@
             // 
             this.label29.AutoSize = true;
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label29.Location = new System.Drawing.Point(379, 115);
-            this.label29.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label29.Location = new System.Drawing.Point(505, 142);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(184, 51);
+            this.label29.Size = new System.Drawing.Size(231, 60);
             this.label29.TabIndex = 0;
             this.label29.Text = "Задержка \r\nпосле открытия браузера \r\nпри удалении";
             // 
@@ -968,10 +932,9 @@
             // 
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label25.Location = new System.Drawing.Point(379, 76);
-            this.label25.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label25.Location = new System.Drawing.Point(505, 94);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(181, 34);
+            this.label25.Size = new System.Drawing.Size(233, 40);
             this.label25.TabIndex = 0;
             this.label25.Text = "Задержка между кликами \r\nпо уведомлениям";
             // 
@@ -979,10 +942,9 @@
             // 
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label23.Location = new System.Drawing.Point(379, 28);
-            this.label23.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label23.Location = new System.Drawing.Point(505, 34);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(162, 34);
+            this.label23.Size = new System.Drawing.Size(206, 40);
             this.label23.TabIndex = 0;
             this.label23.Text = "Макс. время ожидания \r\nуведомлений при click";
             // 
@@ -990,10 +952,9 @@
             // 
             this.label33.AutoSize = true;
             this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label33.Location = new System.Drawing.Point(382, 184);
-            this.label33.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label33.Location = new System.Drawing.Point(509, 226);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(143, 34);
+            this.label33.Size = new System.Drawing.Size(182, 40);
             this.label33.TabIndex = 0;
             this.label33.Text = "Задержка перед \r\nудалением профиля";
             // 
@@ -1001,10 +962,9 @@
             // 
             this.label31.AutoSize = true;
             this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label31.Location = new System.Drawing.Point(12, 184);
-            this.label31.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label31.Location = new System.Drawing.Point(16, 226);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(183, 34);
+            this.label31.Size = new System.Drawing.Size(229, 40);
             this.label31.TabIndex = 0;
             this.label31.Text = "Задержка \r\nпосле сброса разрешения";
             // 
@@ -1012,10 +972,9 @@
             // 
             this.label27.AutoSize = true;
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label27.Location = new System.Drawing.Point(12, 131);
-            this.label27.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label27.Location = new System.Drawing.Point(16, 161);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(169, 34);
+            this.label27.Size = new System.Drawing.Size(216, 40);
             this.label27.TabIndex = 0;
             this.label27.Text = "Задержка после кликов \r\nпо уведомлениям";
             // 
@@ -1023,21 +982,20 @@
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label19.Location = new System.Drawing.Point(12, 28);
-            this.label19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label19.Location = new System.Drawing.Point(16, 34);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(251, 34);
+            this.label19.Size = new System.Drawing.Size(320, 40);
             this.label19.TabIndex = 0;
             this.label19.Text = "Задержка перед закрытием браузер\r\nпосле того как пришли уведомления";
             // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(724, 741);
+            this.ClientSize = new System.Drawing.Size(965, 912);
             this.Controls.Add(this.TabMainPanel);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.MinimumSize = new System.Drawing.Size(740, 700);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MinimumSize = new System.Drawing.Size(981, 851);
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ПУШИФИКАТОР";

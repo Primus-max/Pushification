@@ -11,7 +11,7 @@
   "SleepBeforeUnsubscribe": 5,
   "SleepAfterUnsubscribe": 5,
   "SleepBeforeProfileDeletion": 10,
-  "Headless": true,
+  "HeadlessMode": true,
   "ProxyForIgnore": true,
-  "NotificationClose": true
+  "NotificationCloseByButton": true
 }
