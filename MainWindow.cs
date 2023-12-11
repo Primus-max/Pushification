@@ -1,5 +1,6 @@
 ﻿using Pushification.Models;
 using System;
+using System.Globalization;
 using System.Windows.Automation;
 using System.Windows.Forms;
 
@@ -19,6 +20,8 @@ namespace Pushification
             _pushSettings = new PushNotificationModeSettings();
             _subscriptionSettings = new SubscriptionModeSettings();
 
+
+            LoadSubscriptonSettingsData();
             // Метод для подписки на разные нативные события винды
             //Automation.AddAutomationFocusChangedEventHandler((sender, e) =>
             //{
@@ -96,9 +99,53 @@ namespace Pushification
             UpdateAndSaveSetting<int>((settings, value) => settings.MaxTimePageLoading = value, MaxTimePageLoadingTextBox);
         }
 
+        // Время перед подкиской
         private void BeforeAllowTimeout_TextChanged(object sender, EventArgs e)
         {
             UpdateAndSaveSetting<int>((settings, value) => settings.BeforeAllowTimeout = value, BeforeAllowTimeoutTextBox);
+        }
+
+        // Ожидание после подписки
+        private void AfterAllowTimeout_TextChenged(object sender, EventArgs e)
+        {
+            UpdateAndSaveSetting<int>((settings, value) => settings.AfterAllowTimeout = value, AfterAllowTimeoutTextBox);
+        }
+
+        // Время ожидания внешнего IP
+        private void MaxTimeGettingOutI_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSaveSetting<int>((settings, value) => settings.MaxTimeGettingOutIP = value, MaxTimeGettingOutITextBlock);
+        }
+
+        // Время ожидания получения прокси
+        private void ProxyWaitingTimeout_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSaveSetting<int>((settings, value) => settings.ProxyWaitingTimeout = value, ProxyWaitingTimeoutTextBox);
+        }
+
+        // Всего количество удаление IP (максимальное)
+        private void CountIPToDelete_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSaveSetting<int>((settings, value) => settings.CountIP = value, CountIPToDeleteTextBlock);
+        }
+
+        // Количество IP для удаления за раз
+        private void CountIPDeletionPerTime_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSaveSetting<int>((settings, value) => settings.CountIPDeletion = value, CountIPDeletionPerTimeTextBox);
+        }
+
+        private void TimeOptionOne_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSaveSetting<int>((settings, value) => settings.TimeOptionOne = value, TimeOptionOneTextBox);
+        }
+
+        // Время запуска первогорежима
+        private void StartOptionOneTimePicker_ValueChanged(object sender, EventArgs e)
+        {
+            string value = StartOptionOneTimePicker.Value.ToString("hh:mm tt");
+            _subscriptionSettings.StartOptionOne = value;
+            _subscriptionSettings.SaveSubscriptionSettingsToJson();
         }
 
         // Общий метод записи данных из полей в моде подписки на уведомления
@@ -110,6 +157,33 @@ namespace Pushification
             updateAction(_subscriptionSettings, value);
             _subscriptionSettings.SaveSubscriptionSettingsToJson();
         }
+
+        // Инициализация полей данными из json
+
+        //LoadSubscriptonSettingsData();
+        private void LoadSubscriptonSettingsData()
+        {
+            _subscriptionSettings = SubscriptionModeSettings.LoadSubscriptionSettingsFromJson();
+            URLTextBox.Text = _subscriptionSettings.URL;
+            MaxTimePageLoadingTextBox.Text = _subscriptionSettings.MaxTimePageLoading.ToString();
+            AfterAllowTimeoutTextBox.Text = _subscriptionSettings.AfterAllowTimeout.ToString();
+            BeforeAllowTimeoutTextBox.Text = _subscriptionSettings.BeforeAllowTimeout.ToString();
+            ProxyWaitingTimeoutTextBox.Text = _subscriptionSettings.ProxyWaitingTimeout.ToString();
+            MaxTimeGettingOutITextBlock.Text = _subscriptionSettings.MaxTimeGettingOutIP.ToString();
+            CountIPToDeleteTextBlock.Text  = _subscriptionSettings.CountIP.ToString();
+            CountIPDeletionPerTimeTextBox.Text = _subscriptionSettings.CountIPDeletion.ToString();
+            if (DateTime.TryParseExact(_subscriptionSettings.StartOptionOne, "hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime startTime))
+            {
+                StartOptionOneTimePicker.Value = startTime;
+            }
+            TimeOptionOneTextBox.Text = _subscriptionSettings.TimeOptionOne.ToString();
+        }
+
+
+
+
+
+
 
         #endregion
 
