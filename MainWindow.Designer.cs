@@ -380,6 +380,7 @@
             this.BeforeAllowTimeoutTextBox.Name = "BeforeAllowTimeoutTextBox";
             this.BeforeAllowTimeoutTextBox.Size = new System.Drawing.Size(83, 30);
             this.BeforeAllowTimeoutTextBox.TabIndex = 2;
+            this.BeforeAllowTimeoutTextBox.TextChanged += new System.EventHandler(this.BeforeAllowTimeout_TextChanged);
             // 
             // MaxTimePageLoadingTextBox
             // 
@@ -388,6 +389,7 @@
             this.MaxTimePageLoadingTextBox.Name = "MaxTimePageLoadingTextBox";
             this.MaxTimePageLoadingTextBox.Size = new System.Drawing.Size(83, 30);
             this.MaxTimePageLoadingTextBox.TabIndex = 2;
+            this.MaxTimePageLoadingTextBox.TextChanged += new System.EventHandler(this.MaxTimePageLoading_TextChanged);
             // 
             // label12
             // 

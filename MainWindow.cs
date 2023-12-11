@@ -77,20 +77,38 @@ namespace Pushification
                 {
                     string selectedFilePath = openFileDialog.FileName;
 
-                    SubscriptionModeSettings subscriptionModeSettings = new SubscriptionModeSettings();
-                    subscriptionModeSettings.ProxyList = selectedFilePath;
-                    subscriptionModeSettings.SaveSubscriptionSettingsToJson();
+                    _subscriptionSettings.ProxyList = selectedFilePath;
+                    _subscriptionSettings.SaveSubscriptionSettingsToJson();
                     // Далее можно использовать выбранный файл (selectedFilePath) для ваших нужд
                 }
             }
         }
 
-        // Сохраняю ссылку для перехода
+        // Ссылка для перехода
         private void URL_TextChanged(object sender, EventArgs e)
         {
-            SubscriptionModeSettings subscriptionModeSettings = new SubscriptionModeSettings();
-            subscriptionModeSettings.URL = URLTextBox.Text;
-            subscriptionModeSettings.SaveSubscriptionSettingsToJson();
+            UpdateAndSaveSetting<string>((settings, value) => settings.URL = value, URLTextBox);
+        }
+
+        // Максимальное время загрузки страницы
+        private void MaxTimePageLoading_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSaveSetting<int>((settings, value) => settings.MaxTimePageLoading = value, MaxTimePageLoadingTextBox);
+        }
+
+        private void BeforeAllowTimeout_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSaveSetting<int>((settings, value) => settings.BeforeAllowTimeout = value, BeforeAllowTimeoutTextBox);
+        }
+
+        // Общий метод записи данных из полей в моде подписки на уведомления
+        private void UpdateAndSaveSetting<T>(Action<SubscriptionModeSettings, T> updateAction, TextBox textBox)
+        {
+            if (textBox == null || string.IsNullOrEmpty(textBox.Text)) return;
+
+            T value = (T)Convert.ChangeType(textBox.Text, typeof(T));
+            updateAction(_subscriptionSettings, value);
+            _subscriptionSettings.SaveSubscriptionSettingsToJson();
         }
 
         #endregion
