@@ -64,24 +64,7 @@ namespace Pushification
         }
 
 
-
-
-
-
-
-
-
-
-        #region РЕЖИМ-1
-
-        #endregion
-
-        #region РЕЖИМ-2
-
-
-        #endregion
-
-
+        #region РЕЖИМ-1 Подписка на уведомления
         // Соханяю файл прокси
         private void OpenFileButton_Click(object sender, EventArgs e)
         {
@@ -94,13 +77,29 @@ namespace Pushification
                 {
                     string selectedFilePath = openFileDialog.FileName;
 
-                  SubscriptionModeSettings subscriptionModeSettings = new SubscriptionModeSettings();
+                    SubscriptionModeSettings subscriptionModeSettings = new SubscriptionModeSettings();
                     subscriptionModeSettings.ProxyList = selectedFilePath;
                     subscriptionModeSettings.SaveSubscriptionSettingsToJson();
                     // Далее можно использовать выбранный файл (selectedFilePath) для ваших нужд
                 }
             }
         }
-               
+
+        // Сохраняю ссылку для перехода
+        private void URL_TextChanged(object sender, EventArgs e)
+        {
+            SubscriptionModeSettings subscriptionModeSettings = new SubscriptionModeSettings();
+            subscriptionModeSettings.URL = URLTextBox.Text;
+            subscriptionModeSettings.SaveSubscriptionSettingsToJson();
+        }
+
+        #endregion
+
+        #region РЕЖИМ-2
+
+
+        #endregion
+
+
     }
 }
