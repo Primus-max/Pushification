@@ -90,54 +90,54 @@ namespace Pushification
         // Ссылка для перехода
         private void URL_TextChanged(object sender, EventArgs e)
         {
-            UpdateAndSaveSetting<string>((settings, value) => settings.URL = value, URLTextBox);
+            UpdateAndSaveSubscribeSetting<string>((settings, value) => settings.URL = value, URLTextBox);
         }
 
         // Максимальное время загрузки страницы
         private void MaxTimePageLoading_TextChanged(object sender, EventArgs e)
         {
-            UpdateAndSaveSetting<int>((settings, value) => settings.MaxTimePageLoading = value, MaxTimePageLoadingTextBox);
+            UpdateAndSaveSubscribeSetting<int>((settings, value) => settings.MaxTimePageLoading = value, MaxTimePageLoadingTextBox);
         }
 
         // Время перед подкиской
         private void BeforeAllowTimeout_TextChanged(object sender, EventArgs e)
         {
-            UpdateAndSaveSetting<int>((settings, value) => settings.BeforeAllowTimeout = value, BeforeAllowTimeoutTextBox);
+            UpdateAndSaveSubscribeSetting<int>((settings, value) => settings.BeforeAllowTimeout = value, BeforeAllowTimeoutTextBox);
         }
 
         // Ожидание после подписки
         private void AfterAllowTimeout_TextChenged(object sender, EventArgs e)
         {
-            UpdateAndSaveSetting<int>((settings, value) => settings.AfterAllowTimeout = value, AfterAllowTimeoutTextBox);
+            UpdateAndSaveSubscribeSetting<int>((settings, value) => settings.AfterAllowTimeout = value, AfterAllowTimeoutTextBox);
         }
 
         // Время ожидания внешнего IP
         private void MaxTimeGettingOutI_TextChanged(object sender, EventArgs e)
         {
-            UpdateAndSaveSetting<int>((settings, value) => settings.MaxTimeGettingOutIP = value, MaxTimeGettingOutITextBlock);
+            UpdateAndSaveSubscribeSetting<int>((settings, value) => settings.MaxTimeGettingOutIP = value, MaxTimeGettingOutITextBlock);
         }
 
         // Время ожидания получения прокси
         private void ProxyWaitingTimeout_TextChanged(object sender, EventArgs e)
         {
-            UpdateAndSaveSetting<int>((settings, value) => settings.ProxyWaitingTimeout = value, ProxyWaitingTimeoutTextBox);
+            UpdateAndSaveSubscribeSetting<int>((settings, value) => settings.ProxyWaitingTimeout = value, ProxyWaitingTimeoutTextBox);
         }
 
         // Всего количество удаление IP (максимальное)
         private void CountIPToDelete_TextChanged(object sender, EventArgs e)
         {
-            UpdateAndSaveSetting<int>((settings, value) => settings.CountIP = value, CountIPToDeleteTextBlock);
+            UpdateAndSaveSubscribeSetting<int>((settings, value) => settings.CountIP = value, CountIPToDeleteTextBlock);
         }
 
         // Количество IP для удаления за раз
         private void CountIPDeletionPerTime_TextChanged(object sender, EventArgs e)
         {
-            UpdateAndSaveSetting<int>((settings, value) => settings.CountIPDeletion = value, CountIPDeletionPerTimeTextBox);
+            UpdateAndSaveSubscribeSetting<int>((settings, value) => settings.CountIPDeletion = value, CountIPDeletionPerTimeTextBox);
         }
 
         private void TimeOptionOne_TextChanged(object sender, EventArgs e)
         {
-            UpdateAndSaveSetting<int>((settings, value) => settings.TimeOptionOne = value, TimeOptionOneTextBox);
+            UpdateAndSaveSubscribeSetting<int>((settings, value) => settings.TimeOptionOne = value, TimeOptionOneTextBox);
         }
 
         // Время запуска первогорежима
@@ -149,7 +149,7 @@ namespace Pushification
         }
 
         // Общий метод записи данных из полей в моде подписки на уведомления
-        private void UpdateAndSaveSetting<T>(Action<SubscriptionModeSettings, T> updateAction, TextBox textBox)
+        private void UpdateAndSaveSubscribeSetting<T>(Action<SubscriptionModeSettings, T> updateAction, TextBox textBox)
         {
             if (textBox == null || string.IsNullOrEmpty(textBox.Text)) return;
 
@@ -179,6 +179,121 @@ namespace Pushification
             TimeOptionOneTextBox.Text = _subscriptionSettings.TimeOptionOne.ToString();
         }
 
+        #endregion
+
+        #region РЕЖИМ-2 Принятие уведомлений
+
+        // Задержка перед закрытием браузер после того как пришли уведомления
+        private void SleepBeforeProcessKillIgnore_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSavePushNotificationSettings<int>((settings, value) => settings.SleepBeforeProcessKillIgnore = value, SleepBeforeProcessKillIgnoreTextBox);
+        }
+
+        //Макс. время ожидания уведомлений при click
+        private void TimeToWaitNotificationClick_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSavePushNotificationSettings<int>((settings, value) => settings.TimeToWaitNotificationClick = value, TimeToWaitNotificationClickTextBox);
+        }
+
+        //  Макс. время ожидания уведомлений при ignore
+        private void MaxTimeToWaitNotificationIgnore_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSavePushNotificationSettings<int>((settings, value) => settings.MaxTimeToWaitNotificationIgnore = value, MaxTimeToWaitNotificationIgnoreTextBox);
+        }
+
+        // Задержка между кликами по уведомлениям
+        private void SleepBetweenClick_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSavePushNotificationSettings<int>((settings, value) => settings.SleepBetweenClick = value, SleepBetweenClickTextBox);
+        }
+
+        // Задержка после кликов по уведомлениям
+        private void SleepAfterAllNotificationsClick_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSavePushNotificationSettings<int>((settings, value) => settings.SleepAfterAllNotificationsClick = value, SleepAfterAllNotificationsClickTextBox); ;
+        }
+
+        // Задержка после открытия браузера при удалении
+        private void SleepBeforeUnsubscribe_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSavePushNotificationSettings<int>((settings, value) => settings.SleepBeforeUnsubscribe = value, SleepBeforeUnsubscribeTextBox); 
+        }
+
+        // Задержка после сброса разрешения
+        private void SleepAfterUnsubscribe_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSavePushNotificationSettings<int>((settings, value) => settings.SleepAfterUnsubscribe = value, SleepAfterUnsubscribeTextBox);
+        }
+
+        // Задержка перед удалением профиля
+        private void SleepBeforeProfileDeletion_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSavePushNotificationSettings<int>((settings, value) => settings.SleepBeforeProfileDeletion = value, SleepBeforeProfileDeletionTextBox);
+        }
+
+        // Шанс на режим delete
+        private void PercentToDelete_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSavePushNotificationSettings<int>((settings, value) => settings.PercentToDelete = value, PercentToDeleteTextBox);
+        }
+
+        // Шанс на режим click
+        private void PercentToClick_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSavePushNotificationSettings<int>((settings, value) => settings.PercentToClick = value, PercentToClickTextBox);
+        }
+
+        // Минимальное кол-во кликов по уведомлениям
+        private void MinNumberOfClicks_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSavePushNotificationSettings<int>((settings, value) => settings.MinNumberOfClicks = value, MinNumberOfClicksTextBox);
+        }
+
+        // Максимальное кол-во кликов по уведомлениям
+        private void MaxNumberOfClicks_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSavePushNotificationSettings<int>((settings, value) => settings.MaxNumberOfClicks = value, MaxNumberOfClicksTextBox);
+        }
+
+        //Режим ignore (с прокси или без)
+        private void ProxyForIgnore_CheckedChange(object sender, EventArgs e)
+        {
+            _pushSettings.ProxyForIgnore = ProxyForIgnoreCheckBox.Checked;
+            _pushSettings.SaveToJson();
+        }
+
+        // Закрывать пуш уведомления  (на крестик)
+        private void NotificationCloseByButton_CheckedChange(object sender, EventArgs e)
+        {
+            _pushSettings.NotificationCloseByButton = NotificationCloseByButtonCheckBox.Checked;
+            _pushSettings.SaveToJson();
+        }
+
+        // Безголовый режим
+        private void HeadlessMode_CheckedChanged(object sender, EventArgs e)
+        {
+            _pushSettings.HeadlessMode = HeadlessModeCheckBox.Checked;
+            _pushSettings.SaveToJson();
+        }
+
+        // Общий метод записи данных из полей в моде подписки на уведомления
+        private void UpdateAndSavePushNotificationSettings<T>(Action<PushNotificationModeSettings, T> updateAction, TextBox textBox)
+        {
+            if (textBox == null || string.IsNullOrEmpty(textBox.Text)) return;
+
+            T value = (T)Convert.ChangeType(textBox.Text, typeof(T));
+            updateAction(_pushSettings, value);
+            _pushSettings.SaveToJson();
+        }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -187,11 +302,6 @@ namespace Pushification
 
         #endregion
 
-        #region РЕЖИМ-2
-
-
-        #endregion
-
-
+     
     }
 }

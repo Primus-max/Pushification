@@ -574,7 +574,7 @@ namespace Pushification
             this.Mode2Tab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Mode2Tab.Name = "Mode2Tab";
             this.Mode2Tab.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Mode2Tab.Size = new System.Drawing.Size(932, 778);
+            this.Mode2Tab.Size = new System.Drawing.Size(932, 826);
             this.Mode2Tab.TabIndex = 2;
             this.Mode2Tab.Text = "Приём";
             this.Mode2Tab.UseVisualStyleBackColor = true;
@@ -604,6 +604,7 @@ namespace Pushification
             this.HeadlessModeCheckBox.TabIndex = 2;
             this.HeadlessModeCheckBox.Text = "Запуск в режиме headless";
             this.HeadlessModeCheckBox.UseVisualStyleBackColor = true;
+            this.HeadlessModeCheckBox.CheckedChanged += new System.EventHandler(this.HeadlessMode_CheckedChanged);
             // 
             // NotificationCloseByButtonCheckBox
             // 
@@ -616,6 +617,7 @@ namespace Pushification
             this.NotificationCloseByButtonCheckBox.TabIndex = 2;
             this.NotificationCloseByButtonCheckBox.Text = "Закрывать пуш уведомления \r\n(на крестик)";
             this.NotificationCloseByButtonCheckBox.UseVisualStyleBackColor = true;
+            this.NotificationCloseByButtonCheckBox.CheckedChanged += new System.EventHandler(this.NotificationCloseByButton_CheckedChange);
             // 
             // ProxyForIgnoreCheckBox
             // 
@@ -628,6 +630,7 @@ namespace Pushification
             this.ProxyForIgnoreCheckBox.TabIndex = 2;
             this.ProxyForIgnoreCheckBox.Text = "Режим ignore \r\n(с прокси или без)";
             this.ProxyForIgnoreCheckBox.UseVisualStyleBackColor = true;
+            this.ProxyForIgnoreCheckBox.CheckedChanged += new System.EventHandler(this.ProxyForIgnore_CheckedChange);
             // 
             // Клики
             // 
@@ -654,6 +657,7 @@ namespace Pushification
             this.MinNumberOfClicksTextBox.Name = "MinNumberOfClicksTextBox";
             this.MinNumberOfClicksTextBox.Size = new System.Drawing.Size(73, 34);
             this.MinNumberOfClicksTextBox.TabIndex = 1;
+            this.MinNumberOfClicksTextBox.TextChanged += new System.EventHandler(this.MinNumberOfClicks_TextChanged);
             // 
             // label39
             // 
@@ -683,6 +687,7 @@ namespace Pushification
             this.MaxNumberOfClicksTextBox.Name = "MaxNumberOfClicksTextBox";
             this.MaxNumberOfClicksTextBox.Size = new System.Drawing.Size(73, 34);
             this.MaxNumberOfClicksTextBox.TabIndex = 1;
+            this.MaxNumberOfClicksTextBox.TextChanged += new System.EventHandler(this.MaxNumberOfClicks_TextChanged);
             // 
             // label41
             // 
@@ -729,6 +734,7 @@ namespace Pushification
             this.PercentToDeleteTextBox.Name = "PercentToDeleteTextBox";
             this.PercentToDeleteTextBox.Size = new System.Drawing.Size(73, 34);
             this.PercentToDeleteTextBox.TabIndex = 1;
+            this.PercentToDeleteTextBox.TextChanged += new System.EventHandler(this.PercentToDelete_TextChanged);
             // 
             // label37
             // 
@@ -758,6 +764,7 @@ namespace Pushification
             this.PercentToClickTextBox.Name = "PercentToClickTextBox";
             this.PercentToClickTextBox.Size = new System.Drawing.Size(73, 34);
             this.PercentToClickTextBox.TabIndex = 1;
+            this.PercentToClickTextBox.TextChanged += new System.EventHandler(this.PercentToClick_TextChanged);
             // 
             // label38
             // 
@@ -822,6 +829,7 @@ namespace Pushification
             this.SleepAfterUnsubscribeTextBox.Name = "SleepAfterUnsubscribeTextBox";
             this.SleepAfterUnsubscribeTextBox.Size = new System.Drawing.Size(73, 34);
             this.SleepAfterUnsubscribeTextBox.TabIndex = 1;
+            this.SleepAfterUnsubscribeTextBox.TextChanged += new System.EventHandler(this.SleepAfterUnsubscribe_TextChanged);
             // 
             // SleepAfterAllNotificationsClickTextBox
             // 
@@ -831,6 +839,7 @@ namespace Pushification
             this.SleepAfterAllNotificationsClickTextBox.Name = "SleepAfterAllNotificationsClickTextBox";
             this.SleepAfterAllNotificationsClickTextBox.Size = new System.Drawing.Size(73, 34);
             this.SleepAfterAllNotificationsClickTextBox.TabIndex = 1;
+            this.SleepAfterAllNotificationsClickTextBox.TextChanged += new System.EventHandler(this.SleepAfterAllNotificationsClick_TextChanged);
             // 
             // MaxTimeToWaitNotificationIgnoreTextBox
             // 
@@ -840,6 +849,7 @@ namespace Pushification
             this.MaxTimeToWaitNotificationIgnoreTextBox.Name = "MaxTimeToWaitNotificationIgnoreTextBox";
             this.MaxTimeToWaitNotificationIgnoreTextBox.Size = new System.Drawing.Size(73, 34);
             this.MaxTimeToWaitNotificationIgnoreTextBox.TabIndex = 1;
+            this.MaxTimeToWaitNotificationIgnoreTextBox.TextChanged += new System.EventHandler(this.MaxTimeToWaitNotificationIgnore_TextChanged);
             // 
             // SleepBeforeProfileDeletionTextBox
             // 
@@ -849,6 +859,7 @@ namespace Pushification
             this.SleepBeforeProfileDeletionTextBox.Name = "SleepBeforeProfileDeletionTextBox";
             this.SleepBeforeProfileDeletionTextBox.Size = new System.Drawing.Size(73, 34);
             this.SleepBeforeProfileDeletionTextBox.TabIndex = 1;
+            this.SleepBeforeProfileDeletionTextBox.TextChanged += new System.EventHandler(this.SleepBeforeProfileDeletion_TextChanged);
             // 
             // SleepBeforeUnsubscribeTextBox
             // 
@@ -858,6 +869,7 @@ namespace Pushification
             this.SleepBeforeUnsubscribeTextBox.Name = "SleepBeforeUnsubscribeTextBox";
             this.SleepBeforeUnsubscribeTextBox.Size = new System.Drawing.Size(73, 34);
             this.SleepBeforeUnsubscribeTextBox.TabIndex = 1;
+            this.SleepBeforeUnsubscribeTextBox.TextChanged += new System.EventHandler(this.SleepBeforeUnsubscribe_TextChanged);
             // 
             // SleepBetweenClickTextBox
             // 
@@ -867,6 +879,7 @@ namespace Pushification
             this.SleepBetweenClickTextBox.Name = "SleepBetweenClickTextBox";
             this.SleepBetweenClickTextBox.Size = new System.Drawing.Size(73, 34);
             this.SleepBetweenClickTextBox.TabIndex = 1;
+            this.SleepBetweenClickTextBox.TextChanged += new System.EventHandler(this.SleepBetweenClick_TextChanged);
             // 
             // TimeToWaitNotificationClickTextBox
             // 
@@ -876,6 +889,7 @@ namespace Pushification
             this.TimeToWaitNotificationClickTextBox.Name = "TimeToWaitNotificationClickTextBox";
             this.TimeToWaitNotificationClickTextBox.Size = new System.Drawing.Size(73, 34);
             this.TimeToWaitNotificationClickTextBox.TabIndex = 1;
+            this.TimeToWaitNotificationClickTextBox.TextChanged += new System.EventHandler(this.TimeToWaitNotificationClick_TextChanged);
             // 
             // SleepBeforeProcessKillIgnoreTextBox
             // 
@@ -885,6 +899,7 @@ namespace Pushification
             this.SleepBeforeProcessKillIgnoreTextBox.Name = "SleepBeforeProcessKillIgnoreTextBox";
             this.SleepBeforeProcessKillIgnoreTextBox.Size = new System.Drawing.Size(73, 34);
             this.SleepBeforeProcessKillIgnoreTextBox.TabIndex = 1;
+            this.SleepBeforeProcessKillIgnoreTextBox.TextChanged += new System.EventHandler(this.SleepBeforeProcessKillIgnore_TextChanged);
             // 
             // label32
             // 
