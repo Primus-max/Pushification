@@ -1,5 +1,4 @@
-{
-  "ProxyList": ["proxy3", "proxy4"],
+{  
   "PercentToDelete": 50,
   "PercentToClick": 50,
   "SleepBeforeProcessKillIgnore": 5,
