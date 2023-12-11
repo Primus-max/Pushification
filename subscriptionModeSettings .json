@@ -1,6 +1,6 @@
 {
   "URL": "https://example.com",
-  "ProxyList": ["proxy1", "proxy2"],
+  "ProxyList": "",
   "MaxTimePageLoading": 30,
   "BeforeAllowTimeout": 5,
   "AfterAllowTimeout": 10,

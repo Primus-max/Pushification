@@ -1,7 +1,14 @@
-﻿namespace Pushification.Models
+﻿using Newtonsoft.Json;
+using System.Windows.Forms;
+using System;
+using System.IO;
+
+namespace Pushification.Models
 {
     public class PushNotificationModeSettings
     {
+        public static string FilePath { get; } = "pushNotificationModeSettings.json";
+
         public int PercentToDelete { get; set; }
         public int PercentToClick { get; set; }
         public int SleepBeforeProcessKillIgnore { get; set; }
@@ -17,6 +24,36 @@
         public bool HeadlessMode { get; set; }
         public bool ProxyForIgnore { get; set; }
         public bool NotificationCloseByButton { get; set; }
+
+
+        public static PushNotificationModeSettings LoadFromJson()
+        {           
+            try
+            {
+                string json = File.ReadAllText(FilePath);
+                return JsonConvert.DeserializeObject<PushNotificationModeSettings>(json);
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибок при загрузке
+                MessageBox.Show($"Ошибка при загрузке настроек: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        public void SaveToJson()
+        {            
+            try
+            {
+                string json = JsonConvert.SerializeObject(this, Formatting.Indented);
+                File.WriteAllText(FilePath, json);
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибок при сохранении
+                MessageBox.Show($"Ошибка при сохранении настроек: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 
 }

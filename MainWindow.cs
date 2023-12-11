@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pushification.Models;
+using System;
 using System.Windows.Automation;
 using System.Windows.Forms;
 
@@ -8,33 +9,39 @@ namespace Pushification
     public partial class MainWindow : Form
     {
         private AutomationElement lastFocusedElement;
+        private PushNotificationModeSettings _pushSettings;
+        private SubscriptionModeSettings _subscriptionSettings;
         public MainWindow()
         {
             InitializeComponent();
 
+
+            _pushSettings = new PushNotificationModeSettings();
+            _subscriptionSettings = new SubscriptionModeSettings();
+
             // Метод для подписки на разные нативные события винды
-            Automation.AddAutomationFocusChangedEventHandler((sender, e) =>
-            {
-                AutomationElement focusedElement = sender as AutomationElement;
+            //Automation.AddAutomationFocusChangedEventHandler((sender, e) =>
+            //{
+            //    AutomationElement focusedElement = sender as AutomationElement;
 
-                // Проверяем, изменился ли фокус на новый элемент
-                if (focusedElement != null && focusedElement != lastFocusedElement)
-                {
-                    lastFocusedElement = focusedElement;
+            //    // Проверяем, изменился ли фокус на новый элемент
+            //    if (focusedElement != null && focusedElement != lastFocusedElement)
+            //    {
+            //        lastFocusedElement = focusedElement;
 
-                    // Проверяем тип элемента (если окно)
-                    if (focusedElement.Current.ControlType == ControlType.Window)
-                    {
-                        var adfg = focusedElement.Current.HelpText;
-                        // Проверяем класс элемента
-                        if (focusedElement.Current.HelpText == "Toast") // Здесь нужно использовать реальное имя класса уведомления
-                        {
-                            // Это уведомление, которое вас интересует
-                            MessageBox.Show("Обнаружено уведомление");
-                        }
-                    }
-                }
-            });
+            //        // Проверяем тип элемента (если окно)
+            //        if (focusedElement.Current.ControlType == ControlType.Window)
+            //        {
+            //            var adfg = focusedElement.Current.HelpText;
+            //            // Проверяем класс элемента
+            //            if (focusedElement.Current.HelpText == "Toast") // Здесь нужно использовать реальное имя класса уведомления
+            //            {
+            //                // Это уведомление, которое вас интересует
+            //                MessageBox.Show("Обнаружено уведомление");
+            //            }
+            //        }
+            //    }
+            //});
 
             //// Активируем окно
             //AutoItX.WinActivate(windowTitle);
@@ -74,6 +81,8 @@ namespace Pushification
 
         #endregion
 
+
+        // Соханяю файл прокси
         private void OpenFileButton_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
@@ -85,6 +94,9 @@ namespace Pushification
                 {
                     string selectedFilePath = openFileDialog.FileName;
 
+                  SubscriptionModeSettings subscriptionModeSettings = new SubscriptionModeSettings();
+                    subscriptionModeSettings.ProxyList = selectedFilePath;
+                    subscriptionModeSettings.SaveSubscriptionSettingsToJson();
                     // Далее можно использовать выбранный файл (selectedFilePath) для ваших нужд
                 }
             }
