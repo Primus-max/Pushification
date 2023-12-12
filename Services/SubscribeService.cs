@@ -2,15 +2,18 @@
 using Pushification.Models;
 using Pushification.PuppeteerDriver;
 using Pushification.Services.Interfaces;
-using System.IO;
 using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Pushification.Services
 {
     public class SubscribeService : IServiceWorker
     {
         private readonly DriverManager _driverManager = null;
-        private SubscriptionModeSettings _subscribeSettings = null; 
+        private SubscriptionModeSettings _subscribeSettings = null;
         private IBrowser _browser = null;
 
         public SubscribeService(DriverManager driverManager)
@@ -21,13 +24,34 @@ namespace Pushification.Services
 
         public async void Run()
         {
-            string profilePath = GetProfileFolderPath();
-            string proxyInfoString = "ip:port:логин:пароль";
-            string userAgent = "ваш_user_agent";
+            int workingTime = _subscribeSettings.TimeOptionOne * 60 * 1000; // Преобразуем минуты в миллисекунды
 
+            string profilePath = GetProfileFolderPath();
+            string url = _subscribeSettings.URL;
+            string proxyInfoString = ProxyInfo.GetProxy(_subscribeSettings.ProxyList);
             ProxyInfo proxyInfo = ProxyInfo.Parse(proxyInfoString);
 
-            IBrowser browser = await _driverManager.CreateDriver(profilePath, proxyInfo, userAgent);
+            string userAgent = GetRandomUserAgent();
+
+            DateTime startTime = DateTime.Now;
+            while ((DateTime.Now - startTime).TotalMilliseconds < workingTime)
+            {
+                IBrowser browser = await _driverManager.CreateDriver(profilePath, proxyInfo, userAgent);
+
+                var page = await browser.NewPageAsync();
+                await page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
+                await page.GoToAsync(url);
+
+                // Закрыть браузер после прошествия времени
+                await browser.CloseAsync();
+                await page.DisposeAsync();
+
+                // Если успешно, то записываю этот прокси в блеклист               
+                ProxyInfo.AddProxyToBlacklist(proxyInfoString);
+
+                // Ожидание перед следующей итерацией
+                await Task.Delay(1000); // Подождать 1 секунду перед следующей итерацией
+            }
         }
 
         public void Stop()
@@ -35,7 +59,8 @@ namespace Pushification.Services
             _browser.Dispose();
         }
 
-        public string GetProfileFolderPath()
+        // Метод получения пути профиля
+        private string GetProfileFolderPath()
         {
             // Получаем текущее время в формате Unix timestamp
             long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
@@ -53,5 +78,48 @@ namespace Pushification.Services
             return profilePath;
         }
 
+        // Метод получения рандомного юзер агента
+        private string GetRandomUserAgent()
+        {
+            try
+            {
+                // Загрузка списка User-Agent'ов из файла
+                string[] userAgents = LoadUserAgentsFromFile("useragents.txt");
+
+                if (userAgents is null) return null;
+
+                // Получение случайного User-Agent'а из списка
+                Random random = new Random();
+                int randomIndex = random.Next(userAgents.Length);
+                return userAgents[randomIndex];
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибок при загрузке или выборе User-Agent'а
+                MessageBox.Show($"Ошибка при получении User-Agent'а: {ex.Message}");
+                return string.Empty;
+            }
+        }
+
+        // Вспомогательный метод получения юзер агента
+        private string[] LoadUserAgentsFromFile(string filePath)
+        {
+            try
+            {
+                // Чтение всех строк из файла
+                string[] lines = File.ReadAllLines(filePath);
+
+                // Фильтрация и удаление пустых строк
+                string[] nonEmptyLines = lines.Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
+
+                return nonEmptyLines;
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибок при чтении файла
+                MessageBox.Show($"Ошибка при загрузке User-Agent'ов: {ex.Message}");
+                return new string[0];
+            }
+        }
     }
 }

@@ -144,5 +144,10 @@
     <Folder Include="AutoIt\" />
     <Folder Include="PuppeteerDriver\Interfaces\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="useragents.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
