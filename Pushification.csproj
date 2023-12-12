@@ -91,6 +91,7 @@
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Manager\StateManager.cs" />
+    <Compile Include="Models\ProxyInfo.cs" />
     <Compile Include="Models\PushNotificationModeSettings.cs" />
     <Compile Include="Models\SubscriptionModeSettings.cs" />
     <Compile Include="Program.cs" />

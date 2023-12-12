@@ -22,7 +22,12 @@ namespace Pushification.Services
         public async void Run()
         {
             string profilePath = GetProfileFolderPath();
-            _browser = await _driverManager.CreateDriver(profilePath);
+            string proxyInfoString = "ip:port:логин:пароль";
+            string userAgent = "ваш_user_agent";
+
+            ProxyInfo proxyInfo = ProxyInfo.Parse(proxyInfoString);
+
+            IBrowser browser = await _driverManager.CreateDriver(profilePath, proxyInfo, userAgent);
         }
 
         public void Stop()
