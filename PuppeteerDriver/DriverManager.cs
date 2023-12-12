@@ -6,7 +6,7 @@ namespace Pushification.PuppeteerDriver
 {
     public class DriverManager
     {
-        static async Task<IBrowser> CreateDriver(string profilePath)
+        public async Task<IBrowser> CreateDriver(string profilePath)
         {
             await new BrowserFetcher().DownloadAsync();
 

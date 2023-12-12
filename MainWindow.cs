@@ -1,4 +1,5 @@
 ﻿using Pushification.Models;
+using Pushification.Services;
 using System;
 using System.Globalization;
 using System.Windows.Automation;
@@ -24,6 +25,9 @@ namespace Pushification
             LoadSubscriptonSettingsData();
             LoadPushNotificationSettingsData();
 
+            SubscribeService subscribeService = new SubscribeService(new PuppeteerDriver.DriverManager());
+
+            subscribeService.Run();
             // Метод для подписки на разные нативные события винды
             //Automation.AddAutomationFocusChangedEventHandler((sender, e) =>
             //{
@@ -165,20 +169,27 @@ namespace Pushification
         //LoadSubscriptonSettingsData();
         private void LoadSubscriptonSettingsData()
         {
-            _subscriptionSettings = SubscriptionModeSettings.LoadSubscriptionSettingsFromJson();
-            URLTextBox.Text = _subscriptionSettings.URL;
-            MaxTimePageLoadingTextBox.Text = _subscriptionSettings.MaxTimePageLoading.ToString();
-            AfterAllowTimeoutTextBox.Text = _subscriptionSettings.AfterAllowTimeout.ToString();
-            BeforeAllowTimeoutTextBox.Text = _subscriptionSettings.BeforeAllowTimeout.ToString();
-            ProxyWaitingTimeoutTextBox.Text = _subscriptionSettings.ProxyWaitingTimeout.ToString();
-            MaxTimeGettingOutITextBlock.Text = _subscriptionSettings.MaxTimeGettingOutIP.ToString();
-            CountIPToDeleteTextBlock.Text  = _subscriptionSettings.CountIP.ToString();
-            CountIPDeletionPerTimeTextBox.Text = _subscriptionSettings.CountIPDeletion.ToString();
-            if (DateTime.TryParseExact(_subscriptionSettings.StartOptionOne, "hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime startTime))
+            try
             {
-                StartOptionOneTimePicker.Value = startTime;
+                _subscriptionSettings = SubscriptionModeSettings.LoadSubscriptionSettingsFromJson();
+                URLTextBox.Text = _subscriptionSettings.URL;
+                MaxTimePageLoadingTextBox.Text = _subscriptionSettings.MaxTimePageLoading.ToString();
+                AfterAllowTimeoutTextBox.Text = _subscriptionSettings.AfterAllowTimeout.ToString();
+                BeforeAllowTimeoutTextBox.Text = _subscriptionSettings.BeforeAllowTimeout.ToString();
+                ProxyWaitingTimeoutTextBox.Text = _subscriptionSettings.ProxyWaitingTimeout.ToString();
+                MaxTimeGettingOutITextBlock.Text = _subscriptionSettings.MaxTimeGettingOutIP.ToString();
+                CountIPToDeleteTextBlock.Text = _subscriptionSettings.CountIP.ToString();
+                CountIPDeletionPerTimeTextBox.Text = _subscriptionSettings.CountIPDeletion.ToString();
+                if (DateTime.TryParseExact(_subscriptionSettings.StartOptionOne, "hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime startTime))
+                {
+                    StartOptionOneTimePicker.Value = startTime;
+                }
+                TimeOptionOneTextBox.Text = _subscriptionSettings.TimeOptionOne.ToString();
             }
-            TimeOptionOneTextBox.Text = _subscriptionSettings.TimeOptionOne.ToString();
+            catch (Exception)
+            {
+
+            }
         }
 
         #endregion
@@ -288,26 +299,34 @@ namespace Pushification
             _pushSettings.SaveToJson();
         }
 
+        // Инициализация данныз из Json во view
         private void LoadPushNotificationSettingsData()
         {
-            _pushSettings = PushNotificationModeSettings.LoadFromJson();
+            try
+            {
+                _pushSettings = PushNotificationModeSettings.LoadFromJson();
 
-            SleepBeforeProcessKillIgnoreTextBox.Text = _pushSettings.SleepBeforeProcessKillIgnore.ToString();
-            TimeToWaitNotificationClickTextBox.Text = _pushSettings.TimeToWaitNotificationClick.ToString();
-            MaxTimeToWaitNotificationIgnoreTextBox.Text = _pushSettings.MaxTimeToWaitNotificationIgnore.ToString();
-            SleepBetweenClickTextBox.Text = _pushSettings.SleepBetweenClick.ToString();
-            SleepAfterAllNotificationsClickTextBox.Text = _pushSettings.SleepAfterAllNotificationsClick.ToString();
-            SleepBeforeUnsubscribeTextBox.Text = _pushSettings.SleepBeforeUnsubscribe.ToString();
-            SleepAfterUnsubscribeTextBox.Text = _pushSettings.SleepAfterUnsubscribe.ToString();
-            SleepBeforeProfileDeletionTextBox.Text = _pushSettings.SleepBeforeProfileDeletion.ToString();
-            PercentToDeleteTextBox.Text = _pushSettings.PercentToDelete.ToString();
-            PercentToClickTextBox.Text = _pushSettings.PercentToClick.ToString();
-            MinNumberOfClicksTextBox.Text = _pushSettings.MinNumberOfClicks.ToString();
-            MaxNumberOfClicksTextBox.Text = _pushSettings.MaxNumberOfClicks.ToString();
-            ProxyForIgnoreCheckBox.Checked = _pushSettings.ProxyForIgnore;
-            NotificationCloseByButtonCheckBox.Checked = _pushSettings.NotificationCloseByButton;
-            HeadlessModeCheckBox.Checked = _pushSettings.HeadlessMode;
+                SleepBeforeProcessKillIgnoreTextBox.Text = _pushSettings.SleepBeforeProcessKillIgnore.ToString();
+                TimeToWaitNotificationClickTextBox.Text = _pushSettings.TimeToWaitNotificationClick.ToString();
+                MaxTimeToWaitNotificationIgnoreTextBox.Text = _pushSettings.MaxTimeToWaitNotificationIgnore.ToString();
+                SleepBetweenClickTextBox.Text = _pushSettings.SleepBetweenClick.ToString();
+                SleepAfterAllNotificationsClickTextBox.Text = _pushSettings.SleepAfterAllNotificationsClick.ToString();
+                SleepBeforeUnsubscribeTextBox.Text = _pushSettings.SleepBeforeUnsubscribe.ToString();
+                SleepAfterUnsubscribeTextBox.Text = _pushSettings.SleepAfterUnsubscribe.ToString();
+                SleepBeforeProfileDeletionTextBox.Text = _pushSettings.SleepBeforeProfileDeletion.ToString();
+                PercentToDeleteTextBox.Text = _pushSettings.PercentToDelete.ToString();
+                PercentToClickTextBox.Text = _pushSettings.PercentToClick.ToString();
+                MinNumberOfClicksTextBox.Text = _pushSettings.MinNumberOfClicks.ToString();
+                MaxNumberOfClicksTextBox.Text = _pushSettings.MaxNumberOfClicks.ToString();
+                ProxyForIgnoreCheckBox.Checked = _pushSettings.ProxyForIgnore;
+                NotificationCloseByButtonCheckBox.Checked = _pushSettings.NotificationCloseByButton;
+                HeadlessModeCheckBox.Checked = _pushSettings.HeadlessMode;
 
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
 

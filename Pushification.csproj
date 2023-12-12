@@ -90,11 +90,16 @@
     <Compile Include="MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Manager\StateManager.cs" />
     <Compile Include="Models\PushNotificationModeSettings.cs" />
     <Compile Include="Models\SubscriptionModeSettings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PuppeteerDriver\DriverManager.cs" />
+    <Compile Include="Services\Interfaces\IServiceWorker.cs" />
+    <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="Services\SubscribeService.cs" />
+    <Compile Include="Services\WorkerService.cs" />
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
