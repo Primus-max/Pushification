@@ -25,9 +25,7 @@ namespace Pushification
             LoadSubscriptonSettingsData();
             LoadPushNotificationSettingsData();
 
-            SubscribeService subscribeService = new SubscribeService(new PuppeteerDriver.DriverManager());
-
-            subscribeService.Run();
+            
             // Метод для подписки на разные нативные события винды
             //Automation.AddAutomationFocusChangedEventHandler((sender, e) =>
             //{
@@ -342,8 +340,14 @@ namespace Pushification
 
 
 
+
         #endregion
 
+        private void Start_Click(object sender, EventArgs e)
+        {
+            SubscribeService subscribeService = new SubscribeService(new PuppeteerDriver.DriverManager());
 
+            subscribeService.Run();
+        }
     }
 }

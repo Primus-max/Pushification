@@ -164,6 +164,7 @@ namespace Pushification
             this.SrartButton.TabIndex = 2;
             this.SrartButton.Text = "Запустить";
             this.SrartButton.UseVisualStyleBackColor = true;
+            this.SrartButton.Click += new System.EventHandler(this.Start_Click);
             // 
             // label18
             // 
@@ -198,7 +199,7 @@ namespace Pushification
             this.Mode1Tab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Mode1Tab.Name = "Mode1Tab";
             this.Mode1Tab.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Mode1Tab.Size = new System.Drawing.Size(932, 778);
+            this.Mode1Tab.Size = new System.Drawing.Size(932, 826);
             this.Mode1Tab.TabIndex = 1;
             this.Mode1Tab.Text = "Подписка";
             this.Mode1Tab.UseVisualStyleBackColor = true;
@@ -472,9 +473,9 @@ namespace Pushification
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label6.Location = new System.Drawing.Point(383, 44);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(45, 20);
+            this.label6.Size = new System.Drawing.Size(41, 20);
             this.label6.TabIndex = 0;
-            this.label6.Text = "мин.";
+            this.label6.Text = "сек.";
             // 
             // label8
             // 

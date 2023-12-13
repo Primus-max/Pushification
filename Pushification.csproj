@@ -84,6 +84,7 @@
     <Reference Include="UIAutomationTypes" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoIt\AutoItHandler.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,7 +142,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AutoIt\" />
     <Folder Include="PuppeteerDriver\Interfaces\" />
   </ItemGroup>
   <ItemGroup>

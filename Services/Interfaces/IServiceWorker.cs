@@ -9,6 +9,6 @@ namespace Pushification.Services.Interfaces
     public interface IServiceWorker
     {
         void Run();
-        void Stop();
+        Task  StopAsync();
     }
 }

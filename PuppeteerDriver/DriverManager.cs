@@ -30,6 +30,8 @@ namespace Pushification.PuppeteerDriver
 
             await new BrowserFetcher().DownloadAsync();
 
+
+
             var launchOptions = new LaunchOptions
             {
                 Headless = false,
@@ -38,7 +40,7 @@ namespace Pushification.PuppeteerDriver
                     "--start-maximized",
                     $"--proxy-server=http://{proxyInfo.IP}:{proxyInfo.Port}"
                 }.ToArray(),
-                UserDataDir = profilePath,
+                UserDataDir = profilePath,                
             };
 
             if (!string.IsNullOrEmpty(userAgent))
@@ -48,7 +50,6 @@ namespace Pushification.PuppeteerDriver
 
             return await Puppeteer.LaunchAsync(launchOptions);
         }
-
 
     }
 }

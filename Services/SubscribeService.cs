@@ -5,6 +5,7 @@ using Pushification.Services.Interfaces;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,6 +16,7 @@ namespace Pushification.Services
         private readonly DriverManager _driverManager = null;
         private SubscriptionModeSettings _subscribeSettings = null;
         private IBrowser _browser = null;
+        private IPage _page = null;
 
         public SubscribeService(DriverManager driverManager)
         {
@@ -36,27 +38,42 @@ namespace Pushification.Services
             DateTime startTime = DateTime.Now;
             while ((DateTime.Now - startTime).TotalMilliseconds < workingTime)
             {
-                IBrowser browser = await _driverManager.CreateDriver(profilePath, proxyInfo, userAgent);
+                _browser = await _driverManager.CreateDriver(profilePath, proxyInfo, userAgent);
 
-                var page = await browser.NewPageAsync();
-                await page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
-                await page.GoToAsync(url);
+                _page = await _browser.NewPageAsync();
 
-                // Закрыть браузер после прошествия времени
-                await browser.CloseAsync();
-                await page.DisposeAsync();
+                // Авторизую прокси
+                await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
+                try
+                {
+                    // Уставливаю время ожидания загрузки страницы
+                    int timeOutMillisecond = _subscribeSettings.MaxTimePageLoading * 1000;
+                    await _page.WaitForTimeoutAsync(timeOutMillisecond);
+                    await _page.GoToAsync(url);
+
+                  await  AutoItHandler.SubscribeToWindow(_subscribeSettings?.URL, 10, _subscribeSettings.BeforeAllowTimeout);
+
+
+                }
+                catch (Exception)
+                {
+                    await StopAsync();
+                }
+                
 
                 // Если успешно, то записываю этот прокси в блеклист               
-                ProxyInfo.AddProxyToBlacklist(proxyInfoString);
+               // ProxyInfo.AddProxyToBlacklist(proxyInfoString);
 
                 // Ожидание перед следующей итерацией
                 await Task.Delay(1000); // Подождать 1 секунду перед следующей итерацией
             }
         }
 
-        public void Stop()
+        public async Task StopAsync()
         {
-            _browser.Dispose();
+            // Закрыть браузер после прошествия времени
+            await _browser.CloseAsync();
+            await _page.DisposeAsync();
         }
 
         // Метод получения пути профиля

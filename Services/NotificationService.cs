@@ -1,4 +1,5 @@
 ﻿using Pushification.Services.Interfaces;
+using System.Threading.Tasks;
 
 namespace Pushification.Services
 {
@@ -9,7 +10,9 @@ namespace Pushification.Services
             throw new System.NotImplementedException();
         }
 
-        public void Stop()
+        
+
+        Task IServiceWorker.StopAsync()
         {
             throw new System.NotImplementedException();
         }
