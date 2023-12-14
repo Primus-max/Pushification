@@ -423,9 +423,9 @@ namespace Pushification
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label12.Location = new System.Drawing.Point(805, 94);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(45, 20);
+            this.label12.Size = new System.Drawing.Size(41, 20);
             this.label12.TabIndex = 0;
-            this.label12.Text = "мин.";
+            this.label12.Text = "сек.";
             // 
             // label9
             // 
@@ -433,9 +433,9 @@ namespace Pushification
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label9.Location = new System.Drawing.Point(805, 44);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(45, 20);
+            this.label9.Size = new System.Drawing.Size(41, 20);
             this.label9.TabIndex = 0;
-            this.label9.Text = "мин.";
+            this.label9.Text = "сек.";
             // 
             // label11
             // 
@@ -463,9 +463,9 @@ namespace Pushification
             this.label44.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label44.Location = new System.Drawing.Point(383, 89);
             this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(45, 20);
+            this.label44.Size = new System.Drawing.Size(41, 20);
             this.label44.TabIndex = 0;
-            this.label44.Text = "мин.";
+            this.label44.Text = "сек.";
             // 
             // label6
             // 

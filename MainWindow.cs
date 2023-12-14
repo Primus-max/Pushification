@@ -345,7 +345,7 @@ namespace Pushification
 
         private void Start_Click(object sender, EventArgs e)
         {
-            SubscribeService subscribeService = new SubscribeService(new PuppeteerDriver.DriverManager());
+            SubscribeService subscribeService = new SubscribeService();
 
             subscribeService.Run();
         }

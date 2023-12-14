@@ -8,7 +8,7 @@ namespace Pushification.PuppeteerDriver
 {
     public class DriverManager
     {
-        public async Task<IBrowser> CreateDriver(string profilePath, ProxyInfo proxyInfo, string userAgent)
+        public static async Task<IBrowser> CreateDriver(string profilePath, ProxyInfo proxyInfo, string userAgent)
         {
             if(proxyInfo == null)
             {

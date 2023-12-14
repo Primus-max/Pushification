@@ -5,7 +5,6 @@ using Pushification.Services.Interfaces;
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,62 +17,123 @@ namespace Pushification.Services
         private IBrowser _browser = null;
         private IPage _page = null;
 
-        public SubscribeService(DriverManager driverManager)
+        public SubscribeService()
         {
-            _driverManager = driverManager;
+            // _driverManager = driverManager;
             _subscribeSettings = SubscriptionModeSettings.LoadSubscriptionSettingsFromJson();
         }
 
         public async void Run()
         {
-            int workingTime = _subscribeSettings.TimeOptionOne * 60 * 1000; // Преобразуем минуты в миллисекунды
-
-            string profilePath = GetProfileFolderPath();
+            int workingTime = _subscribeSettings.TimeOptionOne * 60 * 1000; // Преобразуем минуты в миллисекунды                       
             string url = _subscribeSettings.URL;
-            string proxyInfoString = ProxyInfo.GetProxy(_subscribeSettings.ProxyList);
-            ProxyInfo proxyInfo = ProxyInfo.Parse(proxyInfoString);
-
-            string userAgent = GetRandomUserAgent();
 
             DateTime startTime = DateTime.Now;
             while ((DateTime.Now - startTime).TotalMilliseconds < workingTime)
             {
-                _browser = await _driverManager.CreateDriver(profilePath, proxyInfo, userAgent);
+                string profilePath = GetProfileFolderPath();
+                string proxyInfoString = ProxyInfo.GetProxy(_subscribeSettings.ProxyList);
+                ProxyInfo proxyInfo = ProxyInfo.Parse(proxyInfoString);
 
+                string userAgent = GetRandomUserAgent();
+
+                _browser = await DriverManager.CreateDriver(profilePath, proxyInfo, userAgent);
                 _page = await _browser.NewPageAsync();
 
                 // Авторизую прокси
                 await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
                 try
                 {
-                    // Уставливаю время ожидания загрузки страницы
+                    // Устанавливаю время ожидания загрузки страницы
                     int timeOutMillisecond = _subscribeSettings.MaxTimePageLoading * 1000;
                     await _page.WaitForTimeoutAsync(timeOutMillisecond);
                     await _page.GoToAsync(url);
 
-                  await  AutoItHandler.SubscribeToWindow(_subscribeSettings?.URL, 10, _subscribeSettings.BeforeAllowTimeout);
+                    // Принимаю подписку Push уведомлений
+                    // Парсим URL
+                    Uri uri = new Uri(_subscribeSettings?.URL);
 
+                    // Извлекаем хост (домен)
+                    string siteName = uri.Host;
 
+                    bool IsSuccess = AutoItHandler.SubscribeToWindow(siteName, 10, _subscribeSettings.BeforeAllowTimeout);
+
+                    if (IsSuccess)
+                    {
+                        // Если успешно, то убираем прокси в блеклист
+                        //ProxyInfo.AddProxyToBlacklist(proxyInfoString);
+
+                        
+                        // Время ожидания после подписки
+                        int afterAllowTimeoutMillisecond = _subscribeSettings.AfterAllowTimeout * 1000;
+                        await Task.Delay(afterAllowTimeoutMillisecond);
+                    }
                 }
                 catch (Exception)
                 {
                     await StopAsync();
                 }
-                
-
-                // Если успешно, то записываю этот прокси в блеклист               
-               // ProxyInfo.AddProxyToBlacklist(proxyInfoString);
 
                 // Ожидание перед следующей итерацией
-                await Task.Delay(1000); // Подождать 1 секунду перед следующей итерацией
+                await StopAsync();
+                await Task.Delay(1000);
+                // Удаляю лишние папки и файлы из профиля
+                RemoveCashFolders(profilePath);
+                
             }
         }
 
+        // Закрываю браузер
         public async Task StopAsync()
         {
             // Закрыть браузер после прошествия времени
             await _browser.CloseAsync();
             await _page.DisposeAsync();
+        }
+
+        // Удаление папки кэша, занимает место
+        private  void RemoveCashFolders(string profilePath)
+        {
+            string[] foldersToDelete = {
+            "GPUCache",
+            "Code Cache",
+            "DawnCache",
+            "Extension Rules",
+            "Extension Scripts",
+            "Extension State",
+            "Extensions",
+            "Local Extension Settings",
+            "GrShaderCache",
+            "ShaderCache",
+            "Crashpad"
+        };
+
+            try
+            {
+                foreach (var folderName in foldersToDelete)
+                {
+                    string folderPath = Path.Combine(profilePath, folderName);
+
+                    // Проверяем, существует ли папка в корне профиля
+                    if (Directory.Exists(folderPath))
+                    {
+                        Directory.Delete(folderPath, true);                        
+                    }
+                    else
+                    {
+                        // Папка не найдена в корне профиля, поэтому пробуем внутри "Default"
+                        folderPath = Path.Combine(profilePath, "Default", folderName);
+                        if (Directory.Exists(folderPath))
+                        {
+                            Directory.Delete(folderPath, true);                            
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to remove folders: {ex.Message}");
+            }
         }
 
         // Метод получения пути профиля
