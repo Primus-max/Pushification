@@ -12,7 +12,7 @@ namespace Pushification.Services
 
         
 
-        Task IServiceWorker.StopAsync()
+        Task IServiceWorker.StopAsync(string profilePath)
         {
             throw new System.NotImplementedException();
         }

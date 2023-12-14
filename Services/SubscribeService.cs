@@ -1,12 +1,19 @@
-﻿using PuppeteerSharp;
+﻿using AutoIt;
+using PuppeteerSharp;
 using Pushification.Models;
 using Pushification.PuppeteerDriver;
 using Pushification.Services.Interfaces;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FlaUI.Core.WindowsAPI;
+using FlaUI.Core;
+using FlaUI.Core.AutomationElements;
+using FlaUI.Core.Input;
+
 
 namespace Pushification.Services
 {
@@ -38,6 +45,13 @@ namespace Pushification.Services
                 string userAgent = GetRandomUserAgent();
 
                 _browser = await DriverManager.CreateDriver(profilePath, proxyInfo, userAgent);
+
+                if (_browser == null )
+                {
+                    // TODO здесь будет логирование
+                    return;
+                }
+
                 _page = await _browser.NewPageAsync();
 
                 // Авторизую прокси
@@ -62,7 +76,6 @@ namespace Pushification.Services
                     {
                         // Если успешно, то убираем прокси в блеклист
                         //ProxyInfo.AddProxyToBlacklist(proxyInfoString);
-
                         
                         // Время ожидания после подписки
                         int afterAllowTimeoutMillisecond = _subscribeSettings.AfterAllowTimeout * 1000;
@@ -71,24 +84,57 @@ namespace Pushification.Services
                 }
                 catch (Exception)
                 {
-                    await StopAsync();
+                    await StopAsync(profilePath);
                 }
 
-                // Ожидание перед следующей итерацией
-                await StopAsync();
-                await Task.Delay(1000);
-                // Удаляю лишние папки и файлы из профиля
-                RemoveCashFolders(profilePath);
-                
+                ClickByPush();
+
+                await StopAsync(profilePath);   
+            }
+        }
+
+        public void ClickByPush()
+        {
+            try
+            {
+                //IntPtr hWnd = new IntPtr(0x001B0C6E); // Замените этот код на фактический handle вашего окна
+                int controlClickX = 170;
+                int controlClickY = 64;
+                int windowPosX = 1166;
+                int windowPosY = 708;
+
+                // Ожидание окна по handle
+
+                int asdfas =    AutoItX.WinWait(text: "сейчас", timeout: 20);
+
+                // Преобразование координат клика в абсолютные координаты окна
+                int absoluteX = windowPosX + controlClickX;
+                int absoluteY = windowPosY + controlClickY;
+
+                // Установка фокуса на элемент управления
+                AutoItX.ControlFocus("pushq.ru", "pushq.ru", "[CLASS:Button; INSTANCE:1]");
+
+                AutoItX.MouseMove(absoluteX, absoluteY, 10);
+
+                // Выполнение клика по указанным координатам
+                AutoItX.MouseClick("left", absoluteX, absoluteY, 1, 0);
+            }
+            catch (Exception)
+            {
+
             }
         }
 
         // Закрываю браузер
-        public async Task StopAsync()
+        public async Task StopAsync(string profilePath)
         {
             // Закрыть браузер после прошествия времени
             await _browser.CloseAsync();
             await _page.DisposeAsync();
+
+            // Удаляю лишние папки и файлы из профиля
+            await Task.Delay(1000);           
+            RemoveCashFolders(profilePath);
         }
 
         // Удаление папки кэша, занимает место
@@ -96,6 +142,7 @@ namespace Pushification.Services
         {
             string[] foldersToDelete = {
             "GPUCache",
+            "Cache",
             "Code Cache",
             "DawnCache",
             "Extension Rules",
@@ -105,7 +152,8 @@ namespace Pushification.Services
             "Local Extension Settings",
             "GrShaderCache",
             "ShaderCache",
-            "Crashpad"
+            "Crashpad",
+            "GraphiteDawnCache"
         };
 
             try
@@ -117,7 +165,8 @@ namespace Pushification.Services
                     // Проверяем, существует ли папка в корне профиля
                     if (Directory.Exists(folderPath))
                     {
-                        Directory.Delete(folderPath, true);                        
+                        Directory.Delete(folderPath, true);  
+                        Thread.Sleep(100);
                     }
                     else
                     {
@@ -125,14 +174,15 @@ namespace Pushification.Services
                         folderPath = Path.Combine(profilePath, "Default", folderName);
                         if (Directory.Exists(folderPath))
                         {
-                            Directory.Delete(folderPath, true);                            
+                            Directory.Delete(folderPath, true);
+                            Thread.Sleep(100);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to remove folders: {ex.Message}");
+                MessageBox.Show($"Failed to remove folders: {ex.Message}");
             }
         }
 

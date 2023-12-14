@@ -2,6 +2,7 @@
 using Pushification.Services;
 using System;
 using System.Globalization;
+using System.IO;
 using System.Windows.Automation;
 using System.Windows.Forms;
 
@@ -83,13 +84,25 @@ namespace Pushification
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string selectedFilePath = openFileDialog.FileName;
+                    string destinationPath = Path.Combine(Application.StartupPath, Path.GetFileName(selectedFilePath));
 
-                    _subscriptionSettings.ProxyList = selectedFilePath;
-                    _subscriptionSettings.SaveSubscriptionSettingsToJson();
-                    // Далее можно использовать выбранный файл (selectedFilePath) для ваших нужд
+                    try
+                    {
+                        // Копирование файла
+                        File.Copy(selectedFilePath, destinationPath, overwrite: true);
+
+                        // Установка пути к скопированному файлу
+                        _subscriptionSettings.ProxyList = destinationPath;
+                        _subscriptionSettings.SaveSubscriptionSettingsToJson();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка при копировании файла: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
+
 
         // Ссылка для перехода
         private void URL_TextChanged(object sender, EventArgs e)
