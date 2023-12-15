@@ -4,7 +4,7 @@ namespace Pushification.Services.Interfaces
 {
     public interface IServiceWorker
     {
-        void Run();
+        Task Run();
         Task StopAsync(string profilePath);
     }
 }

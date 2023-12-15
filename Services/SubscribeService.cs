@@ -1,4 +1,5 @@
 ﻿using PuppeteerSharp;
+using Pushification.Manager;
 using Pushification.Models;
 using Pushification.PuppeteerDriver;
 using Pushification.Services.Interfaces;
@@ -13,7 +14,6 @@ namespace Pushification.Services
 {
     public class SubscribeService : IServiceWorker
     {
-        private readonly DriverManager _driverManager = null;
         private SubscriptionModeSettings _subscribeSettings = null;
         private IBrowser _browser = null;
         private IPage _page = null;
@@ -24,7 +24,7 @@ namespace Pushification.Services
             _subscribeSettings = SubscriptionModeSettings.LoadSubscriptionSettingsFromJson();
         }
 
-        public async void Run()
+        public async Task Run()
         {
             int workingTime = _subscribeSettings.TimeOptionOne * 60 * 1000; // Преобразуем минуты в миллисекунды                       
             string url = _subscribeSettings.URL;
@@ -32,7 +32,7 @@ namespace Pushification.Services
             DateTime startTime = DateTime.Now;
             while ((DateTime.Now - startTime).TotalMilliseconds < workingTime)
             {
-                string profilePath = GetProfileFolderPath();
+                string profilePath = ProfilesManager.CreateProfileFolderPath();
                 string proxyInfoString = ProxyInfo.GetProxy(_subscribeSettings.ProxyList);
                 ProxyInfo proxyInfo = ProxyInfo.Parse(proxyInfoString);
 
@@ -87,8 +87,6 @@ namespace Pushification.Services
                  await StopAsync(profilePath);
             }
         }
-
-
 
         // Закрываю браузер
         public async Task StopAsync(string profilePath)
@@ -151,24 +149,24 @@ namespace Pushification.Services
             }
         }
 
-        // Метод получения пути профиля
-        private string GetProfileFolderPath()
-        {
-            // Получаем текущее время в формате Unix timestamp
-            long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+        //// Метод получения пути профиля
+        //private string CreateProfileFolderPath()
+        //{
+        //    // Получаем текущее время в формате Unix timestamp
+        //    long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
 
-            // Получаем текущую дату в формате dd-MM-yyyy
-            string currentDate = DateTime.Now.ToString("dd-MM-yyyy");
+        //    // Получаем текущую дату в формате dd-MM-yyyy
+        //    string currentDate = DateTime.Now.ToString("dd-MM-yyyy");
 
-            // Формируем название папки профиля
-            string profileFolderName = $"{unixTimestamp}_{currentDate}";
+        //    // Формируем название папки профиля
+        //    string profileFolderName = $"{unixTimestamp}_{currentDate}";
 
-            // Сформируйте полный путь к папке профиля в папке "profiles" в корне проекта
-            string profilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "profiles", profileFolderName);
+        //    // Сформируйте полный путь к папке профиля в папке "profiles" в корне проекта
+        //    string profilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "profiles", profileFolderName);
 
-            // Возвращаем полученный путь
-            return profilePath;
-        }
+        //    // Возвращаем полученный путь
+        //    return profilePath;
+        //}
 
         // Метод получения рандомного юзер агента
         private string GetRandomUserAgent()

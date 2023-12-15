@@ -8,7 +8,7 @@ namespace Pushification.PuppeteerDriver
 {
     public class DriverManager
     {
-        public static async Task<IBrowser> CreateDriver(string profilePath, ProxyInfo proxyInfo, string userAgent)
+        public static async Task<IBrowser> CreateDriver(string profilePath, ProxyInfo proxyInfo, string userAgent = null)
         {
             if(proxyInfo == null)
             {
@@ -22,15 +22,7 @@ namespace Pushification.PuppeteerDriver
                 return null;
             }
 
-            if (string.IsNullOrEmpty(userAgent))
-            {
-                MessageBox.Show("Не удалось получить юзер агента, проверь файл");
-                return null;
-            }
-
             await new BrowserFetcher().DownloadAsync();
-
-
 
             var launchOptions = new LaunchOptions
             {

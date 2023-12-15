@@ -1,7 +1,6 @@
 ﻿using AutoIt;
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 
 public class AutoItHandler
 {
@@ -14,7 +13,6 @@ public class AutoItHandler
 
         try
         {
-
             // Ожидаем окно с подпиской
             AutoItX.WinWait(title: windowTitle, timeout: waitingWindow);
             // На всякий случай делаем активным. На случай если перекрыло другое окно
@@ -29,7 +27,7 @@ public class AutoItHandler
             AutoItX.MouseClick(button: "LEFT", x: x, y: y, numClicks: 1, speed: 1);
 
             // Отсутствие этого окна будет означать успешный клик
-            int isSucsess = AutoItX.WinWait(title: windowTitle, timeout: 5); 
+            int isSucsess = AutoItX.WinWait(title: windowTitle, timeout: 5);
             return Convert.ToBoolean(isSucsess);
         }
         catch (Exception)
