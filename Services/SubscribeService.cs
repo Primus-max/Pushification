@@ -80,6 +80,8 @@ namespace Pushification.Services
                 catch (Exception)
                 {
                     await StopAsync(profilePath);
+
+                    ProfilesManager.RemoveProfile(profilePath);
                 }
 
                 await StopAsync(profilePath);

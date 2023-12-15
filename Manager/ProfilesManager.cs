@@ -8,6 +8,30 @@ namespace Pushification.Manager
 {
     public static class ProfilesManager
     {
+        /// <summary>
+        /// Метод удаления профиля(директории)
+        /// </summary>
+        /// <param name="folderName"></param>
+        public static void RemoveProfile(string folderName)
+        {
+            string rootPath = "profiles";
+
+            try
+            {
+                string folderPath = Path.Combine(rootPath, folderName);
+
+                if (Directory.Exists(folderPath))
+                {
+                    Directory.Delete(folderPath, true);
+                    Thread.Sleep(100);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to remove folder {folderName}: {ex.Message}");
+            }
+        }
+
 
         /// <summary>
         /// Метод создания пути профиля
