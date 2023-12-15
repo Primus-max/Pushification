@@ -62,6 +62,28 @@ namespace Pushification.Manager
             return oldestProfileDirectory;
         }
 
+        // Прохожу по всем профилям и удаляю лишнее
+        public static void RemoveCash()
+        {
+            string rootProfilesPath = "profiles";
+
+            try
+            {
+                // Получаем все поддиректории в корневой папке профилей
+                string[] profileDirectories = Directory.GetDirectories(rootProfilesPath);
+
+                foreach (var profilePath in profileDirectories)
+                {
+                    RemoveCashFolders(profilePath);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to remove folders from profiles: {ex.Message}");
+            }
+        }
+
+
         // Удаление папки кэша, занимает место
         public static void RemoveCashFolders(string profilePath)
         {

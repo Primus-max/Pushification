@@ -6,7 +6,6 @@ using Pushification.Services.Interfaces;
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -56,11 +55,13 @@ namespace Pushification.Services
                 {
                     // Устанавливаю время ожидания загрузки страницы
                     int timeOutMillisecond = _subscribeSettings.MaxTimePageLoading * 1000;
-                    await _page.WaitForTimeoutAsync(timeOutMillisecond);
+                   // await _page.SetCacheEnabledAsync(false);
+                    // Ожидание загрузки страниц
+                    _page.DefaultNavigationTimeout = timeOutMillisecond; 
                     await _page.GoToAsync(url);
 
                     // Извлекаем хост (домен) для передачи в виде простой строки без схемы
-                    Uri uri = new Uri(_subscribeSettings?.URL);                   
+                    Uri uri = new Uri(_subscribeSettings?.URL);
                     string siteName = uri.Host;
 
                     // Подписываюсь на уведомление
@@ -79,9 +80,9 @@ namespace Pushification.Services
                 catch (Exception)
                 {
                     await StopAsync(profilePath);
-                }               
+                }
 
-                 await StopAsync(profilePath);
+                await StopAsync(profilePath);
             }
         }
 
@@ -94,9 +95,9 @@ namespace Pushification.Services
 
             // Удаляю лишние папки и файлы из профиля
             await Task.Delay(1000);
-           ProfilesManager.RemoveCashFolders(profilePath);
+            ProfilesManager.RemoveCash();
         }
-               
+
 
         // Метод получения рандомного юзер агента
         private string GetRandomUserAgent()

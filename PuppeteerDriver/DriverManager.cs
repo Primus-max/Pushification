@@ -32,7 +32,8 @@ namespace Pushification.PuppeteerDriver
                     "--start-maximized",
                     $"--proxy-server=http://{proxyInfo.IP}:{proxyInfo.Port}"
                 }.ToArray(),
-                UserDataDir = profilePath,                
+                UserDataDir = profilePath,   
+                 
             };
 
             if (!string.IsNullOrEmpty(userAgent))
