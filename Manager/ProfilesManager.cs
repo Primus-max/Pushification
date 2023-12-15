@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System;
 using System.Linq;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace Pushification.Manager
 {
@@ -58,6 +60,55 @@ namespace Pushification.Manager
                 .FirstOrDefault();
 
             return oldestProfileDirectory;
+        }
+
+        // Удаление папки кэша, занимает место
+        public static void RemoveCashFolders(string profilePath)
+        {
+            string[] foldersToDelete = {
+            "GPUCache",
+            "Cache",
+            "Code Cache",
+            "DawnCache",
+            "Extension Rules",
+            "Extension Scripts",
+            "Extension State",
+            "Extensions",
+            "Local Extension Settings",
+            "GrShaderCache",
+            "ShaderCache",
+            "Crashpad",
+            "GraphiteDawnCache"
+        };
+
+            try
+            {
+                foreach (var folderName in foldersToDelete)
+                {
+                    string folderPath = Path.Combine(profilePath, folderName);
+
+                    // Проверяем, существует ли папка в корне профиля
+                    if (Directory.Exists(folderPath))
+                    {
+                        Directory.Delete(folderPath, true);
+                        Thread.Sleep(100);
+                    }
+                    else
+                    {
+                        // Папка не найдена в корне профиля, поэтому пробуем внутри "Default"
+                        folderPath = Path.Combine(profilePath, "Default", folderName);
+                        if (Directory.Exists(folderPath))
+                        {
+                            Directory.Delete(folderPath, true);
+                            Thread.Sleep(100);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to remove folders: {ex.Message}");
+            }
         }
     }
 }

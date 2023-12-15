@@ -4,8 +4,10 @@ using System.Threading;
 
 public class AutoItHandler
 {
-    public static bool SubscribeToWindow(string title, int waitingWindow, int waitingBeforeClick)
+    public static bool SubscribeToWindow(string title,  int waitingBeforeClick)
     {
+        int waitingWindow = 10;
+
         int x = 247;
         int y = 172;
 

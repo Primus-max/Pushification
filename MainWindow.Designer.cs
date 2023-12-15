@@ -453,9 +453,9 @@ namespace Pushification
             this.label45.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label45.Location = new System.Drawing.Point(382, 150);
             this.label45.Name = "label45";
-            this.label45.Size = new System.Drawing.Size(45, 20);
+            this.label45.Size = new System.Drawing.Size(41, 20);
             this.label45.TabIndex = 0;
-            this.label45.Text = "мин.";
+            this.label45.Text = "сек.";
             // 
             // label44
             // 

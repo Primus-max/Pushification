@@ -41,13 +41,11 @@ namespace Pushification.Services
             }
 
             string profilePath = ProfilesManager.GetOldProfile(); // Получаю самый старый профиль
-            string proxyInfoString = ProxyInfo.GetProxy(_subscribeSettings.ProxyList);
-            ProxyInfo proxyInfo = ProxyInfo.Parse(proxyInfoString);
+            //string proxyInfoString = ProxyInfo.GetProxy(_subscribeSettings.ProxyList);
+            //ProxyInfo proxyInfo = ProxyInfo.Parse(proxyInfoString);
 
-            _browser = await DriverManager.CreateDriver(profilePath, proxyInfo);
-            _page = await _browser.NewPageAsync();
-
-           
+            //_browser = await DriverManager.CreateDriver(profilePath, proxyInfo);
+            _page = await _browser.NewPageAsync();           
 
             ClickByPush(handle);
         }

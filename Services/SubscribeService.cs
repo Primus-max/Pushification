@@ -20,7 +20,6 @@ namespace Pushification.Services
 
         public SubscribeService()
         {
-            // _driverManager = driverManager;
             _subscribeSettings = SubscriptionModeSettings.LoadSubscriptionSettingsFromJson();
         }
 
@@ -29,16 +28,19 @@ namespace Pushification.Services
             int workingTime = _subscribeSettings.TimeOptionOne * 60 * 1000; // Преобразуем минуты в миллисекунды                       
             string url = _subscribeSettings.URL;
 
+            // Цикл будет выполняться указанное в настройках время
             DateTime startTime = DateTime.Now;
             while ((DateTime.Now - startTime).TotalMilliseconds < workingTime)
             {
-                string profilePath = ProfilesManager.CreateProfileFolderPath();
-                string proxyInfoString = ProxyInfo.GetProxy(_subscribeSettings.ProxyList);
-                ProxyInfo proxyInfo = ProxyInfo.Parse(proxyInfoString);
+                string profilePath = ProfilesManager.CreateProfileFolderPath(); // Создаю папку профиля
+
+                // Получаю прокси 
+                string proxyFilePath = _subscribeSettings.ProxyList;
+                ProxyInfo proxy = await ProxyInfo.GetProxy(proxyFilePath, _subscribeSettings.MaxTimeGettingOutIP);
 
                 string userAgent = GetRandomUserAgent();
 
-                _browser = await DriverManager.CreateDriver(profilePath, proxyInfo, userAgent);
+                _browser = await DriverManager.CreateDriver(profilePath, proxy, userAgent);
 
                 if (_browser == null)
                 {
@@ -49,7 +51,7 @@ namespace Pushification.Services
                 _page = await _browser.NewPageAsync();
 
                 // Авторизую прокси
-                await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
+                await _page.AuthenticateAsync(new Credentials() { Password = proxy.Password, Username = proxy.Username });
                 try
                 {
                     // Устанавливаю время ожидания загрузки страницы
@@ -57,19 +59,17 @@ namespace Pushification.Services
                     await _page.WaitForTimeoutAsync(timeOutMillisecond);
                     await _page.GoToAsync(url);
 
-                    // Принимаю подписку Push уведомлений
-                    // Парсим URL
-                    Uri uri = new Uri(_subscribeSettings?.URL);
-
-                    // Извлекаем хост (домен)
+                    // Извлекаем хост (домен) для передачи в виде простой строки без схемы
+                    Uri uri = new Uri(_subscribeSettings?.URL);                   
                     string siteName = uri.Host;
 
-                    bool IsSuccess = AutoItHandler.SubscribeToWindow(siteName, 10, _subscribeSettings.BeforeAllowTimeout);
+                    // Подписываюсь на уведомление
+                    bool IsSuccess = AutoItHandler.SubscribeToWindow(siteName, _subscribeSettings.BeforeAllowTimeout);
 
                     if (IsSuccess)
                     {
-                        // Если успешно, то убираем прокси в блеклист
-                        //ProxyInfo.AddProxyToBlacklist(proxyInfoString);
+                        // Если успешно, то убираю прокси в блеклист
+                        ProxyInfo.AddProxyToBlacklist(proxy.ExternalIP);
 
                         // Время ожидания после подписки
                         int afterAllowTimeoutMillisecond = _subscribeSettings.AfterAllowTimeout * 1000;
@@ -79,10 +79,7 @@ namespace Pushification.Services
                 catch (Exception)
                 {
                     await StopAsync(profilePath);
-                }
-                NotificationService notificationService = new NotificationService();
-
-                notificationService.CloseNotificationToast();
+                }               
 
                  await StopAsync(profilePath);
             }
@@ -97,76 +94,9 @@ namespace Pushification.Services
 
             // Удаляю лишние папки и файлы из профиля
             await Task.Delay(1000);
-            RemoveCashFolders(profilePath);
+           ProfilesManager.RemoveCashFolders(profilePath);
         }
-
-        // Удаление папки кэша, занимает место
-        private void RemoveCashFolders(string profilePath)
-        {
-            string[] foldersToDelete = {
-            "GPUCache",
-            "Cache",
-            "Code Cache",
-            "DawnCache",
-            "Extension Rules",
-            "Extension Scripts",
-            "Extension State",
-            "Extensions",
-            "Local Extension Settings",
-            "GrShaderCache",
-            "ShaderCache",
-            "Crashpad",
-            "GraphiteDawnCache"
-        };
-
-            try
-            {
-                foreach (var folderName in foldersToDelete)
-                {
-                    string folderPath = Path.Combine(profilePath, folderName);
-
-                    // Проверяем, существует ли папка в корне профиля
-                    if (Directory.Exists(folderPath))
-                    {
-                        Directory.Delete(folderPath, true);
-                        Thread.Sleep(100);
-                    }
-                    else
-                    {
-                        // Папка не найдена в корне профиля, поэтому пробуем внутри "Default"
-                        folderPath = Path.Combine(profilePath, "Default", folderName);
-                        if (Directory.Exists(folderPath))
-                        {
-                            Directory.Delete(folderPath, true);
-                            Thread.Sleep(100);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Failed to remove folders: {ex.Message}");
-            }
-        }
-
-        //// Метод получения пути профиля
-        //private string CreateProfileFolderPath()
-        //{
-        //    // Получаем текущее время в формате Unix timestamp
-        //    long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-
-        //    // Получаем текущую дату в формате dd-MM-yyyy
-        //    string currentDate = DateTime.Now.ToString("dd-MM-yyyy");
-
-        //    // Формируем название папки профиля
-        //    string profileFolderName = $"{unixTimestamp}_{currentDate}";
-
-        //    // Сформируйте полный путь к папке профиля в папке "profiles" в корне проекта
-        //    string profilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "profiles", profileFolderName);
-
-        //    // Возвращаем полученный путь
-        //    return profilePath;
-        //}
+               
 
         // Метод получения рандомного юзер агента
         private string GetRandomUserAgent()

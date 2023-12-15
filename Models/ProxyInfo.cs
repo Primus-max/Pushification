@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 public class ProxyInfo
 {
@@ -8,6 +12,7 @@ public class ProxyInfo
     public int Port { get; set; }
     public string Username { get; set; }
     public string Password { get; set; }
+    public string ExternalIP { get; set; }
 
     public static ProxyInfo Parse(string proxyInfo)
     {
@@ -16,7 +21,7 @@ public class ProxyInfo
         string[] proxyParts = proxyInfo.Split(':');
         if (proxyParts.Length != 4)
         {
-            throw new ArgumentException("Invalid proxy information format.");
+            // TODO здесь будет логирование
         }
 
         return new ProxyInfo
@@ -28,25 +33,50 @@ public class ProxyInfo
         };
     }
 
-    // Получаю прокси
-    public static string GetProxy(string filePath)
+    // Модель для ответа JSON
+    public class ExternalIPInfo
     {
-        if (string.IsNullOrEmpty(filePath)) return null;
-
-        string[] proxies = File.ReadAllLines(filePath);
-
-        foreach (var proxy in proxies)
-        {
-            if (IsProxyInBlacklist(proxy)) continue;
-
-            return proxy;
-        }
-
-        return null;
+        [JsonProperty("ip")]
+        public string IP { get; set; }
     }
 
-    // Проверка, находится ли прокси в черном списке
-    public static bool IsProxyInBlacklist(string proxy)
+    /// <summary>
+    /// Метод получения валидного прокси, если подходит внешний IP
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <returns>ProxyInfo</returns>
+    public static async Task<ProxyInfo> GetProxy(string filePath, int externalIpTimeoutInSeconds)
+    {
+        while (true)
+        {
+            string[] proxies = File.ReadAllLines(filePath);
+
+            foreach (var proxyString in proxies)
+            {
+                if (string.IsNullOrWhiteSpace(proxyString)) continue;
+
+                ProxyInfo proxy = Parse(proxyString);
+
+                // Устанавливаем время ожидания получения внешнего IP
+                proxy.ExternalIP = await GetExternalIP(proxy, externalIpTimeoutInSeconds);
+
+                if (!IsIPInBlacklist(proxy.ExternalIP))
+                {
+                    return proxy;
+                }
+
+                // Пауза перед следующей попыткой
+                await Task.Delay(10000); // Пауза в 10 секунд (10000 миллисекунд)
+            }
+
+            // Если нужно возвращаться к первому прокси после последнего, раскомментируйте следующую строку
+            // currentProxyIndex = 0;
+        }
+    }
+
+
+    // Проверка наличи IP в блеклисте
+    private static bool IsIPInBlacklist(string proxy)
     {
         string blacklistFilePath = "blacklistproxy.txt";
         string[] blacklist = null;
@@ -56,16 +86,21 @@ public class ProxyInfo
             blacklist = File.ReadAllLines(blacklistFilePath);
             return blacklist.Contains(proxy);
         }
-        catch (Exception) { return false; }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 
-    // Добавление прокси в черный список
+    /// <summary>
+    /// Добавляет прокси в blacklist
+    /// </summary>
+    /// <param name="proxy"></param>
     public static void AddProxyToBlacklist(string proxy)
     {
         string blacklistFilePath = "blacklistproxy.txt";
 
-        // Проверяем, не находится ли прокси уже в черном списке
-        if (!IsProxyInBlacklist(proxy))
+        if (!IsIPInBlacklist(proxy))
         {
             try
             {
@@ -73,12 +108,49 @@ public class ProxyInfo
                     File.Create(blacklistFilePath);
 
                 File.AppendAllLines(blacklistFilePath, new[] { proxy });
-
-                // Теперь можно удалить прокси из основного списка (если это нужно)
-                RemoveProxyFromMainList(proxy);
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                // Обработка ошибок записи в файл
+            }
         }
+    }
+
+    // Получаю внешний IP
+    private static async Task<string> GetExternalIP(ProxyInfo proxy, int timeoutWaitingIp)
+    {
+        using (HttpClientHandler handler = new HttpClientHandler())
+        {
+            handler.Proxy = new WebProxy(proxy.IP, proxy.Port)
+            {
+                Credentials = new System.Net.NetworkCredential(proxy.Username, proxy.Password)
+            };
+
+            using (HttpClient client = new HttpClient(handler))
+            {
+                try
+                {
+                    // Установка тайм-аута на получение внешнего IP
+                    client.Timeout = TimeSpan.FromSeconds(timeoutWaitingIp);
+
+                    // Получаю внешний IP 
+                    HttpResponseMessage response = await client.GetAsync("https://api64.ipify.org?format=json");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string responseBody = await response.Content.ReadAsStringAsync();
+                        ExternalIPInfo externalIPInfo = JsonConvert.DeserializeObject<ExternalIPInfo>(responseBody);
+                        return externalIPInfo.IP;
+                    }
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine($"Error: {e.Message}");
+                }
+            }
+        }
+
+        return null;
     }
 
     // Удаление прокси из черного списка
@@ -92,18 +164,5 @@ public class ProxyInfo
             .ToArray();
 
         File.WriteAllLines(blacklistFilePath, updatedBlacklist);
-    }
-
-    // Удаление прокси из основного списка
-    private static void RemoveProxyFromMainList(string proxy)
-    {
-        string mainListFilePath = "proxylist.txt";
-
-        // Удаляем прокси из основного списка
-        string[] updatedMainList = File.ReadAllLines(mainListFilePath)
-            .Where(line => line != proxy)
-            .ToArray();
-
-        File.WriteAllLines(mainListFilePath, updatedMainList);
     }
 }
