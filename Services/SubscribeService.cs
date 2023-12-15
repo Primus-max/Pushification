@@ -37,7 +37,7 @@ namespace Pushification.Services
                 string proxyFilePath = _subscribeSettings.ProxyList;
                 ProxyInfo proxy = await ProxyInfo.GetProxy(proxyFilePath, _subscribeSettings.MaxTimeGettingOutIP);
 
-                string userAgent = GetRandomUserAgent();
+                string userAgent = UserAgetManager.GetRandomUserAgent();
 
                 _browser = await DriverManager.CreateDriver(profilePath, proxy, userAgent);
 
@@ -99,50 +99,6 @@ namespace Pushification.Services
             await Task.Delay(1000);
             ProfilesManager.RemoveCash();
         }
-
-
-        // Метод получения рандомного юзер агента
-        private string GetRandomUserAgent()
-        {
-            try
-            {
-                // Загрузка списка User-Agent'ов из файла
-                string[] userAgents = LoadUserAgentsFromFile("useragents.txt");
-
-                if (userAgents is null) return null;
-
-                // Получение случайного User-Agent'а из списка
-                Random random = new Random();
-                int randomIndex = random.Next(userAgents.Length);
-                return userAgents[randomIndex];
-            }
-            catch (Exception ex)
-            {
-                // Обработка ошибок при загрузке или выборе User-Agent'а
-                MessageBox.Show($"Ошибка при получении User-Agent'а: {ex.Message}");
-                return string.Empty;
-            }
-        }
-
-        // Вспомогательный метод получения юзер агента
-        private string[] LoadUserAgentsFromFile(string filePath)
-        {
-            try
-            {
-                // Чтение всех строк из файла
-                string[] lines = File.ReadAllLines(filePath);
-
-                // Фильтрация и удаление пустых строк
-                string[] nonEmptyLines = lines.Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
-
-                return nonEmptyLines;
-            }
-            catch (Exception ex)
-            {
-                // Обработка ошибок при чтении файла
-                MessageBox.Show($"Ошибка при загрузке User-Agent'ов: {ex.Message}");
-                return new string[0];
-            }
-        }
+       
     }
 }
