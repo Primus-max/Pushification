@@ -82,7 +82,7 @@ namespace Pushification.Services
                 }
                 NotificationService notificationService = new NotificationService();
 
-                notificationService.Run();
+                notificationService.CloseNotificationToast();
 
                  await StopAsync(profilePath);
             }

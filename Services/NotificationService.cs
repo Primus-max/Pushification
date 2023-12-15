@@ -13,7 +13,7 @@ namespace Pushification.Services
     {
         public void Run()
         {
-            IntPtr handle = FindChromeWindowWithoutNameAndAutomationId();
+            IntPtr handle = FindNotificationToast();
 
             if (handle != IntPtr.Zero)
             {
@@ -41,7 +41,7 @@ namespace Pushification.Services
 
         public async Task StopAsync(string profilePath)
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public void ClickByPush()
@@ -49,7 +49,7 @@ namespace Pushification.Services
             // Ваш код для выполнения клика
         }
 
-        private IntPtr FindChromeWindowWithoutNameAndAutomationId()
+        private IntPtr FindNotificationToast()
         {
             List<AutomationElement> chromeWindows = FindWindowsByClassName("Chrome_WidgetWin_1");
 
@@ -72,12 +72,33 @@ namespace Pushification.Services
             return new List<AutomationElement>(elementCollection.Cast<AutomationElement>());
         }
 
-        // Добавленные методы для выполнения клика
+        // Наведение курсора и клик
         private void MouseClick(int x, int y)
         {
             SetCursorPos(x, y);
             mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, x, y, 0, 0);
         }
+
+        // Закрываю окно
+        public void CloseNotificationToast()
+        {
+            IntPtr handle = FindNotificationToast();
+
+            if (handle != IntPtr.Zero)
+            {
+                // Отправляем сообщение WM_CLOSE для попытки закрытия окна
+                SendMessage(handle, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+
+                Console.WriteLine("Попытка закрытия окна выполнена.");
+            }
+            else
+            {
+                Console.WriteLine("Окно не найдено.");
+            }
+        }
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
         [DllImport("user32.dll")]
         private static extern void mouse_event(uint dwFlags, int dx, int dy, uint dwData, int dwExtraInfo);
@@ -104,5 +125,6 @@ namespace Pushification.Services
 
         private const int MOUSEEVENTF_LEFTDOWN = 0x02;
         private const int MOUSEEVENTF_LEFTUP = 0x04;
+        private const uint WM_CLOSE = 0x0010;
     }
 }
