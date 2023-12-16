@@ -4,6 +4,7 @@ using Pushification.Models;
 using Pushification.PuppeteerDriver;
 using Pushification.Services.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,11 +32,14 @@ namespace Pushification.Services
             DateTime startTime = DateTime.Now;
             while ((DateTime.Now - startTime).TotalMilliseconds < workingTime)
             {
+                ClearBlackList(); // Проверяю пороговоое значение IP и удаляю если нужно
                 string profilePath = ProfilesManager.CreateProfileFolderPath(); // Создаю папку профиля
 
                 // Получаю прокси 
                 string proxyFilePath = _subscribeSettings.ProxyList;
                 ProxyInfo proxy = await ProxyInfo.GetProxy(proxyFilePath, _subscribeSettings.MaxTimeGettingOutIP);
+
+                if (proxy == null) continue;
 
                 string userAgent = UserAgetManager.GetRandomUserAgent();
 
@@ -80,9 +84,12 @@ namespace Pushification.Services
                 catch (Exception)
                 {
                     await StopAsync(profilePath);
-
                     ProfilesManager.RemoveProfile(profilePath);
                 }
+
+
+                NotificationService notificationService = new NotificationService();
+                await notificationService.Run();
 
                 await StopAsync(profilePath);
             }
@@ -99,6 +106,36 @@ namespace Pushification.Services
             await Task.Delay(1000);
             ProfilesManager.RemoveCash();
         }
-       
+
+        // Метод удаления IP
+        private void ClearBlackList()
+        {
+            string blacklistFilePath = "blacklistproxy.txt";
+            string[] blacklist = null;
+
+            try
+            {
+                blacklist = File.ReadAllLines(blacklistFilePath);
+
+                // Проверяем, если количество записей в блеклисте больше чем заданное _subscribeSettings.CountIP
+                if (blacklist.Length > _subscribeSettings.CountIP)
+                {
+                    // Вычисляем количество записей, которые нужно удалить
+                    int numberOfDeletions = blacklist.Length - _subscribeSettings.CountIP;
+
+                    // Удаляем указанное количество записей из начала блеклиста
+                    List<string> updatedBlacklist = blacklist.Skip(numberOfDeletions).ToList();
+
+                    // Перезаписываем обновленный блеклист
+                    File.WriteAllLines(blacklistFilePath, updatedBlacklist);
+                }
+            }
+            catch (Exception)
+            {
+                // Обработка ошибок, если не удается прочитать блеклист
+            }
+        }
+
+
     }
 }

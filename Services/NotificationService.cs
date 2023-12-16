@@ -26,13 +26,22 @@ namespace Pushification.Services
         public NotificationService()
         {
             _subscribeSettings = SubscriptionModeSettings.LoadSubscriptionSettingsFromJson();
-            _notificationModeSettings =  PushNotificationModeSettings.LoadFromJson();
+            _notificationModeSettings = PushNotificationModeSettings.LoadFromJson();
         }
 
         // Точка входа
         public async Task Run()
         {
-            
+
+            string profilePath = ProfilesManager.GetOldProfile(); // Получаю самый старый профиль
+
+            // Получаю прокси
+            string proxyFilePath = _subscribeSettings.ProxyList;
+            ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 10, true);
+
+            _browser = await DriverManager.CreateDriver(profilePath, proxyInfo);
+            _page = await _browser.NewPageAsync();
+
             IntPtr handle = FindNotificationToast(); // Получаю окно toast
             if (handle == null)
             {
@@ -40,15 +49,93 @@ namespace Pushification.Services
                 return;
             }
 
-            string profilePath = ProfilesManager.GetOldProfile(); // Получаю самый старый профиль
-            //string proxyInfoString = ProxyInfo.GetProxy(_subscribeSettings.ProxyList);
-            //ProxyInfo proxyInfo = ProxyInfo.Parse(proxyInfoString);
+            ClickByPush(handle);
+        }
 
-            //_browser = await DriverManager.CreateDriver(profilePath, proxyInfo);
-            _page = await _browser.NewPageAsync();           
+
+
+
+
+
+
+        public async Task RunBrowserAutomationAsync()
+        {
+            // Логика определения режима
+            WorkMode workMode = DetermineWorkMode();
+
+            switch (workMode)
+            {
+                case WorkMode.Ignore:
+                    await RunIgnoreModeAsync();
+                    break;
+
+                case WorkMode.Click:
+                    await RunClickModeAsync();
+                    break;
+
+                case WorkMode.Delete:
+                    await RunDeleteModeAsync();
+                    break;
+
+                default:
+                    // Неизвестный режим - обработка ошибки или вывод сообщения
+                    break;
+            }
+        }
+
+        private async Task RunIgnoreModeAsync()
+        {
+            // Логика работы в режиме Ignore
+            // ...
+        }
+
+        private async Task RunClickModeAsync()
+        {
+            // Получаю самый старый профиль
+            string profilePath = ProfilesManager.GetOldProfile(); 
+
+            // Получаю прокси
+            string proxyFilePath = _subscribeSettings.ProxyList;
+            ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 10, true);
+
+            _browser = await DriverManager.CreateDriver(profilePath, proxyInfo);
+            _page = await _browser.NewPageAsync();
+
+            IntPtr handle = FindNotificationToast(); // Получаю окно toast
+            if (handle == null)
+            {
+                // TODO здесь будет длогирование
+                return;
+            }
 
             ClickByPush(handle);
         }
+
+        private async Task RunDeleteModeAsync()
+        {
+            // Логика работы в режиме Delete
+            // ...
+        }
+
+        private WorkMode DetermineWorkMode()
+        {
+            // Логика определения режима, например, на основе процентов из пользовательских настроек
+            // ...
+
+            return WorkMode.Ignore; // Заглушка, замените на реальное определение
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 
         // Остановка работы
         public async Task StopAsync(string profilePath)
@@ -67,7 +154,7 @@ namespace Pushification.Services
                 SetForegroundWindow(handle);
 
                 // Ожидаем некоторое время для активации окна
-                Thread.Sleep(1000);
+                Thread.Sleep(5000);
 
                 // Получаем координаты окна
                 GetWindowRect(handle, out RECT windowRect);

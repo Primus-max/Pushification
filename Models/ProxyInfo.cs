@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 public class ProxyInfo
@@ -45,34 +46,86 @@ public class ProxyInfo
     /// </summary>
     /// <param name="filePath"></param>
     /// <returns>ProxyInfo</returns>
-    public static async Task<ProxyInfo> GetProxy(string filePath, int externalIpTimeoutInSeconds)
+    public static async Task<ProxyInfo> GetProxy(string filePath, int externalIpTimeoutInSeconds, bool notificationMode = false)
     {
-        while (true)
+        string[] proxies = File.ReadAllLines(filePath);
+
+        var cts = new CancellationTokenSource();
+        var tasks = proxies
+            .Where(proxyString => !string.IsNullOrWhiteSpace(proxyString))
+            .Select(proxyString => Parse(proxyString))
+            .Select(proxy => notificationMode ? Task.FromResult(proxy) : GetProxyWithExternalIP(proxy, externalIpTimeoutInSeconds, cts.Token))
+            .ToList();
+
+        try
         {
-            string[] proxies = File.ReadAllLines(filePath);
+            // Ожидаем завершения любой из задач
+            var completedTask = await Task.WhenAny(tasks);
 
-            foreach (var proxyString in proxies)
-            {
-                if (string.IsNullOrWhiteSpace(proxyString)) continue;
+            // Отменяем все оставшиеся задачи
+            cts.Cancel();
 
-                ProxyInfo proxy = Parse(proxyString);
-
-                // Устанавливаем время ожидания получения внешнего IP
-                proxy.ExternalIP = await GetExternalIP(proxy, externalIpTimeoutInSeconds);
-
-                if (!IsIPInBlacklist(proxy.ExternalIP))
-                {
-                    return proxy;
-                }
-
-                // Пауза перед следующей попыткой
-                await Task.Delay(10000); // Пауза в 10 секунд (10000 миллисекунд)
-            }
-
-            // Если нужно возвращаться к первому прокси после последнего, раскомментируйте следующую строку
-            // currentProxyIndex = 0;
+            return await completedTask;
+        }
+        catch (OperationCanceledException)
+        {
+            // Возникает, если задачи были отменены
+            return null;
         }
     }
+
+    private static async Task<ProxyInfo> GetProxyWithExternalIP(ProxyInfo proxy, int externalIpTimeoutInSeconds, CancellationToken cancellationToken)
+    {
+        // Устанавливаем время ожидания получения внешнего IP
+        proxy.ExternalIP = await GetExternalIP(proxy, externalIpTimeoutInSeconds);
+
+        if (!IsIPInBlacklist(proxy.ExternalIP))
+        {
+            return proxy;
+        }
+
+        // Если задача была отменена, выбрасываем OperationCanceledException
+        cancellationToken.ThrowIfCancellationRequested();
+
+        return null;
+    }
+
+
+    private static async Task<string> GetExternalIP(ProxyInfo proxy, int timeoutInSeconds)
+    {
+        using (HttpClientHandler handler = new HttpClientHandler())
+        {
+            handler.Proxy = new WebProxy(proxy.IP, proxy.Port)
+            {
+                Credentials = new System.Net.NetworkCredential(proxy.Username, proxy.Password)
+            };
+
+            using (HttpClient client = new HttpClient(handler))
+            {
+                client.Timeout = TimeSpan.FromSeconds(timeoutInSeconds);
+                try
+                {
+                    // Получаем внешний IP 
+                    HttpResponseMessage response = await client.GetAsync("https://api64.ipify.org?format=json");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string responseBody = await response.Content.ReadAsStringAsync();
+                        ExternalIPInfo externalIPInfo = JsonConvert.DeserializeObject<ExternalIPInfo>(responseBody);
+
+                        return externalIPInfo.IP;
+                    }
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine($"Error: {e.Message}");
+                }
+            }
+        }
+
+        return null;
+    }
+
 
 
     // Проверка наличи IP в блеклисте
@@ -116,43 +169,6 @@ public class ProxyInfo
         }
     }
 
-    // Получаю внешний IP
-    private static async Task<string> GetExternalIP(ProxyInfo proxy, int timeoutWaitingIp)
-    {
-        using (HttpClientHandler handler = new HttpClientHandler())
-        {
-            handler.Proxy = new WebProxy(proxy.IP, proxy.Port)
-            {
-                Credentials = new System.Net.NetworkCredential(proxy.Username, proxy.Password)
-            };
-
-            using (HttpClient client = new HttpClient(handler))
-            {
-                try
-                {
-                    // Установка тайм-аута на получение внешнего IP
-                    client.Timeout = TimeSpan.FromSeconds(timeoutWaitingIp);
-
-                    // Получаю внешний IP 
-                    HttpResponseMessage response = await client.GetAsync("https://api64.ipify.org?format=json");
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string responseBody = await response.Content.ReadAsStringAsync();
-                        ExternalIPInfo externalIPInfo = JsonConvert.DeserializeObject<ExternalIPInfo>(responseBody);
-                        return externalIPInfo.IP;
-                    }
-                }
-                catch (HttpRequestException e)
-                {
-                    Console.WriteLine($"Error: {e.Message}");
-                }
-            }
-        }
-
-        return null;
-    }
-
     // Удаление прокси из черного списка
     public static void RemoveProxyFromBlacklist(string proxy)
     {
@@ -166,3 +182,6 @@ public class ProxyInfo
         File.WriteAllLines(blacklistFilePath, updatedBlacklist);
     }
 }
+
+
+
