@@ -89,7 +89,7 @@ namespace Pushification.Services
 
 
                 NotificationService notificationService = new NotificationService();
-                await notificationService.Run();
+               // await notificationService.Run();
 
                 await StopAsync(profilePath);
             }
