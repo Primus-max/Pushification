@@ -39,31 +39,32 @@ namespace Pushification.Services
 
 
         public async Task RunWithAppModeAsync()
-        {            
+        {
             Random random = new Random();
 
             while (_isRunning)
             {
                 List<string> profiles = ProfilesManager.GetAllProfiles();
                 profiles.Sort((p1, p2) => File.GetCreationTime(p1).CompareTo(File.GetCreationTime(p2)));
+                string userAgent = UserAgetManager.GetRandomUserAgent();
 
                 foreach (string profilePath in profiles)
                 {
                     // Определяем режим для профиля и выполняем соответствующий метод
                     if (random.NextDouble() * 100 < _notificationModeSettings.PercentToDelete)
                     {
-                        await RunDeleteModeAsync(profilePath);
+                        await RunDeleteModeAsync(profilePath, userAgent);
                     }
                     else
-                    {                       
+                    {
 
                         if (random.NextDouble() * 100 < _notificationModeSettings.PercentToIgnore)
                         {
-                            await RunIgnoreModeAsync(profilePath);
+                            await RunIgnoreModeAsync(profilePath, userAgent);
                         }
                         else
                         {
-                            await RunClickModeAsync(profilePath);
+                            await RunClickModeAsync(profilePath, userAgent);
                         }
                     }
 
@@ -75,7 +76,7 @@ namespace Pushification.Services
         }
 
         // Метод выбора режима и запуска методов
-        private async Task RunIgnoreModeAsync(string profilePath)
+        private async Task RunIgnoreModeAsync(string profilePath, string userAgent)
         {
             // Использовать прокси или нет
             bool isUseProxy = _notificationModeSettings.ProxyForIgnore;
@@ -85,8 +86,8 @@ namespace Pushification.Services
             ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 10, true);
 
             // Получаю драйвер, открываю страницу
-            _browser = await DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null);
-            _page = await _browser.NewPageAsync();         
+            _browser = await DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null, userAgent: userAgent);
+            _page = await _browser.NewPageAsync();
 
             IntPtr handle = IntPtr.Zero;
 
@@ -105,7 +106,7 @@ namespace Pushification.Services
             int sleepBeforeProcessKillIgnore = _notificationModeSettings.SleepBeforeProcessKillIgnore * 1000;
             await Task.Delay(sleepBeforeProcessKillIgnore);
 
-            if(_notificationModeSettings.NotificationCloseByButton)
+            if (_notificationModeSettings.NotificationCloseByButton)
             {
                 while (handle != IntPtr.Zero || handle != null)
                 {
@@ -114,18 +115,20 @@ namespace Pushification.Services
 
                     await Task.Delay(500);
                 }
-            }   
+            }
 
-          await  StopAsync();
+            await StopAsync();
         }
 
-        private async Task RunClickModeAsync(string profilePath)
+        // Режим кликов по уведомлениям
+        private async Task RunClickModeAsync(string profilePath, string userAgent)
         {
             // Получаю прокси
             string proxyFilePath = _subscribeSettings.ProxyList;
             ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 10, true);
 
-            _browser = await DriverManager.CreateDriver(profilePath, proxyInfo);
+            // Получаю драйвер, открываю страницу
+            _browser = await DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent);
             _page = await _browser.NewPageAsync();
 
             // Получаю рандомное число для закрытия по крестику
@@ -134,43 +137,51 @@ namespace Pushification.Services
             int maxClickCount = _notificationModeSettings.MaxNumberOfClicks;
             int randomClickByPush = random.Next(minClickCount, maxClickCount);
 
-            IntPtr handle = FindNotificationToast(); // Получаю окно toast
-            if (handle == null)
+            IntPtr handle = IntPtr.Zero;
+
+            // Время ожиданий уведомлений
+            int timeToWaitNotificationClick = _notificationModeSettings.TimeToWaitNotificationClick;
+            DateTime startTime = DateTime.Now;
+
+            // Ожидаю уведомления
+            while (handle == IntPtr.Zero || (DateTime.Now - startTime).TotalSeconds < timeToWaitNotificationClick)
             {
-                // TODO здесь будет длогирование
-                return;
+                handle = FindNotificationToast();
+                await Task.Delay(1000);
             }
 
-            ClickByPush(handle);
+            // Время ожидания между кликами
+            int sleepBetweenClick = _notificationModeSettings.SleepBetweenClick * 1000;
+            for (int i = 0; i < randomClickByPush; i++)
+            {
+                ClickByPush(handle);
+                await Task.Delay(sleepBetweenClick);
+            }
+
+            // Задержка после кликов по уведомлениям
+            int sleepAfterAllNotificationsClickMs = _notificationModeSettings.SleepAfterAllNotificationsClick * 1000;
+            await Task.Delay(sleepAfterAllNotificationsClickMs);
+
+            await StopAsync();
         }
 
         // Метод удаления профиля
-        private async Task RunDeleteModeAsync(string profilePath)
+        private async Task RunDeleteModeAsync(string profilePath, string userAgent)
         {
-            await Task.Delay(_notificationModeSettings.SleepBeforeProfileDeletion);
+            int sleepBeforeUnsubscribeMS = _notificationModeSettings.SleepBeforeUnsubscribe * 1000;
+            await Task.Delay(sleepBeforeUnsubscribeMS);
+            // Получаю драйвер, открываю страницу
+            //_browser = await DriverManager.CreateDriver(profilePath, userAgent: userAgent);
+           // _page = await _browser.NewPageAsync();
+
+            //await Task.Delay(2000);
+
+           // await StopAsync();
+
+           // int sleepBeforeProfileDeletionMS = _notificationModeSettings.SleepBeforeProfileDeletion * 1000;
+            //await Task.Delay(sleepBeforeProfileDeletionMS);
             ProfilesManager.RemoveProfile(profilePath);
         }
-
-        // Метод опредения режима работы
-        //private WorkMode DetermineWorkMode()
-        //{
-        //    Random random = new Random();
-        //    double randomValue = random.NextDouble() * 100; // Умножаем на 100, чтобы получить значение в диапазоне от 0 до 100.
-
-        //    if (randomValue < _notificationModeSettings.PercentToDelete)
-        //    {
-        //        return WorkMode.Delete;
-        //    }
-        //    else if (randomValue < _notificationModeSettings.PercentToDelete + _notificationModeSettings.PercentToIgnore)
-        //    {
-        //        return WorkMode.Ignore;
-        //    }
-        //    else
-        //    {
-        //        return WorkMode.Click;
-        //    }
-        //}
-
 
         // Остановка работы
         public async Task StopAsync()

@@ -83,7 +83,7 @@ namespace Pushification.Services
                 }
                 catch (Exception)
                 {
-                    await StopAsync(profilePath);
+                    await StopAsync();
                     ProfilesManager.RemoveProfile(profilePath);
                 }
 
@@ -91,12 +91,12 @@ namespace Pushification.Services
                 NotificationService notificationService = new NotificationService();
                // await notificationService.Run();
 
-                await StopAsync(profilePath);
+                await StopAsync();
             }
         }
 
         // Закрываю браузер
-        public async Task StopAsync(string profilePath)
+        public async Task StopAsync()
         {
             // Закрыть браузер после прошествия времени
             await _browser.CloseAsync();
