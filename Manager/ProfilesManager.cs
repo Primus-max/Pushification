@@ -3,11 +3,39 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace Pushification.Manager
 {
     public static class ProfilesManager
     {
+        /// <summary>
+        /// Метод получения всех профилей
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetAllProfiles() 
+        {
+            List<string> profiles = new List<string>();
+            string profilesDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "profiles");
+
+            if (!Directory.Exists(profilesDirectoryPath))
+            {
+                // Директория с профилями не существует
+                return null;
+            }
+            // Получаем все поддиректории (профили) в директории profiles
+            profiles = Directory.GetDirectories(profilesDirectoryPath).ToList();
+
+            if (profiles.Count == 0)
+            {
+                // В директории profiles нет поддиректорий (профилей)
+                return null;
+            }
+
+            return profiles;
+
+        }
+
         /// <summary>
         /// Метод удаления профиля(директории)
         /// </summary>

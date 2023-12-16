@@ -8,15 +8,9 @@ namespace Pushification.PuppeteerDriver
 {
     public class DriverManager
     {
-        public static async Task<IBrowser> CreateDriver(string profilePath, ProxyInfo proxyInfo, string userAgent = null)
+        public static async Task<IBrowser> CreateDriver(string profilePath, ProxyInfo proxyInfo = null, string userAgent = null)
         {
-            if(proxyInfo == null)
-            {
-                MessageBox.Show("Проверь лист с прокси, не удалось получить");
-                return null; 
-            }
-
-            if(string.IsNullOrEmpty(profilePath))
+            if (string.IsNullOrEmpty(profilePath))
             {
                 MessageBox.Show("Не удалось создать путь к профилю");
                 return null;
@@ -29,12 +23,15 @@ namespace Pushification.PuppeteerDriver
                 Headless = false,
                 Args = new List<string>
                 {
-                    "--start-maximized",
-                    $"--proxy-server=http://{proxyInfo.IP}:{proxyInfo.Port}"
+                    "--start-maximized"
                 }.ToArray(),
-                UserDataDir = profilePath,   
-                 
+                UserDataDir = profilePath,
             };
+
+            if (proxyInfo != null)
+            {
+                launchOptions.Args.Append($"--proxy-server=http://{proxyInfo.IP}:{proxyInfo.Port}");
+            }
 
             if (!string.IsNullOrEmpty(userAgent))
             {
@@ -43,6 +40,7 @@ namespace Pushification.PuppeteerDriver
 
             return await Puppeteer.LaunchAsync(launchOptions);
         }
+
 
     }
 }

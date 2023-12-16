@@ -53,47 +53,66 @@ namespace Pushification.Services
         }
 
 
-
-
-
-
-
-        public async Task RunBrowserAutomationAsync()
+        public async Task RunWithAppModeAsync()
         {
-            // Логика определения режима
-            WorkMode workMode = DetermineWorkMode();
+            bool isRunning = false;
 
-            switch (workMode)
+            while (!isRunning)
             {
-                case WorkMode.Ignore:
-                    await RunIgnoreModeAsync();
-                    break;
+                List<string> profiles = ProfilesManager.GetAllProfiles();
+                int totalProfiles = profiles.Count;
 
-                case WorkMode.Click:
-                    await RunClickModeAsync();
-                    break;
+                // Логика работы в режиме Delete
+                int deleteCount = (int)(_notificationModeSettings.PercentToDelete * totalProfiles / 100);
+                List<string> deleteProfiles = profiles.Take(deleteCount).ToList();
+                foreach (var profilePath in deleteProfiles)
+                {
+                    await RunDeleteModeAsync(profilePath);
+                }
 
-                case WorkMode.Delete:
-                    await RunDeleteModeAsync();
-                    break;
+                // Удаляем использованные профили
+                profiles.RemoveAll(p => deleteProfiles.Contains(p));
 
-                default:
-                    // Неизвестный режим - обработка ошибки или вывод сообщения
-                    break;
+                // Логика работы в режиме Ignore
+                int ignoreCount = (int)(_notificationModeSettings.PercentToIgnore * totalProfiles / 100);
+                List<string> ignoreProfiles = profiles.Take(ignoreCount).ToList();
+                foreach (var profilePath in ignoreProfiles)
+                {
+                    await RunIgnoreModeAsync(profilePath);
+                }
+
+                // Удаляем использованные профили
+                profiles.RemoveAll(p => ignoreProfiles.Contains(p));
+
+                // Логика работы в режиме Click
+                int clickCount = (int)(_notificationModeSettings.PercentToClick * totalProfiles / 100);
+                List<string> clickProfiles = profiles.Take(clickCount).ToList();
+                foreach (var profilePath in clickProfiles)
+                {
+                    await RunClickModeAsync(profilePath);
+                }
+
+                // Удаляем использованные профили
+                profiles.RemoveAll(p => clickProfiles.Contains(p));
+
+               
             }
         }
 
-        private async Task RunIgnoreModeAsync()
+
+        private async Task RunIgnoreModeAsync(string profilePath)
         {
-            // Логика работы в режиме Ignore
-            // ...
+            bool isUseProxy = _notificationModeSettings.ProxyForIgnore;
+
+            string proxyFilePath = _subscribeSettings.ProxyList;
+            ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 10, true);
+
+            _browser = await DriverManager.CreateDriver(profilePath, proxyInfo);
+            _page = await _browser.NewPageAsync();
         }
 
-        private async Task RunClickModeAsync()
-        {
-            // Получаю самый старый профиль
-            string profilePath = ProfilesManager.GetOldProfile(); 
-
+        private async Task RunClickModeAsync(string profilePath)
+        {            
             // Получаю прокси
             string proxyFilePath = _subscribeSettings.ProxyList;
             ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 10, true);
@@ -111,23 +130,24 @@ namespace Pushification.Services
             ClickByPush(handle);
         }
 
-        private async Task RunDeleteModeAsync()
+        // Метод удаления профиля
+        private async Task RunDeleteModeAsync(string profilePath)
         {
-            // Логика работы в режиме Delete
-            // ...
+            await Task.Delay(_notificationModeSettings.SleepBeforeProfileDeletion);
+            ProfilesManager.RemoveProfile(profilePath);
         }
 
         // Метод опредения режима работы
         private WorkMode DetermineWorkMode()
         {
             Random random = new Random();
-            double randomValue = random.NextDouble();
+            double randomValue = random.NextDouble() * 100; // Умножаем на 100, чтобы получить значение в диапазоне от 0 до 100.
 
             if (randomValue < _notificationModeSettings.PercentToDelete)
             {
                 return WorkMode.Delete;
             }
-            else if (randomValue < (_notificationModeSettings.PercentToDelete + _notificationModeSettings.PercentToIgnore))
+            else if (randomValue < _notificationModeSettings.PercentToDelete + _notificationModeSettings.PercentToIgnore)
             {
                 return WorkMode.Ignore;
             }
@@ -136,6 +156,8 @@ namespace Pushification.Services
                 return WorkMode.Click;
             }
         }
+
+
 
 
 

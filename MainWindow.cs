@@ -1,4 +1,5 @@
-﻿using Pushification.Models;
+﻿using Pushification.Manager;
+using Pushification.Models;
 using Pushification.Services;
 using System;
 using System.Globalization;
@@ -26,7 +27,7 @@ namespace Pushification
             LoadSubscriptonSettingsData();
             LoadPushNotificationSettingsData();
 
-            
+          var asdfgd=  ProfilesManager.GetAllProfiles();
             // Метод для подписки на разные нативные события винды
             //Automation.AddAutomationFocusChangedEventHandler((sender, e) =>
             //{
@@ -258,13 +259,19 @@ namespace Pushification
         // Шанс на режим delete
         private void PercentToDelete_TextChanged(object sender, EventArgs e)
         {
-            UpdateAndSavePushNotificationSettings<int>((settings, value) => settings.PercentToDelete = value, PercentToDeleteTextBox);
+            UpdateAndSavePushNotificationSettings<double>((settings, value) => settings.PercentToDelete = value, PercentToDeleteTextBox);
         }
 
         // Шанс на режим click
         private void PercentToClick_TextChanged(object sender, EventArgs e)
         {
-            UpdateAndSavePushNotificationSettings<int>((settings, value) => settings.PercentToClick = value, PercentToClickTextBox);
+            UpdateAndSavePushNotificationSettings<double>((settings, value) => settings.PercentToClick = value, PercentToClickTextBox);
+        }
+
+        // Шанс на ignore
+        private void PercentToIgnore_TextChanged(object sender, EventArgs e)
+        {
+            UpdateAndSavePushNotificationSettings<double>((settings, value) => settings.PercentToIgnore = value, PercentToIgnoreTextBox);
         }
 
         // Минимальное кол-во кликов по уведомлениям
@@ -327,6 +334,7 @@ namespace Pushification
                 SleepBeforeProfileDeletionTextBox.Text = _pushSettings.SleepBeforeProfileDeletion.ToString();
                 PercentToDeleteTextBox.Text = _pushSettings.PercentToDelete.ToString();
                 PercentToClickTextBox.Text = _pushSettings.PercentToClick.ToString();
+                PercentToIgnoreTextBox.Text = _pushSettings.PercentToIgnore.ToString();
                 MinNumberOfClicksTextBox.Text = _pushSettings.MinNumberOfClicks.ToString();
                 MaxNumberOfClicksTextBox.Text = _pushSettings.MaxNumberOfClicks.ToString();
                 ProxyForIgnoreCheckBox.Checked = _pushSettings.ProxyForIgnore;
@@ -362,5 +370,7 @@ namespace Pushification
 
             subscribeService.Run();
         }
+
+      
     }
 }
