@@ -117,13 +117,26 @@ namespace Pushification.Services
             // ...
         }
 
+        // Метод опредения режима работы
         private WorkMode DetermineWorkMode()
         {
-            // Логика определения режима, например, на основе процентов из пользовательских настроек
-            // ...
+            Random random = new Random();
+            double randomValue = random.NextDouble();
 
-            return WorkMode.Ignore; // Заглушка, замените на реальное определение
+            if (randomValue < _notificationModeSettings.PercentToDelete)
+            {
+                return WorkMode.Delete;
+            }
+            else if (randomValue < (_notificationModeSettings.PercentToDelete + _notificationModeSettings.PercentToIgnore))
+            {
+                return WorkMode.Ignore;
+            }
+            else
+            {
+                return WorkMode.Click;
+            }
         }
+
 
 
 

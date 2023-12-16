@@ -120,8 +120,8 @@ namespace Pushification.Services
                 // Проверяем, если количество записей в блеклисте больше чем заданное _subscribeSettings.CountIP
                 if (blacklist.Length > _subscribeSettings.CountIP)
                 {
-                    // Вычисляем количество записей, которые нужно удалить
-                    int numberOfDeletions = blacklist.Length - _subscribeSettings.CountIP;
+                    // Количество записей, которые нужно удалить
+                    int numberOfDeletions = _subscribeSettings.CountIPDeletion;
 
                     // Удаляем указанное количество записей из начала блеклиста
                     List<string> updatedBlacklist = blacklist.Skip(numberOfDeletions).ToList();
@@ -135,7 +135,5 @@ namespace Pushification.Services
                 // Обработка ошибок, если не удается прочитать блеклист
             }
         }
-
-
     }
 }
