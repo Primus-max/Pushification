@@ -27,7 +27,6 @@ namespace Pushification
             LoadSubscriptonSettingsData();
             LoadPushNotificationSettingsData();
 
-          var asdfgd=  ProfilesManager.GetAllProfiles();
             // Метод для подписки на разные нативные события винды
             //Automation.AddAutomationFocusChangedEventHandler((sender, e) =>
             //{
@@ -349,26 +348,16 @@ namespace Pushification
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         #endregion
 
         private void Start_Click(object sender, EventArgs e)
         {
-            SubscribeService subscribeService = new SubscribeService();
+            //SubscribeService subscribeService = new SubscribeService();
 
-            subscribeService.Run();
+            //subscribeService.Run();
+
+            WorkerService workerService = new WorkerService();
+            workerService.Run();
         }
 
       

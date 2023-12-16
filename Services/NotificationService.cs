@@ -20,8 +20,8 @@ namespace Pushification.Services
         private readonly PushNotificationModeSettings _notificationModeSettings;
         private IBrowser _browser = null;
         private IPage _page = null;
-
-
+        private Timer timer;
+        private bool stopTimer;
         private bool _isRunning = true;
 
         public NotificationService()
@@ -33,7 +33,7 @@ namespace Pushification.Services
         // Точка входа
         public async Task Run()
         {
-
+            StartTimer();
             await RunWithAppModeAsync();
         }
 
@@ -50,6 +50,16 @@ namespace Pushification.Services
 
                 foreach (string profilePath in profiles)
                 {
+                    // Проверяю время для запуска режима подписки на уведомление
+                    TimeSpan startTime = TimeSpan.Parse(_subscribeSettings.StartOptionOne);
+                    TimeSpan currentTime = DateTime.Now.TimeOfDay;
+
+                    if (currentTime == startTime)
+                    {
+                        await StopAsync();
+                        return;
+                    }
+
                     // Определяем режим для профиля и выполняем соответствующий метод
                     if (random.NextDouble() * 100 < _notificationModeSettings.PercentToDelete)
                     {
@@ -74,6 +84,42 @@ namespace Pushification.Services
 
             }
         }
+
+        // Запускаю таймер
+        private void StartTimer()
+        {
+            TimeSpan startTime = TimeSpan.Parse(_subscribeSettings.StartOptionOne);
+            DateTime currentDate = DateTime.Now;
+            DateTime targetTime = currentDate.Date.Add(startTime);
+
+            // Если указанное время уже прошло для текущего дня, добавляем 1 день
+            if (currentDate.TimeOfDay > startTime)
+            {
+                targetTime = targetTime.AddDays(1);
+            }
+
+            TimeSpan timeUntilStart = targetTime - DateTime.Now;
+
+            if (timeUntilStart.TotalMilliseconds > 0)
+            {
+                timer = new Timer(TimerCallback, null, (int)timeUntilStart.TotalMilliseconds, Timeout.Infinite);
+            }
+        }
+
+        // Если срабатывает таймер
+        private async void TimerCallback(object state)
+        {
+            await StopAsync();
+            // Остановить таймер после выполнения кода
+            timer.Dispose();
+        }
+
+
+        private void StopTimer()
+        {
+            stopTimer = true;
+        }
+
 
         // Метод выбора режима и запуска методов
         private async Task RunIgnoreModeAsync(string profilePath, string userAgent)
