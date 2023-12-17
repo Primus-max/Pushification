@@ -30,6 +30,7 @@ namespace Pushification
             // Подписка на событие
             EventPublisherManager.UpdateUIMessage += EventPublisher_UpdateUIMessage;
 
+            //var asdfgdfh = Environment.GetEnvironmentVariable("DEBUG");
             // Метод для подписки на разные нативные события винды
             //Automation.AddAutomationFocusChangedEventHandler((sender, e) =>
             //{
@@ -60,6 +61,7 @@ namespace Pushification
             //// Выполняем клик в определенных местах
             //AutoItX.MouseClick("left", x, y, 1, 0);
         }
+                
 
         private bool IsWindowPatternSupported(AutomationElement element)
         {
@@ -75,7 +77,7 @@ namespace Pushification
         }
 
 
-        // Обработчик события
+        // Обработчик события Обновления интерфейса
         private void EventPublisher_UpdateUIMessage(object sender, string message)
         {
             // Используйте Invoke, чтобы обновить UI из правильного потока
@@ -91,6 +93,8 @@ namespace Pushification
             lock (lockObject)
             {
                 richTextBox1.AppendText($"{DateTime.Now}: {message}\n");
+
+                richTextBox1.ScrollToCaret(); // Делаем прокрутку к актуальному сообщению
             }
         }
 
@@ -213,10 +217,11 @@ namespace Pushification
                 MaxTimeGettingOutITextBlock.Text = _subscriptionSettings.MaxTimeGettingOutIP.ToString();
                 CountIPToDeleteTextBlock.Text = _subscriptionSettings.CountIP.ToString();
                 CountIPDeletionPerTimeTextBox.Text = _subscriptionSettings.CountIPDeletion.ToString();
-                if (DateTime.TryParseExact(_subscriptionSettings.StartOptionOne, "hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime startTime))
+                if (DateTime.TryParse(_subscriptionSettings.StartOptionOne, out DateTime startTime))
                 {
                     StartOptionOneTimePicker.Value = startTime;
                 }
+
                 TimeOptionOneTextBox.Text = _subscriptionSettings.TimeOptionOne.ToString();
             }
             catch (Exception)
@@ -382,5 +387,6 @@ namespace Pushification
 
             workerThread.Start();
         }
+               
     }
 }

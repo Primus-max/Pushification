@@ -1,4 +1,5 @@
 ﻿using AutoIt;
+using Pushification.Manager;
 using System;
 using System.Threading;
 
@@ -29,11 +30,16 @@ public class AutoItHandler
             AutoItX.MouseClick(button: "LEFT", x: x, y: y, numClicks: 1, speed: 1);
 
             // Отсутствие этого окна будет означать успешный клик
-            int isSucsess = AutoItX.WinWait(title: windowTitle, timeout: 5);
+            int isSucsess = AutoItX.WinWait(title: windowTitle, timeout: 5);            
+                
+            if (isSucsess == 0)
+                EventPublisherManager.RaiseUpdateUIMessage($"Подписался на уведомление");
+
             return Convert.ToBoolean(isSucsess);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            EventPublisherManager.RaiseUpdateUIMessage($"Не удалось подписаться на уведомление {ex.Message}");
             return false;
         }
     }

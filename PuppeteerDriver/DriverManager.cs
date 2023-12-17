@@ -1,4 +1,5 @@
 ﻿using PuppeteerSharp;
+using Pushification.Manager;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace Pushification.PuppeteerDriver
     {
         public static async Task<IBrowser> CreateDriver(string profilePath, ProxyInfo proxyInfo = null, string userAgent = null, bool useHeadlessMode = false)
         {
+            string driverPath = "chromedriver(109).exe";
+
             if (string.IsNullOrEmpty(profilePath))
             {
                 MessageBox.Show("Не удалось создать путь к профилю");
@@ -38,13 +41,19 @@ namespace Pushification.PuppeteerDriver
                 launchOptions.Args.Append($"--user-agent={userAgent}");
             }
 
+            // Проверяем, был ли предоставлен путь к драйверу
+            if (!string.IsNullOrEmpty(driverPath))
+            {
+                launchOptions.Args.Append(driverPath);
+            }
+
             try
             {
                 return await Puppeteer.LaunchAsync(launchOptions);
             }
             catch (System.Exception ex)
             {
-                string log = ex.ToString();
+                EventPublisherManager.RaiseUpdateUIMessage($"Не удалось создать драйвер: {ex.Message}");
                 return null;
                 // TODO логирование
             }

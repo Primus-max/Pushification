@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Pushification.Services
 {
@@ -28,22 +27,26 @@ namespace Pushification.Services
             int workingTime = _subscribeSettings.TimeOptionOne * 60 * 1000; // Преобразуем минуты в миллисекунды                       
             string url = _subscribeSettings.URL;
 
+            EventPublisherManager.RaiseUpdateUIMessage("Запускаю режим подписки на уведомления");
+
             // Цикл будет выполняться указанное в настройках время
             DateTime startTime = DateTime.Now;
             while ((DateTime.Now - startTime).TotalMilliseconds < workingTime)
             {
                 ClearBlackList(); // Проверяю пороговоое значение IP и удаляю если нужно
                 string profilePath = ProfilesManager.CreateProfileFolderPath(); // Создаю папку профиля
-
+                EventPublisherManager.RaiseUpdateUIMessage($"Создал профиль {profilePath}");
                 // Получаю прокси 
                 string proxyFilePath = _subscribeSettings.ProxyList;
-                ProxyInfo proxy = await ProxyInfo.GetProxy(proxyFilePath, _subscribeSettings.MaxTimeGettingOutIP);
+                ProxyInfo proxy = await ProxyInfo.GetProxy(proxyFilePath, _subscribeSettings.MaxTimeGettingOutIP);               
 
                 if (proxy == null) continue;
 
+                EventPublisherManager.RaiseUpdateUIMessage($"Получил внешний IP {proxy.ExternalIP}");
+
                 string userAgent = UserAgetManager.GetRandomUserAgent();
 
-                _browser = await DriverManager.CreateDriver(profilePath, proxy, userAgent) ;
+                _browser = await DriverManager.CreateDriver(profilePath, proxy, userAgent);
 
                 if (_browser == null)
                 {
@@ -59,9 +62,11 @@ namespace Pushification.Services
                 {
                     // Устанавливаю время ожидания загрузки страницы
                     int timeOutMillisecond = _subscribeSettings.MaxTimePageLoading * 1000;
-                   // await _page.SetCacheEnabledAsync(false);
+                    // await _page.SetCacheEnabledAsync(false);
                     // Ожидание загрузки страниц
-                    _page.DefaultNavigationTimeout = timeOutMillisecond; 
+                    _page.DefaultNavigationTimeout = timeOutMillisecond;
+
+                    EventPublisherManager.RaiseUpdateUIMessage($"Перехожу по адресу {url}");
                     await _page.GoToAsync(url);
 
                     // Извлекаем хост (домен) для передачи в виде простой строки без схемы
@@ -75,7 +80,7 @@ namespace Pushification.Services
                     {
                         // Если успешно, то убираю прокси в блеклист
                         ProxyInfo.AddProxyToBlacklist(proxy.ExternalIP);
-
+                        EventPublisherManager.RaiseUpdateUIMessage($"Убираю IP {proxy.ExternalIP}  в blacklist");
                         // Время ожидания после подписки
                         int afterAllowTimeoutMillisecond = _subscribeSettings.AfterAllowTimeout * 1000;
                         await Task.Delay(afterAllowTimeoutMillisecond);
@@ -86,11 +91,6 @@ namespace Pushification.Services
                     await StopAsync();
                     ProfilesManager.RemoveProfile(profilePath);
                 }
-
-
-                NotificationService notificationService = new NotificationService();
-               // await notificationService.Run();
-
                 await StopAsync();
             }
         }
@@ -122,17 +122,19 @@ namespace Pushification.Services
                 {
                     // Количество записей, которые нужно удалить
                     int numberOfDeletions = _subscribeSettings.CountIPDeletion;
-
+                    
                     // Удаляем указанное количество записей из начала блеклиста
                     List<string> updatedBlacklist = blacklist.Skip(numberOfDeletions).ToList();
 
                     // Перезаписываем обновленный блеклист
                     File.WriteAllLines(blacklistFilePath, updatedBlacklist);
+
+                    EventPublisherManager.RaiseUpdateUIMessage($"Достигнуто пороговое значение IP {_subscribeSettings.CountIP},  удалено {numberOfDeletions} IP");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Обработка ошибок, если не удается прочитать блеклист
+                EventPublisherManager.RaiseUpdateUIMessage($"Не удалось удалить IP, причина: {ex.Message}");
             }
         }
     }
