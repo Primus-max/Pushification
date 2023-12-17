@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Pushification.Manager;
 using System;
 using System.IO;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 public class ProxyInfo
 {
@@ -67,8 +69,9 @@ public class ProxyInfo
 
             return await completedTask;
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException ex)
         {
+            EventPublisherManager.RaiseUpdateUIMessage($"Не удалось получить IP {ex.Message}");
             // Возникает, если задачи были отменены
             return null;
         }
@@ -83,11 +86,15 @@ public class ProxyInfo
         {
             return proxy;
         }
+        else
+        {
+            
+        }
 
         // Если задача была отменена, выбрасываем OperationCanceledException
         cancellationToken.ThrowIfCancellationRequested();
 
-        return null;
+        return proxy;
     }
 
 

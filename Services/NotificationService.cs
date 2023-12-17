@@ -42,6 +42,8 @@ namespace Pushification.Services
 
         public async Task RunWithAppModeAsync()
         {
+            EventPublisherManager.RaiseUpdateUIMessage($"Приступаю к принятию уведомлений");
+
             Random random = new Random();
           
             while (_isRunning)
@@ -106,17 +108,15 @@ namespace Pushification.Services
         private async void TimerCallback(object state)
         {
             await StopAsync();
-
-            _isRunning = !_isRunning;
             // Остановить таймер после выполнения кода
             timer.Dispose();
-            return;          
-        }
 
+            _isRunning = false;
+            SubscribeService subscribeService = new SubscribeService();
+            await subscribeService.Run();
 
-        private void StopTimer()
-        {
-            stopTimer = true;
+            await RunWithAppModeAsync();
+            StartTimer();                      
         }
 
 

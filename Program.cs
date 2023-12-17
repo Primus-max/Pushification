@@ -22,6 +22,8 @@ namespace Pushification
                 return;
             }
 
+            // Добавляем глобальный обработчик исключений
+            Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -31,6 +33,13 @@ namespace Pushification
             var serviceProvider = new ServiceCollection()
              .AddScoped<DriverManager>()             
              .BuildServiceProvider();
+        }
+
+        static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        {
+            // Обработка исключения
+            MessageBox.Show($"Произошла ошибка: {e.Exception.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
         }
     }
 }

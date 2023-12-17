@@ -34,15 +34,18 @@ namespace Pushification.Services
             while ((DateTime.Now - startTime).TotalMilliseconds < workingTime)
             {
                 ClearBlackList(); // Проверяю пороговоое значение IP и удаляю если нужно
-                string profilePath = ProfilesManager.CreateProfileFolderPath(); // Создаю папку профиля
-                EventPublisherManager.RaiseUpdateUIMessage($"Создал профиль {profilePath}");
+                
                 // Получаю прокси 
                 string proxyFilePath = _subscribeSettings.ProxyList;
                 ProxyInfo proxy = await ProxyInfo.GetProxy(proxyFilePath, _subscribeSettings.MaxTimeGettingOutIP);               
 
-                if (proxy == null) continue;
+                if (proxy == null) 
+                    continue;
 
                 EventPublisherManager.RaiseUpdateUIMessage($"Получил внешний IP {proxy.ExternalIP}");
+
+                string profilePath = ProfilesManager.CreateProfileFolderPath(); // Создаю папку профиля
+                EventPublisherManager.RaiseUpdateUIMessage($"Создал профиль {profilePath}");               
 
                 string userAgent = UserAgetManager.GetRandomUserAgent();
 
@@ -92,7 +95,7 @@ namespace Pushification.Services
                     ProfilesManager.RemoveProfile(profilePath);
                 }
                 await StopAsync();
-            }
+            }            
         }
 
         // Закрываю браузер

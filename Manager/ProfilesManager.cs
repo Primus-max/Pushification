@@ -131,7 +131,7 @@ namespace Pushification.Manager
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to remove folders from profiles: {ex.Message}");
+                EventPublisherManager.RaiseUpdateUIMessage($"Не удалось удалить профиль: {ex.Message}");
             }
         }
 
@@ -181,7 +181,7 @@ namespace Pushification.Manager
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to remove folders: {ex.Message}");
+                EventPublisherManager.RaiseUpdateUIMessage($"Не удалось удалить файл или директорию: {ex.Message}");
             }
         }
     }
