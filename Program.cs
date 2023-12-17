@@ -13,6 +13,16 @@ namespace Pushification
         [STAThread]
         static void Main()
         {
+            DateTime targetDate = DateTime.Now.AddDays(3);
+
+            // Проверка, что текущая дата меньше целевой даты (завтра)
+            if (DateTime.Now >= targetDate)
+            {
+                MessageBox.Show("Свяжитесь с разработчиком");
+                return;
+            }
+
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainWindow());

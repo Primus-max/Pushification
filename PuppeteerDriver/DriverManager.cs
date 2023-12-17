@@ -8,7 +8,7 @@ namespace Pushification.PuppeteerDriver
 {
     public class DriverManager
     {
-        public static async Task<IBrowser> CreateDriver(string profilePath, ProxyInfo proxyInfo = null, string userAgent = null)
+        public static async Task<IBrowser> CreateDriver(string profilePath, ProxyInfo proxyInfo = null, string userAgent = null, bool useHeadlessMode = false)
         {
             if (string.IsNullOrEmpty(profilePath))
             {
@@ -20,7 +20,7 @@ namespace Pushification.PuppeteerDriver
 
             var launchOptions = new LaunchOptions
             {
-                Headless = false,
+                Headless = useHeadlessMode,
                 Args = new List<string>
                 {
                     "--start-maximized"
@@ -38,7 +38,16 @@ namespace Pushification.PuppeteerDriver
                 launchOptions.Args.Append($"--user-agent={userAgent}");
             }
 
-            return await Puppeteer.LaunchAsync(launchOptions);
+            try
+            {
+                return await Puppeteer.LaunchAsync(launchOptions);
+            }
+            catch (System.Exception ex)
+            {
+                string log = ex.ToString();
+                return null;
+                // TODO логирование
+            }
         }
 
 

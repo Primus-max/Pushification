@@ -138,6 +138,7 @@
     <Compile Include="MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Manager\EventPublisherManager.cs" />
     <Compile Include="Manager\ProfilesManager.cs" />
     <Compile Include="Manager\StateManager.cs" />
     <Compile Include="Manager\UserAgetManager.cs" />

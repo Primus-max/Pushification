@@ -43,7 +43,7 @@ namespace Pushification.Services
 
                 string userAgent = UserAgetManager.GetRandomUserAgent();
 
-                _browser = await DriverManager.CreateDriver(profilePath, proxy, userAgent);
+                _browser = await DriverManager.CreateDriver(profilePath, proxy, userAgent) ;
 
                 if (_browser == null)
                 {

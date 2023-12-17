@@ -4,6 +4,7 @@ using Pushification.Services;
 using System;
 using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Windows.Automation;
 using System.Windows.Forms;
 
@@ -12,13 +13,12 @@ namespace Pushification
 {
     public partial class MainWindow : Form
     {
-        private AutomationElement lastFocusedElement;
         private PushNotificationModeSettings _pushSettings;
         private SubscriptionModeSettings _subscriptionSettings;
+        private readonly object lockObject = new object();
         public MainWindow()
         {
             InitializeComponent();
-
 
             _pushSettings = new PushNotificationModeSettings();
             _subscriptionSettings = new SubscriptionModeSettings();
@@ -26,6 +26,9 @@ namespace Pushification
             // Инициализация полей форм из json
             LoadSubscriptonSettingsData();
             LoadPushNotificationSettingsData();
+
+            // Подписка на событие
+            EventPublisherManager.UpdateUIMessage += EventPublisher_UpdateUIMessage;
 
             // Метод для подписки на разные нативные события винды
             //Automation.AddAutomationFocusChangedEventHandler((sender, e) =>
@@ -71,6 +74,25 @@ namespace Pushification
             return false;
         }
 
+
+        // Обработчик события
+        private void EventPublisher_UpdateUIMessage(object sender, string message)
+        {
+            // Используйте Invoke, чтобы обновить UI из правильного потока
+            Invoke((Action)(() =>
+            {
+                UpdateUI(message);
+            }));
+        }
+
+        private void UpdateUI(string message)
+        {
+            // Логика обновления UI, например, добавление сообщения в RichTextBox
+            lock (lockObject)
+            {
+                richTextBox1.AppendText($"{DateTime.Now}: {message}\n");
+            }
+        }
 
         #region РЕЖИМ-1 Подписка на уведомления
         // Соханяю файл прокси
@@ -240,7 +262,7 @@ namespace Pushification
         // Задержка после открытия браузера при удалении
         private void SleepBeforeUnsubscribe_TextChanged(object sender, EventArgs e)
         {
-            UpdateAndSavePushNotificationSettings<int>((settings, value) => settings.SleepBeforeUnsubscribe = value, SleepBeforeUnsubscribeTextBox); 
+            UpdateAndSavePushNotificationSettings<int>((settings, value) => settings.SleepBeforeUnsubscribe = value, SleepBeforeUnsubscribeTextBox);
         }
 
         // Задержка после сброса разрешения
@@ -352,14 +374,13 @@ namespace Pushification
 
         private void Start_Click(object sender, EventArgs e)
         {
-            //SubscribeService subscribeService = new SubscribeService();
+            Thread workerThread = new Thread(() =>
+            {
+                WorkerService workerService = new WorkerService();
+                workerService.Run();
+            });
 
-            //subscribeService.Run();
-
-            WorkerService workerService = new WorkerService();
-            workerService.Run();
+            workerThread.Start();
         }
-
-      
     }
 }

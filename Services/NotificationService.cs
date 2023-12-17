@@ -1,4 +1,5 @@
-﻿using PuppeteerSharp;
+﻿using AutoIt;
+using PuppeteerSharp;
 using Pushification.Manager;
 using Pushification.Models;
 using Pushification.PuppeteerDriver;
@@ -23,11 +24,12 @@ namespace Pushification.Services
         private Timer timer;
         private bool stopTimer;
         private bool _isRunning = true;
+        public event EventHandler<string> UpdateUIMessage;
 
         public NotificationService()
         {
             _subscribeSettings = SubscriptionModeSettings.LoadSubscriptionSettingsFromJson();
-            _notificationModeSettings = PushNotificationModeSettings.LoadFromJson();
+            _notificationModeSettings = PushNotificationModeSettings.LoadFromJson();            
         }
 
         // Точка входа
@@ -41,6 +43,8 @@ namespace Pushification.Services
         public async Task RunWithAppModeAsync()
         {
             Random random = new Random();
+            EventPublisherManager.RaiseUpdateUIMessage("Сообщение для UI");
+
 
             while (_isRunning)
             {
@@ -49,16 +53,7 @@ namespace Pushification.Services
                 string userAgent = UserAgetManager.GetRandomUserAgent();
 
                 foreach (string profilePath in profiles)
-                {
-                    // Проверяю время для запуска режима подписки на уведомление
-                    TimeSpan startTime = TimeSpan.Parse(_subscribeSettings.StartOptionOne);
-                    TimeSpan currentTime = DateTime.Now.TimeOfDay;
-
-                    if (currentTime == startTime)
-                    {
-                        await StopAsync();
-                        return;
-                    }
+                {                    
 
                     // Определяем режим для профиля и выполняем соответствующий метод
                     if (random.NextDouble() * 100 < _notificationModeSettings.PercentToDelete)
@@ -77,9 +72,7 @@ namespace Pushification.Services
                             await RunClickModeAsync(profilePath, userAgent);
                         }
                     }
-
-                    // Удаляем обработанный профиль из списка
-                    profiles.Remove(profilePath);
+                  
                 }
 
             }
@@ -132,7 +125,7 @@ namespace Pushification.Services
             ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 10, true);
 
             // Получаю драйвер, открываю страницу
-            _browser = await DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null, userAgent: userAgent);
+            _browser = await DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
             _page = await _browser.NewPageAsync();
 
             IntPtr handle = IntPtr.Zero;
@@ -174,7 +167,7 @@ namespace Pushification.Services
             ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 10, true);
 
             // Получаю драйвер, открываю страницу
-            _browser = await DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent);
+            _browser = await DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
             _page = await _browser.NewPageAsync();
 
             // Получаю рандомное число для закрытия по крестику
@@ -183,24 +176,19 @@ namespace Pushification.Services
             int maxClickCount = _notificationModeSettings.MaxNumberOfClicks;
             int randomClickByPush = random.Next(minClickCount, maxClickCount);
 
-            IntPtr handle = IntPtr.Zero;
-
-            // Время ожиданий уведомлений
-            int timeToWaitNotificationClick = _notificationModeSettings.TimeToWaitNotificationClick;
-            DateTime startTime = DateTime.Now;
-
-            // Ожидаю уведомления
-            while (handle == IntPtr.Zero || (DateTime.Now - startTime).TotalSeconds < timeToWaitNotificationClick)
-            {
-                handle = FindNotificationToast();
-                await Task.Delay(1000);
-            }
-
             // Время ожидания между кликами
             int sleepBetweenClick = _notificationModeSettings.SleepBetweenClick * 1000;
             for (int i = 0; i < randomClickByPush; i++)
             {
+                IntPtr handle = GetNotificationWindow();
+                if (handle == IntPtr.Zero)
+                {
+                    await StopAsync();
+                    break;
+                }      
+
                 ClickByPush(handle);
+               
                 await Task.Delay(sleepBetweenClick);
             }
 
@@ -229,6 +217,25 @@ namespace Pushification.Services
             ProfilesManager.RemoveProfile(profilePath);
         }
 
+        // Ождаю окно уведомлений
+        private IntPtr GetNotificationWindow()
+        {
+            IntPtr handle = IntPtr.Zero;
+
+            // Время ожиданий уведомлений
+            int timeToWaitNotificationClick = _notificationModeSettings.TimeToWaitNotificationClick;
+            DateTime startTime = DateTime.Now;
+
+            // Ожидаю уведомления
+            while (handle == IntPtr.Zero || (DateTime.Now - startTime).TotalSeconds < timeToWaitNotificationClick)
+            {
+                handle = FindNotificationToast();
+                Thread.Sleep(1000);
+            }
+
+            return handle;
+        }
+
         // Остановка работы
         public async Task StopAsync()
         {
@@ -244,7 +251,7 @@ namespace Pushification.Services
         }
 
         // Ищу и кликаю на уведомлении
-        public void ClickByPush(IntPtr handle)
+        public async void ClickByPush(IntPtr handle)
         {
 
             if (handle != IntPtr.Zero)
@@ -267,7 +274,8 @@ namespace Pushification.Services
             }
             else
             {
-                Console.WriteLine("Окно не найдено.");
+                // TODO логирование
+                await StopAsync();
             }
 
         }
@@ -300,8 +308,10 @@ namespace Pushification.Services
         // Наведение курсора и клик
         private void MouseClick(int x, int y)
         {
-            SetCursorPos(x, y);
-            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, x, y, 0, 0);
+            SetCursorPos(x, y);            
+            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, x, y, 0, 0); 
+            Thread.Sleep(1000);
+            //AutoItX.MouseClick(button: "LEFT", x: x, y: y, numClicks: 1, speed: 2);
         }
 
         // Закрываю окно
@@ -322,14 +332,20 @@ namespace Pushification.Services
             }
         }
 
-        private enum WorkMode
+        // Метод, вызывающий событие
+        private void RaiseUpdateUIMessage(string message)
         {
-            Ignore,
-            Click,
-            Delete
+            UpdateUIMessage?.Invoke(this, message);
         }
 
+
+
         // Импорт зависимостей из библиотеки
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsWindow(IntPtr hWnd);
+
         [DllImport("user32.dll", SetLastError = true)]
         private static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
