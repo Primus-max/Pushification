@@ -1,4 +1,5 @@
-﻿using PuppeteerSharp;
+﻿using OpenQA.Selenium;
+using PuppeteerSharp;
 using Pushification.Manager;
 using Pushification.Models;
 using Pushification.PuppeteerDriver;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Pushification.Services
@@ -14,7 +16,7 @@ namespace Pushification.Services
     public class SubscribeService : IServiceWorker
     {
         private SubscriptionModeSettings _subscribeSettings = null;
-        private IBrowser _browser = null;
+        private IWebDriver _driver = null;
         private IPage _page = null;
 
         public SubscribeService()
@@ -49,18 +51,18 @@ namespace Pushification.Services
 
                 string userAgent = UserAgetManager.GetRandomUserAgent();
 
-                _browser = await DriverManager.CreateDriver(profilePath, proxy, userAgent);
+                _driver =  DriverManager.CreateDriver(profilePath, proxy, userAgent);
 
-                if (_browser == null)
+                if (_driver == null)
                 {
                     // TODO здесь будет логирование
                     return;
                 }
 
-                _page = await _browser.NewPageAsync();
+               // _page = await _driver.NewPageAsync();
 
                 // Авторизую прокси
-                await _page.AuthenticateAsync(new Credentials() { Password = proxy.Password, Username = proxy.Username });
+               // await _page.AuthenticateAsync(new Credentials() { Password = proxy.Password, Username = proxy.Username });
                 try
                 {
                     // Устанавливаю время ожидания загрузки страницы
@@ -70,7 +72,8 @@ namespace Pushification.Services
                     _page.DefaultNavigationTimeout = timeOutMillisecond;
 
                     EventPublisherManager.RaiseUpdateUIMessage($"Перехожу по адресу {url}");
-                    await _page.GoToAsync(url);
+                    _driver.Navigate().GoToUrl(url);
+                    
 
                     // Извлекаем хост (домен) для передачи в виде простой строки без схемы
                     Uri uri = new Uri(_subscribeSettings?.URL);
@@ -91,22 +94,22 @@ namespace Pushification.Services
                 }
                 catch (Exception)
                 {
-                    await StopAsync();
+                     StopBrowser();
                     ProfilesManager.RemoveProfile(profilePath);
                 }
-                await StopAsync();
+                 StopBrowser();
             }            
         }
 
         // Закрываю браузер
-        public async Task StopAsync()
+        public void StopBrowser()
         {
             // Закрыть браузер после прошествия времени
-            await _browser.CloseAsync();
-            await _page.DisposeAsync();
+            _driver.Close();
+           // await _page.DisposeAsync();
 
             // Удаляю лишние папки и файлы из профиля
-            await Task.Delay(1000);
+            Thread.Sleep(1000);
             ProfilesManager.RemoveCash();
         }
 
