@@ -83,10 +83,13 @@ namespace Pushification
             this.label41 = new System.Windows.Forms.Label();
             this.label42 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.PercentToIgnoreTextBox = new System.Windows.Forms.TextBox();
             this.PercentToDeleteTextBox = new System.Windows.Forms.TextBox();
             this.label37 = new System.Windows.Forms.Label();
+            this.label47 = new System.Windows.Forms.Label();
             this.label35 = new System.Windows.Forms.Label();
             this.PercentToClickTextBox = new System.Windows.Forms.TextBox();
+            this.label46 = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
             this.label36 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -183,7 +186,7 @@ namespace Pushification
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(897, 661);
             this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
+            this.richTextBox1.Text = "";            
             // 
             // Mode1Tab
             // 
@@ -423,9 +426,9 @@ namespace Pushification
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label12.Location = new System.Drawing.Point(805, 94);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(45, 20);
+            this.label12.Size = new System.Drawing.Size(41, 20);
             this.label12.TabIndex = 0;
-            this.label12.Text = "мин.";
+            this.label12.Text = "сек.";
             // 
             // label9
             // 
@@ -433,9 +436,9 @@ namespace Pushification
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label9.Location = new System.Drawing.Point(805, 44);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(45, 20);
+            this.label9.Size = new System.Drawing.Size(41, 20);
             this.label9.TabIndex = 0;
-            this.label9.Text = "мин.";
+            this.label9.Text = "сек.";
             // 
             // label11
             // 
@@ -453,9 +456,9 @@ namespace Pushification
             this.label45.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label45.Location = new System.Drawing.Point(382, 150);
             this.label45.Name = "label45";
-            this.label45.Size = new System.Drawing.Size(45, 20);
+            this.label45.Size = new System.Drawing.Size(41, 20);
             this.label45.TabIndex = 0;
-            this.label45.Text = "мин.";
+            this.label45.Text = "сек.";
             // 
             // label44
             // 
@@ -463,9 +466,9 @@ namespace Pushification
             this.label44.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label44.Location = new System.Drawing.Point(383, 89);
             this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(45, 20);
+            this.label44.Size = new System.Drawing.Size(41, 20);
             this.label44.TabIndex = 0;
-            this.label44.Text = "мин.";
+            this.label44.Text = "сек.";
             // 
             // label6
             // 
@@ -676,9 +679,9 @@ namespace Pushification
             this.label40.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label40.Location = new System.Drawing.Point(16, 57);
             this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(125, 20);
+            this.label40.Size = new System.Drawing.Size(113, 20);
             this.label40.TabIndex = 0;
-            this.label40.Text = "Минимальное";
+            this.label40.Text = "сек.мальное";
             // 
             // MaxNumberOfClicksTextBox
             // 
@@ -712,10 +715,13 @@ namespace Pushification
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.PercentToIgnoreTextBox);
             this.groupBox4.Controls.Add(this.PercentToDeleteTextBox);
             this.groupBox4.Controls.Add(this.label37);
+            this.groupBox4.Controls.Add(this.label47);
             this.groupBox4.Controls.Add(this.label35);
             this.groupBox4.Controls.Add(this.PercentToClickTextBox);
+            this.groupBox4.Controls.Add(this.label46);
             this.groupBox4.Controls.Add(this.label38);
             this.groupBox4.Controls.Add(this.label36);
             this.groupBox4.Location = new System.Drawing.Point(15, 347);
@@ -727,10 +733,20 @@ namespace Pushification
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Шансы";
             // 
+            // PercentToIgnoreTextBox
+            // 
+            this.PercentToIgnoreTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PercentToIgnoreTextBox.Location = new System.Drawing.Point(237, 77);
+            this.PercentToIgnoreTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.PercentToIgnoreTextBox.Name = "PercentToIgnoreTextBox";
+            this.PercentToIgnoreTextBox.Size = new System.Drawing.Size(73, 34);
+            this.PercentToIgnoreTextBox.TabIndex = 1;
+            this.PercentToIgnoreTextBox.TextChanged += new System.EventHandler(this.PercentToIgnore_TextChanged);
+            // 
             // PercentToDeleteTextBox
             // 
             this.PercentToDeleteTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.PercentToDeleteTextBox.Location = new System.Drawing.Point(237, 46);
+            this.PercentToDeleteTextBox.Location = new System.Drawing.Point(237, 29);
             this.PercentToDeleteTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.PercentToDeleteTextBox.Name = "PercentToDeleteTextBox";
             this.PercentToDeleteTextBox.Size = new System.Drawing.Size(73, 34);
@@ -741,17 +757,27 @@ namespace Pushification
             // 
             this.label37.AutoSize = true;
             this.label37.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label37.Location = new System.Drawing.Point(505, 60);
+            this.label37.Location = new System.Drawing.Point(505, 43);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(175, 20);
             this.label37.TabIndex = 0;
             this.label37.Text = "Шанс на режим click";
             // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label47.Location = new System.Drawing.Point(16, 91);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(187, 20);
+            this.label47.TabIndex = 0;
+            this.label47.Text = "Шанс на режим ignore";
+            // 
             // label35
             // 
             this.label35.AutoSize = true;
             this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label35.Location = new System.Drawing.Point(16, 60);
+            this.label35.Location = new System.Drawing.Point(16, 43);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(186, 20);
             this.label35.TabIndex = 0;
@@ -760,18 +786,28 @@ namespace Pushification
             // PercentToClickTextBox
             // 
             this.PercentToClickTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.PercentToClickTextBox.Location = new System.Drawing.Point(717, 46);
+            this.PercentToClickTextBox.Location = new System.Drawing.Point(717, 29);
             this.PercentToClickTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.PercentToClickTextBox.Name = "PercentToClickTextBox";
             this.PercentToClickTextBox.Size = new System.Drawing.Size(73, 34);
             this.PercentToClickTextBox.TabIndex = 1;
             this.PercentToClickTextBox.TextChanged += new System.EventHandler(this.PercentToClick_TextChanged);
             // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label46.Location = new System.Drawing.Point(317, 91);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(24, 20);
+            this.label46.TabIndex = 0;
+            this.label46.Text = "%";
+            // 
             // label38
             // 
             this.label38.AutoSize = true;
             this.label38.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label38.Location = new System.Drawing.Point(797, 60);
+            this.label38.Location = new System.Drawing.Point(797, 43);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(24, 20);
             this.label38.TabIndex = 0;
@@ -781,7 +817,7 @@ namespace Pushification
             // 
             this.label36.AutoSize = true;
             this.label36.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label36.Location = new System.Drawing.Point(317, 60);
+            this.label36.Location = new System.Drawing.Point(317, 43);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(24, 20);
             this.label36.TabIndex = 0;
@@ -908,9 +944,9 @@ namespace Pushification
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label32.Location = new System.Drawing.Point(440, 247);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(45, 20);
+            this.label32.Size = new System.Drawing.Size(41, 20);
             this.label32.TabIndex = 0;
-            this.label32.Text = "мин.";
+            this.label32.Text = "сек.";
             // 
             // label22
             // 
@@ -918,9 +954,9 @@ namespace Pushification
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label22.Location = new System.Drawing.Point(440, 181);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(45, 20);
+            this.label22.Size = new System.Drawing.Size(41, 20);
             this.label22.TabIndex = 0;
-            this.label22.Text = "мин.";
+            this.label22.Text = "сек.";
             // 
             // label34
             // 
@@ -928,9 +964,9 @@ namespace Pushification
             this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label34.Location = new System.Drawing.Point(821, 247);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(45, 20);
+            this.label34.Size = new System.Drawing.Size(41, 20);
             this.label34.TabIndex = 0;
-            this.label34.Text = "мин.";
+            this.label34.Text = "сек.";
             // 
             // label30
             // 
@@ -938,9 +974,9 @@ namespace Pushification
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label30.Location = new System.Drawing.Point(821, 181);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(45, 20);
+            this.label30.Size = new System.Drawing.Size(41, 20);
             this.label30.TabIndex = 0;
-            this.label30.Text = "мин.";
+            this.label30.Text = "сек.";
             // 
             // label26
             // 
@@ -948,9 +984,9 @@ namespace Pushification
             this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label26.Location = new System.Drawing.Point(824, 114);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(45, 20);
+            this.label26.Size = new System.Drawing.Size(41, 20);
             this.label26.TabIndex = 0;
-            this.label26.Text = "мин.";
+            this.label26.Text = "сек.";
             // 
             // label24
             // 
@@ -958,9 +994,9 @@ namespace Pushification
             this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label24.Location = new System.Drawing.Point(824, 55);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(45, 20);
+            this.label24.Size = new System.Drawing.Size(41, 20);
             this.label24.TabIndex = 0;
-            this.label24.Text = "мин.";
+            this.label24.Text = "сек.";
             // 
             // label28
             // 
@@ -968,9 +1004,9 @@ namespace Pushification
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label28.Location = new System.Drawing.Point(440, 114);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(45, 20);
+            this.label28.Size = new System.Drawing.Size(41, 20);
             this.label28.TabIndex = 0;
-            this.label28.Text = "мин.";
+            this.label28.Text = "сек.";
             // 
             // label20
             // 
@@ -978,9 +1014,9 @@ namespace Pushification
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label20.Location = new System.Drawing.Point(440, 55);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(45, 20);
+            this.label20.Size = new System.Drawing.Size(41, 20);
             this.label20.TabIndex = 0;
-            this.label20.Text = "мин.";
+            this.label20.Text = "сек.";
             // 
             // label21
             // 
@@ -1183,10 +1219,9 @@ namespace Pushification
         private System.Windows.Forms.TextBox MaxTimeGettingOutITextBlock;
         private System.Windows.Forms.Label label45;
         private System.Windows.Forms.Label label44;
-
-
-
-
+        private System.Windows.Forms.TextBox PercentToIgnoreTextBox;
+        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.Label label46;
     }
    
 }

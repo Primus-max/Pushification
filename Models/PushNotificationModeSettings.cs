@@ -9,8 +9,9 @@ namespace Pushification.Models
     {
         public static string FilePath { get; } = "pushNotificationModeSettings.json";
 
-        public int PercentToDelete { get; set; }
-        public int PercentToClick { get; set; }
+        public double PercentToIgnore { get; set; }
+        public double PercentToDelete { get; set; }
+        public double PercentToClick { get; set; }
         public int SleepBeforeProcessKillIgnore { get; set; }
         public int MaxTimeToWaitNotificationIgnore { get; set; }
         public int TimeToWaitNotificationClick { get; set; }

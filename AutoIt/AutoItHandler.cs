@@ -1,11 +1,14 @@
 ﻿using AutoIt;
+using Pushification.Manager;
 using System;
-using System.Threading.Tasks;
+using System.Threading;
 
 public class AutoItHandler
 {
-    public static async Task<bool> SubscribeToWindow(string title, int waitingWindow, int waitingBeforeClick)
+    public static bool SubscribeToWindow(string title,  int waitingBeforeClick)
     {
+        int waitingWindow = 10;
+
         int x = 247;
         int y = 172;
 
@@ -19,18 +22,24 @@ public class AutoItHandler
             AutoItX.WinActivate(title: windowTitle);
 
             // Указаное в настройках время ожидания перед кликом
-            await Task.Delay(waitingBeforeClick);
+            int waitingBeforeClickMilliseconf = waitingBeforeClick * 1000;
+            Thread.Sleep(waitingBeforeClickMilliseconf);
 
             // КЛикаем на Разрешить получать уведомления
-            AutoItX.MouseMove(x, y, speed: 50);
-            AutoItX.MouseClick(button: "LEFT", x: x, y: y, numClicks: 1, speed: 10);
+            AutoItX.MouseMove(x, y, speed: 2);
+            AutoItX.MouseClick(button: "LEFT", x: x, y: y, numClicks: 1, speed: 1);
 
             // Отсутствие этого окна будет означать успешный клик
-            int isSucsess = AutoItX.WinWait(title: windowTitle, timeout: 5); 
-            return !Convert.ToBoolean(isSucsess);
+            int isSucsess = AutoItX.WinWait(title: windowTitle, timeout: 5);            
+                
+            if (isSucsess == 0)
+                EventPublisherManager.RaiseUpdateUIMessage($"Подписался на уведомление");
+
+            return Convert.ToBoolean(isSucsess);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            EventPublisherManager.RaiseUpdateUIMessage($"Не удалось подписаться на уведомление {ex.Message}");
             return false;
         }
     }

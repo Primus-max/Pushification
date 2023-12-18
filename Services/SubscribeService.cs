@@ -1,141 +1,146 @@
-﻿using PuppeteerSharp;
+﻿using OpenQA.Selenium;
+using PuppeteerSharp;
+using Pushification.Manager;
 using Pushification.Models;
 using Pushification.PuppeteerDriver;
 using Pushification.Services.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Pushification.Services
 {
     public class SubscribeService : IServiceWorker
     {
-        private readonly DriverManager _driverManager = null;
         private SubscriptionModeSettings _subscribeSettings = null;
-        private IBrowser _browser = null;
+        private IWebDriver _driver = null;
         private IPage _page = null;
 
-        public SubscribeService(DriverManager driverManager)
+        public SubscribeService()
         {
-            _driverManager = driverManager;
             _subscribeSettings = SubscriptionModeSettings.LoadSubscriptionSettingsFromJson();
         }
 
-        public async void Run()
+        public async Task Run()
         {
-            int workingTime = _subscribeSettings.TimeOptionOne * 60 * 1000; // Преобразуем минуты в миллисекунды
-
-            string profilePath = GetProfileFolderPath();
+            int workingTime = _subscribeSettings.TimeOptionOne * 60 * 1000; // Преобразуем минуты в миллисекунды                       
             string url = _subscribeSettings.URL;
-            string proxyInfoString = ProxyInfo.GetProxy(_subscribeSettings.ProxyList);
-            ProxyInfo proxyInfo = ProxyInfo.Parse(proxyInfoString);
 
-            string userAgent = GetRandomUserAgent();
+            EventPublisherManager.RaiseUpdateUIMessage("Запускаю режим подписки на уведомления");
 
+            // Цикл будет выполняться указанное в настройках время
             DateTime startTime = DateTime.Now;
             while ((DateTime.Now - startTime).TotalMilliseconds < workingTime)
             {
-                _browser = await _driverManager.CreateDriver(profilePath, proxyInfo, userAgent);
+                ClearBlackList(); // Проверяю пороговоое значение IP и удаляю если нужно
+                
+                // Получаю прокси 
+                string proxyFilePath = _subscribeSettings.ProxyList;
+                ProxyInfo proxy = await ProxyInfo.GetProxy(proxyFilePath, _subscribeSettings.MaxTimeGettingOutIP);               
 
-                _page = await _browser.NewPageAsync();
+                if (proxy == null) 
+                    continue;
+
+                EventPublisherManager.RaiseUpdateUIMessage($"Получил внешний IP {proxy.ExternalIP}");
+
+                string profilePath = ProfilesManager.CreateProfileFolderPath(); // Создаю папку профиля
+                EventPublisherManager.RaiseUpdateUIMessage($"Создал профиль {profilePath}");               
+
+                string userAgent = UserAgetManager.GetRandomUserAgent();
+
+                _driver =  DriverManager.CreateDriver(profilePath, proxy, userAgent);
+
+                if (_driver == null)
+                {
+                    // TODO здесь будет логирование
+                    return;
+                }
+
+               // _page = await _driver.NewPageAsync();
 
                 // Авторизую прокси
-                await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
+               // await _page.AuthenticateAsync(new Credentials() { Password = proxy.Password, Username = proxy.Username });
                 try
                 {
-                    // Уставливаю время ожидания загрузки страницы
+                    // Устанавливаю время ожидания загрузки страницы
                     int timeOutMillisecond = _subscribeSettings.MaxTimePageLoading * 1000;
-                    await _page.WaitForTimeoutAsync(timeOutMillisecond);
-                    await _page.GoToAsync(url);
+                    // await _page.SetCacheEnabledAsync(false);
+                    // Ожидание загрузки страниц
+                    _page.DefaultNavigationTimeout = timeOutMillisecond;
 
-                  await  AutoItHandler.SubscribeToWindow(_subscribeSettings?.URL, 10, _subscribeSettings.BeforeAllowTimeout);
+                    EventPublisherManager.RaiseUpdateUIMessage($"Перехожу по адресу {url}");
+                    _driver.Navigate().GoToUrl(url);
+                    
 
+                    // Извлекаем хост (домен) для передачи в виде простой строки без схемы
+                    Uri uri = new Uri(_subscribeSettings?.URL);
+                    string siteName = uri.Host;
 
+                    // Подписываюсь на уведомление
+                    bool IsSuccess = AutoItHandler.SubscribeToWindow(siteName, _subscribeSettings.BeforeAllowTimeout);
+
+                    if (IsSuccess)
+                    {
+                        // Если успешно, то убираю прокси в блеклист
+                        ProxyInfo.AddProxyToBlacklist(proxy.ExternalIP);
+                        EventPublisherManager.RaiseUpdateUIMessage($"Убираю IP {proxy.ExternalIP}  в blacklist");
+                        // Время ожидания после подписки
+                        int afterAllowTimeoutMillisecond = _subscribeSettings.AfterAllowTimeout * 1000;
+                        await Task.Delay(afterAllowTimeoutMillisecond);
+                    }
                 }
                 catch (Exception)
                 {
-                    await StopAsync();
+                     StopBrowser();
+                    ProfilesManager.RemoveProfile(profilePath);
                 }
-                
-
-                // Если успешно, то записываю этот прокси в блеклист               
-               // ProxyInfo.AddProxyToBlacklist(proxyInfoString);
-
-                // Ожидание перед следующей итерацией
-                await Task.Delay(1000); // Подождать 1 секунду перед следующей итерацией
-            }
+                 StopBrowser();
+            }            
         }
 
-        public async Task StopAsync()
+        // Закрываю браузер
+        public void StopBrowser()
         {
             // Закрыть браузер после прошествия времени
-            await _browser.CloseAsync();
-            await _page.DisposeAsync();
+            _driver.Close();
+           // await _page.DisposeAsync();
+
+            // Удаляю лишние папки и файлы из профиля
+            Thread.Sleep(1000);
+            ProfilesManager.RemoveCash();
         }
 
-        // Метод получения пути профиля
-        private string GetProfileFolderPath()
+        // Метод удаления IP
+        private void ClearBlackList()
         {
-            // Получаем текущее время в формате Unix timestamp
-            long unixTimestamp = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            string blacklistFilePath = "blacklistproxy.txt";
+            string[] blacklist = null;
 
-            // Получаем текущую дату в формате dd-MM-yyyy
-            string currentDate = DateTime.Now.ToString("dd-MM-yyyy");
-
-            // Формируем название папки профиля
-            string profileFolderName = $"{unixTimestamp}_{currentDate}";
-
-            // Сформируйте полный путь к папке профиля в папке "profiles" в корне проекта
-            string profilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "profiles", profileFolderName);
-
-            // Возвращаем полученный путь
-            return profilePath;
-        }
-
-        // Метод получения рандомного юзер агента
-        private string GetRandomUserAgent()
-        {
             try
             {
-                // Загрузка списка User-Agent'ов из файла
-                string[] userAgents = LoadUserAgentsFromFile("useragents.txt");
+                blacklist = File.ReadAllLines(blacklistFilePath);
 
-                if (userAgents is null) return null;
+                // Проверяем, если количество записей в блеклисте больше чем заданное _subscribeSettings.CountIP
+                if (blacklist.Length > _subscribeSettings.CountIP)
+                {
+                    // Количество записей, которые нужно удалить
+                    int numberOfDeletions = _subscribeSettings.CountIPDeletion;
+                    
+                    // Удаляем указанное количество записей из начала блеклиста
+                    List<string> updatedBlacklist = blacklist.Skip(numberOfDeletions).ToList();
 
-                // Получение случайного User-Agent'а из списка
-                Random random = new Random();
-                int randomIndex = random.Next(userAgents.Length);
-                return userAgents[randomIndex];
+                    // Перезаписываем обновленный блеклист
+                    File.WriteAllLines(blacklistFilePath, updatedBlacklist);
+
+                    EventPublisherManager.RaiseUpdateUIMessage($"Достигнуто пороговое значение IP {_subscribeSettings.CountIP},  удалено {numberOfDeletions} IP");
+                }
             }
             catch (Exception ex)
             {
-                // Обработка ошибок при загрузке или выборе User-Agent'а
-                MessageBox.Show($"Ошибка при получении User-Agent'а: {ex.Message}");
-                return string.Empty;
-            }
-        }
-
-        // Вспомогательный метод получения юзер агента
-        private string[] LoadUserAgentsFromFile(string filePath)
-        {
-            try
-            {
-                // Чтение всех строк из файла
-                string[] lines = File.ReadAllLines(filePath);
-
-                // Фильтрация и удаление пустых строк
-                string[] nonEmptyLines = lines.Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
-
-                return nonEmptyLines;
-            }
-            catch (Exception ex)
-            {
-                // Обработка ошибок при чтении файла
-                MessageBox.Show($"Ошибка при загрузке User-Agent'ов: {ex.Message}");
-                return new string[0];
+                EventPublisherManager.RaiseUpdateUIMessage($"Не удалось удалить IP, причина: {ex.Message}");
             }
         }
     }
