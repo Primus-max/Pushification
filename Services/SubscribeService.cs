@@ -1,15 +1,15 @@
-﻿using OpenQA.Selenium;
-using PuppeteerSharp;
-using Pushification.Manager;
-using Pushification.Models;
-using Pushification.PuppeteerDriver;
-using Pushification.Services.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using OpenQA.Selenium;
+using PuppeteerSharp;
+using Pushification.Manager;
+using Pushification.Models;
+using Pushification.PuppeteerDriver;
+using Pushification.Services.Interfaces;
 
 namespace Pushification.Services
 {
@@ -36,22 +36,22 @@ namespace Pushification.Services
             while ((DateTime.Now - startTime).TotalMilliseconds < workingTime)
             {
                 ClearBlackList(); // Проверяю пороговоое значение IP и удаляю если нужно
-                
+
                 // Получаю прокси 
                 string proxyFilePath = _subscribeSettings.ProxyList;
-                ProxyInfo proxy = await ProxyInfo.GetProxy(proxyFilePath, _subscribeSettings.MaxTimeGettingOutIP);               
+                ProxyInfo proxy = await ProxyInfo.GetProxy(proxyFilePath, _subscribeSettings.MaxTimeGettingOutIP);
 
-                if (proxy == null) 
+                if (proxy == null)
                     continue;
 
                 EventPublisherManager.RaiseUpdateUIMessage($"Получил внешний IP {proxy.ExternalIP}");
 
                 string profilePath = ProfilesManager.CreateProfileFolderPath(); // Создаю папку профиля
-                EventPublisherManager.RaiseUpdateUIMessage($"Создал профиль {profilePath}");               
+                EventPublisherManager.RaiseUpdateUIMessage($"Создал профиль {profilePath}");
 
                 string userAgent = UserAgetManager.GetRandomUserAgent();
 
-                _driver =  DriverManager.CreateDriver(profilePath, proxy, userAgent);
+                _driver = DriverManager.CreateDriver(profilePath, proxy, userAgent);
 
                 if (_driver == null)
                 {
@@ -59,21 +59,30 @@ namespace Pushification.Services
                     return;
                 }
 
-               // _page = await _driver.NewPageAsync();
+                // _page = await _driver.NewPageAsync();
 
                 // Авторизую прокси
-               // await _page.AuthenticateAsync(new Credentials() { Password = proxy.Password, Username = proxy.Username });
+                // await _page.AuthenticateAsync(new Credentials() { Password = proxy.Password, Username = proxy.Username });
                 try
                 {
                     // Устанавливаю время ожидания загрузки страницы
                     int timeOutMillisecond = _subscribeSettings.MaxTimePageLoading * 1000;
                     // await _page.SetCacheEnabledAsync(false);
                     // Ожидание загрузки страниц
-                    _page.DefaultNavigationTimeout = timeOutMillisecond;
+                    //_page.DefaultNavigationTimeout = timeOutMillisecond;
 
                     EventPublisherManager.RaiseUpdateUIMessage($"Перехожу по адресу {url}");
-                    _driver.Navigate().GoToUrl(url);
-                    
+
+                    try
+                    {
+                        _driver.Navigate().GoToUrl(url);
+                        _driver.Manage().Window.Maximize();
+                    }
+                    catch (Exception ex)
+                    {
+                        EventPublisherManager.RaiseUpdateUIMessage($"Не удалось перейти по адресу {url}, по причине : {ex.Message}");
+                    }
+
 
                     // Извлекаем хост (домен) для передачи в виде простой строки без схемы
                     Uri uri = new Uri(_subscribeSettings?.URL);
@@ -94,19 +103,25 @@ namespace Pushification.Services
                 }
                 catch (Exception)
                 {
-                     StopBrowser();
+                    StopBrowser();
                     ProfilesManager.RemoveProfile(profilePath);
                 }
-                 StopBrowser();
-            }            
+                StopBrowser();
+            }
         }
 
         // Закрываю браузер
         public void StopBrowser()
         {
             // Закрыть браузер после прошествия времени
-            _driver.Close();
-           // await _page.DisposeAsync();
+            try
+            {
+                _driver.Quit();
+                _driver.Close();
+                _driver.Dispose();
+            }
+            catch (Exception) { }
+            // await _page.DisposeAsync();
 
             // Удаляю лишние папки и файлы из профиля
             Thread.Sleep(1000);
@@ -128,7 +143,7 @@ namespace Pushification.Services
                 {
                     // Количество записей, которые нужно удалить
                     int numberOfDeletions = _subscribeSettings.CountIPDeletion;
-                    
+
                     // Удаляем указанное количество записей из начала блеклиста
                     List<string> updatedBlacklist = blacklist.Skip(numberOfDeletions).ToList();
 

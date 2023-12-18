@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Pushification.PuppeteerDriver
 {
@@ -25,7 +26,7 @@ namespace Pushification.PuppeteerDriver
 
             if (proxyInfo != null)
             {
-                // Если требуется аутентификация на прокси, укажите логин и пароль в URL
+                // Если требуется аутентификация на прокси
                 if (!string.IsNullOrEmpty(proxyInfo.Username) && !string.IsNullOrEmpty(proxyInfo.Password))
                 {
                     var proxyUrl = $"http://{proxyInfo.Username}:{proxyInfo.Password}@{proxyInfo.IP}:{proxyInfo.Port}";
@@ -43,7 +44,15 @@ namespace Pushification.PuppeteerDriver
             var chromeDriverPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "chromedriver(109).exe");
             var service = ChromeDriverService.CreateDefaultService(AppDomain.CurrentDomain.BaseDirectory, "chromedriver(109).exe");
 
-            return new ChromeDriver(service, chromeOptions);
+            try
+            {
+                return new ChromeDriver(service, chromeOptions);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
         }
     }
 
