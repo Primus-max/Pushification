@@ -169,10 +169,11 @@ namespace Pushification.Services
         // Режим кликов по уведомлениям
         private async Task RunClickModeAsync(string profilePath, string userAgent)
         {
+            EventPublisherManager.RaiseUpdateUIMessage($"Получаю прокси");
             // Получаю прокси
             string proxyFilePath = _subscribeSettings.ProxyList;
             ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 10, true);
-
+            EventPublisherManager.RaiseUpdateUIMessage($"Получил прокси");
             // Получаю драйвер, открываю страницу
             _browser = await DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
             _page = await _browser.NewPageAsync();

@@ -23,7 +23,7 @@ namespace Pushification
             }
 
             // Добавляем глобальный обработчик исключений
-            Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
+           // Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
