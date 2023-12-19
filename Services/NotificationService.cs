@@ -58,7 +58,8 @@ namespace Pushification.Services
 
                     SubscribeService subscribeService = new SubscribeService();
                     await subscribeService.Run();
-                    break;
+
+                    profiles = ProfilesManager.GetAllProfiles();
                 }
 
                 profiles?.Sort((p1, p2) => File.GetCreationTime(p1).CompareTo(File.GetCreationTime(p2)));

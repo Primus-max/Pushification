@@ -186,10 +186,23 @@ namespace Pushification
         // Время запуска первогорежима
         private void StartOptionOneTimePicker_ValueChanged(object sender, EventArgs e)
         {
-            string value = StartOptionOneTimePicker.Value.ToString("hh:mm tt");
+            // Получаем только время из DateTimePicker
+            TimeSpan selectedTime = StartOptionOneTimePicker.Value.TimeOfDay;
+
+            // Форматируем TimeSpan в виде HH:mm
+            string value = selectedTime.ToString(@"hh\:mm");
+
+            // Делайте что-то с полученным значением
             _subscriptionSettings.StartOptionOne = value;
             _subscriptionSettings.SaveSubscriptionSettingsToJson();
         }
+
+        // Настройка времени
+        private void Form1_Load(object sender, EventArgs e)
+        {
+           
+        }
+
 
         // Общий метод записи данных из полей в моде подписки на уведомления
         private void UpdateAndSaveSubscribeSetting<T>(Action<SubscriptionModeSettings, T> updateAction, TextBox textBox)
@@ -387,6 +400,18 @@ namespace Pushification
 
             workerThread.Start();
         }
-               
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            //// Получаем только время из DateTimePicker
+            //TimeSpan selectedTime = StartOptionOneTimePicker.Value.TimeOfDay;
+
+            //// Форматируем TimeSpan в виде HH:mm
+            //string value = selectedTime.ToString(@"hh\:mm");
+
+            //// Делайте что-то с полученным значением
+            //_subscriptionSettings.StartOptionOne = value;
+            //_subscriptionSettings.SaveSubscriptionSettingsToJson();
+        }
     }
 }

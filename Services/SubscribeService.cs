@@ -33,13 +33,13 @@ namespace Pushification.Services
             DateTime startTime = DateTime.Now;
             while ((DateTime.Now - startTime).TotalMilliseconds < workingTime)
             {
-                ClearBlackList(); // Проверяю пороговоое значение IP и удаляю если нужно
+                ClearBlackList(); // Проверяю пороговое значение IP и удаляю если нужно
 
                 // Получаю прокси 
                 string proxyFilePath = _subscribeSettings.ProxyList;
                 ProxyInfo proxy = await ProxyInfo.GetProxy(proxyFilePath, _subscribeSettings.MaxTimeGettingOutIP);
 
-                if (proxy == null)
+                if (proxy == null || string.IsNullOrEmpty(proxy.ExternalIP))
                     continue;
 
                 EventPublisherManager.RaiseUpdateUIMessage($"Получил IP {proxy.ExternalIP}");
@@ -62,7 +62,6 @@ namespace Pushification.Services
 
                 // Авторизую прокси
                 await _page.AuthenticateAsync(new Credentials() { Password = proxy.Password, Username = proxy.Username });
-
 
                 try
                 {
@@ -88,8 +87,7 @@ namespace Pushification.Services
                     if (IsSuccess)
                     {
                         // Если успешно, то убираю прокси в блеклист
-                        ProxyInfo.AddProxyToBlacklist(proxy.ExternalIP);
-                        EventPublisherManager.RaiseUpdateUIMessage($"Убираю IP {proxy.ExternalIP}  в blacklist");
+                        ProxyInfo.AddProxyToBlacklist(proxy.ExternalIP);                       
                         // Время ожидания после подписки
                         int afterAllowTimeoutMillisecond = _subscribeSettings.AfterAllowTimeout * 1000;
                         await Task.Delay(afterAllowTimeoutMillisecond);
@@ -97,7 +95,7 @@ namespace Pushification.Services
                 }
                 catch (Exception)
                 {
-                    await StopAsync();
+                    await StopAsync();                    
                     ProfilesManager.RemoveProfile(profilePath);
                 }
                 await StopAsync();

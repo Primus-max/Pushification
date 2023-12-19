@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using OpenQA.Selenium;
 
 namespace Pushification.Manager
 {
@@ -51,6 +52,7 @@ namespace Pushification.Manager
                 if (Directory.Exists(folderPath))
                 {
                     Directory.Delete(folderPath, true);
+                    EventPublisherManager.RaiseUpdateUIMessage($"Удалил профиль {folderPath}");
                     Thread.Sleep(100);
                 }
             }

@@ -225,6 +225,7 @@ namespace Pushification
             // 
             // StartOptionOneTimePicker
             // 
+            this.StartOptionOneTimePicker.CustomFormat = "";
             this.StartOptionOneTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.StartOptionOneTimePicker.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.StartOptionOneTimePicker.Location = new System.Drawing.Point(247, 46);
@@ -232,7 +233,7 @@ namespace Pushification
             this.StartOptionOneTimePicker.Name = "StartOptionOneTimePicker";
             this.StartOptionOneTimePicker.Size = new System.Drawing.Size(136, 30);
             this.StartOptionOneTimePicker.TabIndex = 1;
-            this.StartOptionOneTimePicker.Value = new System.DateTime(2023, 12, 10, 17, 14, 0, 0);
+            this.StartOptionOneTimePicker.Value = new System.DateTime(2023, 12, 19, 23, 9, 47, 0);
             this.StartOptionOneTimePicker.ValueChanged += new System.EventHandler(this.StartOptionOneTimePicker_ValueChanged);
             // 
             // label15
@@ -1109,6 +1110,7 @@ namespace Pushification
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ПУШИФИКАТОР";
+            this.Load += new System.EventHandler(this.MainWindow_Load);
             this.TabMainPanel.ResumeLayout(false);
             this.LogsTab.ResumeLayout(false);
             this.LogsTab.PerformLayout();
