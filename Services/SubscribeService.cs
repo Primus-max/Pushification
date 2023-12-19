@@ -34,14 +34,15 @@ namespace Pushification.Services
             while ((DateTime.Now - startTime).TotalMilliseconds < workingTime)
             {
                 ClearBlackList(); // Проверяю пороговоое значение IP и удаляю если нужно
-                
+
                 // Получаю прокси 
                 string proxyFilePath = _subscribeSettings.ProxyList;
-                ProxyInfo proxy = await ProxyInfo.GetProxy(proxyFilePath, _subscribeSettings.MaxTimeGettingOutIP);               
+                ProxyInfo proxy = await ProxyInfo.GetProxy(proxyFilePath, _subscribeSettings.MaxTimeGettingOutIP);
 
-                if (proxy == null) 
+                if (proxy == null)
                     continue;
 
+                EventPublisherManager.RaiseUpdateUIMessage($"Получил IP {proxy.ExternalIP}");
 
                 string profilePath = ProfilesManager.CreateProfileFolderPath(); // Создаю папку профиля
 
@@ -55,10 +56,14 @@ namespace Pushification.Services
                     return;
                 }
 
+                                
                 _page = await _browser.NewPageAsync();
+                await _page.SetUserAgentAsync(userAgent);
 
                 // Авторизую прокси
                 await _page.AuthenticateAsync(new Credentials() { Password = proxy.Password, Username = proxy.Username });
+
+
                 try
                 {
                     // Устанавливаю время ожидания загрузки страницы
@@ -66,6 +71,9 @@ namespace Pushification.Services
                     // await _page.SetCacheEnabledAsync(false);
                     // Ожидание загрузки страниц
                     _page.DefaultNavigationTimeout = timeOutMillisecond;
+
+                    //await _page.GoToAsync("https://www.whatismyip.com/");
+                    //await _page.ScreenshotAsync("whatismyip.png");
 
                     EventPublisherManager.RaiseUpdateUIMessage($"Перехожу по адресу {url}");
                     await _page.GoToAsync(url);
@@ -93,7 +101,7 @@ namespace Pushification.Services
                     ProfilesManager.RemoveProfile(profilePath);
                 }
                 await StopAsync();
-            }            
+            }
         }
 
         // Закрываю браузер
@@ -123,7 +131,7 @@ namespace Pushification.Services
                 {
                     // Количество записей, которые нужно удалить
                     int numberOfDeletions = _subscribeSettings.CountIPDeletion;
-                    
+
                     // Удаляем указанное количество записей из начала блеклиста
                     List<string> updatedBlacklist = blacklist.Skip(numberOfDeletions).ToList();
 

@@ -95,7 +95,7 @@ public class ProxyInfo
         proxy.ExternalIP = await GetExternalIP(proxy, externalIpTimeoutInSeconds);
 
         if (!IsIPInBlacklist(proxy.ExternalIP))
-        {
+        {            
             return proxy;
         }
         else

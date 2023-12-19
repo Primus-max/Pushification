@@ -20,6 +20,7 @@ namespace Pushification.Manager
                 // Получение случайного User-Agent'а из списка
                 Random random = new Random();
                 int randomIndex = random.Next(userAgents.Length);
+                EventPublisherManager.RaiseUpdateUIMessage($"Рандомный выбор useragent'a : {userAgents[randomIndex]}");
                 return userAgents[randomIndex];
             }
             catch (Exception ex)

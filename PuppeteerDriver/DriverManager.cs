@@ -25,24 +25,17 @@ namespace Pushification.PuppeteerDriver
             var launchOptions = new LaunchOptions
             {
                 Headless = useHeadlessMode,
-                Args = new List<string>
+                Args = new[]
                 {
-                    "--start-maximized"
-                }.ToArray(),
+                    "--start-maximized",
+                    $"--proxy-server={proxyInfo?.IP}:{proxyInfo?.Port}",       
+                }
+                .Where(arg => arg != null)
+                .ToArray(),
                 UserDataDir = profilePath,
             };
 
-            if (proxyInfo != null)
-            {
-                launchOptions.Args.Append($"--proxy-server=http://{proxyInfo.IP}:{proxyInfo.Port}");
-            }
-
-            if (!string.IsNullOrEmpty(userAgent))
-            {
-                launchOptions.Args.Append($"--user-agent={userAgent}");
-            }
-
-
+            
             try
             {
                 return await Puppeteer.LaunchAsync(launchOptions);

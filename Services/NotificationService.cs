@@ -1,4 +1,5 @@
-﻿using PuppeteerSharp;
+﻿using OpenQA.Selenium;
+using PuppeteerSharp;
 using Pushification.Manager;
 using Pushification.Models;
 using Pushification.PuppeteerDriver;
@@ -141,6 +142,7 @@ namespace Pushification.Services
             string proxyFilePath = _subscribeSettings.ProxyList;
             ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 10, true);
 
+
             // Получаю драйвер, открываю страницу
             _browser = await DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
             _page = await _browser.NewPageAsync();
@@ -189,6 +191,11 @@ namespace Pushification.Services
             // Получаю прокси
             string proxyFilePath = _subscribeSettings.ProxyList;
             ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 10, true);
+
+            if (proxyInfo == null)
+                return;
+
+            EventPublisherManager.RaiseUpdateUIMessage($"Получил IP {proxyInfo.ExternalIP}");
 
             // Получаю драйвер, открываю страницу
             _browser = await DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
