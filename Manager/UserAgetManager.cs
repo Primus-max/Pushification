@@ -25,7 +25,7 @@ namespace Pushification.Manager
             catch (Exception ex)
             {
                 // Обработка ошибок при загрузке или выборе User-Agent'а
-                MessageBox.Show($"Ошибка при получении User-Agent'а: {ex.Message}");
+                EventPublisherManager.RaiseUpdateUIMessage($"Ошибка при получении User-Agent'а: {ex.Message}");
                 return string.Empty;
             }
         }
@@ -46,7 +46,7 @@ namespace Pushification.Manager
             catch (Exception ex)
             {
                 // Обработка ошибок при чтении файла
-                MessageBox.Show($"Ошибка при загрузке User-Agent'ов: {ex.Message}");
+                EventPublisherManager.RaiseUpdateUIMessage($"Ошибка при загрузке User-Agent'ов: {ex.Message}");
                 return new string[0];
             }
         }

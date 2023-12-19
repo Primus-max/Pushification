@@ -42,10 +42,8 @@ namespace Pushification.Services
                 if (proxy == null) 
                     continue;
 
-                EventPublisherManager.RaiseUpdateUIMessage($"Получил внешний IP {proxy.ExternalIP}");
 
                 string profilePath = ProfilesManager.CreateProfileFolderPath(); // Создаю папку профиля
-                EventPublisherManager.RaiseUpdateUIMessage($"Создал профиль {profilePath}");               
 
                 string userAgent = UserAgetManager.GetRandomUserAgent();
 

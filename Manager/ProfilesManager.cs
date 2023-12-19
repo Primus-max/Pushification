@@ -56,7 +56,7 @@ namespace Pushification.Manager
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to remove folder {folderName}: {ex.Message}");
+                EventPublisherManager.RaiseUpdateUIMessage($"Failed to remove folder {folderName}: {ex.Message}");
             }
         }
 

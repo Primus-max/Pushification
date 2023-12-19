@@ -50,7 +50,6 @@ public class ProxyInfo
     /// <returns>ProxyInfo</returns>
     public static async Task<ProxyInfo> GetProxy(string filePath, int externalIpTimeoutInSeconds, bool notificationMode = false)
     {
-        EventPublisherManager.RaiseUpdateUIMessage($"Читаю прокси из файла {filePath}");
         string[] proxies = null;
 
         try
@@ -62,7 +61,6 @@ public class ProxyInfo
             EventPublisherManager.RaiseUpdateUIMessage($"Проблема при получении списка прокси из файла {ex.Message}");
         }
 
-        EventPublisherManager.RaiseUpdateUIMessage($"Получил список прокси из файла {proxies.Length}");
 
         await Task.Delay(1000);
 
@@ -98,7 +96,6 @@ public class ProxyInfo
 
         if (!IsIPInBlacklist(proxy.ExternalIP))
         {
-            EventPublisherManager.RaiseUpdateUIMessage($"Подходящий IP {proxy.ExternalIP}");
             return proxy;
         }
         else
@@ -127,16 +124,13 @@ public class ProxyInfo
                 client.Timeout = TimeSpan.FromSeconds(timeoutInSeconds);
                 try
                 {
-                    EventPublisherManager.RaiseUpdateUIMessage($"Отправляю запрос для получения IP ");
                     // Получаем внешний IP 
                     HttpResponseMessage response = await client.GetAsync("https://api64.ipify.org?format=json");
 
                     if (response.IsSuccessStatusCode)
                     {
-                        EventPublisherManager.RaiseUpdateUIMessage($"Получил ответ от сервера по IP");
                         string responseBody = await response.Content.ReadAsStringAsync();
                         ExternalIPInfo externalIPInfo = JsonConvert.DeserializeObject<ExternalIPInfo>(responseBody);
-                        EventPublisherManager.RaiseUpdateUIMessage($"Десериализовал ответ от сервера {externalIPInfo.IP}");
                         return externalIPInfo.IP;
                     }
                 }

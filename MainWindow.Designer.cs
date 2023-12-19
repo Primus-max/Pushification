@@ -160,7 +160,7 @@ namespace Pushification
             // 
             // SrartButton
             // 
-            this.SrartButton.Location = new System.Drawing.Point(681, 727);
+            this.SrartButton.Location = new System.Drawing.Point(681, 4);
             this.SrartButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SrartButton.Name = "SrartButton";
             this.SrartButton.Size = new System.Drawing.Size(227, 54);
@@ -186,7 +186,7 @@ namespace Pushification
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(897, 661);
             this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";            
+            this.richTextBox1.Text = "";
             // 
             // Mode1Tab
             // 
