@@ -1,11 +1,7 @@
 ﻿using PuppeteerSharp;
 using Pushification.Manager;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Pushification.PuppeteerDriver
 {
@@ -28,14 +24,14 @@ namespace Pushification.PuppeteerDriver
                 Args = new[]
                 {
                     "--start-maximized",
-                    $"--proxy-server={proxyInfo?.IP}:{proxyInfo?.Port}",       
+                    $"--proxy-server={proxyInfo?.IP}:{proxyInfo?.Port}",
                 }
                 .Where(arg => arg != null)
                 .ToArray(),
                 UserDataDir = profilePath,
             };
 
-            
+
             try
             {
                 return await Puppeteer.LaunchAsync(launchOptions);

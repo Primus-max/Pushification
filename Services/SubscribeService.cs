@@ -92,6 +92,11 @@ namespace Pushification.Services
                         int afterAllowTimeoutMillisecond = _subscribeSettings.AfterAllowTimeout * 1000;
                         await Task.Delay(afterAllowTimeoutMillisecond);
                     }
+                    else
+                    {
+                        await StopAsync();
+                        ProfilesManager.RemoveProfile(profilePath);
+                    }
                 }
                 catch (Exception)
                 {
