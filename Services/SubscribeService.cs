@@ -1,4 +1,4 @@
-﻿using PuppeteerSharp;
+using PuppeteerSharp;
 using Pushification.Manager;
 using Pushification.Models;
 using Pushification.PuppeteerDriver;
