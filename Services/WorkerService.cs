@@ -11,8 +11,8 @@
                 //await notificationService.Run();
 
 
-                SubscribeService subscribeService = new SubscribeService();
-                await subscribeService.Run();   
+                //SubscribeService subscribeService = new SubscribeService();
+                //await subscribeService.Run();   
             }         
         }
     }
