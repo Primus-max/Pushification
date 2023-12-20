@@ -5,6 +5,6 @@ namespace Pushification.Services.Interfaces
     public interface IServiceWorker
     {
         Task Run();
-        void StopBrowser();
+        Task StopAsync();
     }
 }
