@@ -50,7 +50,6 @@ public class ProxyInfo
     /// <returns>ProxyInfo</returns>
     public static async Task<ProxyInfo> GetProxy(string filePath, int externalIpTimeoutInSeconds, bool notificationMode = false)
     {
-        EventPublisherManager.RaiseUpdateUIMessage($"Читаю прокси из файла {filePath}");
         string[] proxies = null;
 
         try
@@ -62,7 +61,6 @@ public class ProxyInfo
             EventPublisherManager.RaiseUpdateUIMessage($"Проблема при получении списка прокси из файла {ex.Message}");
         }
 
-        EventPublisherManager.RaiseUpdateUIMessage($"Получил список прокси из файла {proxies.Length}");
 
         await Task.Delay(1000);
 
@@ -94,16 +92,15 @@ public class ProxyInfo
     private static async Task<ProxyInfo> GetProxyWithExternalIP(ProxyInfo proxy, int externalIpTimeoutInSeconds, CancellationToken cancellationToken)
     {
         // Устанавливаем время ожидания получения внешнего IP
-        proxy.ExternalIP = await GetExternalIP(proxy, externalIpTimeoutInSeconds);
+        proxy.ExternalIP = await GetExternalIP(proxy, externalIpTimeoutInSeconds, cancellationToken);
 
-        if (!IsIPInBlacklist(proxy.ExternalIP))
+        while (IsIPInBlacklist(proxy.ExternalIP))
         {
-            EventPublisherManager.RaiseUpdateUIMessage($"Подходящий IP {proxy.ExternalIP}");
-            return proxy;
-        }
-        else
-        {
-            
+            // Если IP все еще в черном списке, ждем некоторое время (может быть, добавьте задержку)
+            await Task.Delay(500, cancellationToken);
+
+            // Повторно проверяем IP
+            proxy.ExternalIP = await GetExternalIP(proxy, externalIpTimeoutInSeconds, cancellationToken);
         }
 
         // Если задача была отменена, выбрасываем OperationCanceledException
@@ -113,7 +110,8 @@ public class ProxyInfo
     }
 
 
-    private static async Task<string> GetExternalIP(ProxyInfo proxy, int timeoutInSeconds)
+
+    private static async Task<string> GetExternalIP(ProxyInfo proxy, int timeoutInSeconds, CancellationToken cancellationToken)
     {
         using (HttpClientHandler handler = new HttpClientHandler())
         {
@@ -127,29 +125,26 @@ public class ProxyInfo
                 client.Timeout = TimeSpan.FromSeconds(timeoutInSeconds);
                 try
                 {
-                    EventPublisherManager.RaiseUpdateUIMessage($"Отправляю запрос для получения IP ");
                     // Получаем внешний IP 
-                    HttpResponseMessage response = await client.GetAsync("https://api64.ipify.org?format=json");
+                    HttpResponseMessage response = await client.GetAsync("https://api64.ipify.org?format=json", cancellationToken);
 
                     if (response.IsSuccessStatusCode)
                     {
-                        EventPublisherManager.RaiseUpdateUIMessage($"Получил ответ от сервера по IP");
                         string responseBody = await response.Content.ReadAsStringAsync();
                         ExternalIPInfo externalIPInfo = JsonConvert.DeserializeObject<ExternalIPInfo>(responseBody);
-                        EventPublisherManager.RaiseUpdateUIMessage($"Десериализовал ответ от сервера {externalIPInfo.IP}");
                         return externalIPInfo.IP;
                     }
                 }
                 catch (HttpRequestException e)
                 {
                     Console.WriteLine($"Error: {e.Message}");
+                    cancellationToken.ThrowIfCancellationRequested();
                 }
             }
         }
 
         return null;
     }
-
 
 
     // Проверка наличи IP в блеклисте
@@ -161,13 +156,26 @@ public class ProxyInfo
         try
         {
             blacklist = File.ReadAllLines(blacklistFilePath);
-            return blacklist.Contains(proxy);
+
+            IPAddress proxyIpAddress;
+            if (IPAddress.TryParse(proxy, out proxyIpAddress))
+            {
+                return blacklist.Any(item =>
+                {
+                    IPAddress itemIpAddress;
+                    return IPAddress.TryParse(item, out itemIpAddress) && itemIpAddress.Equals(proxyIpAddress);
+                });
+            }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            EventPublisherManager.RaiseUpdateUIMessage($"Не удалось проверить IP: {proxy} в блек листе: {ex.Message}");
             return false;
         }
+
+        return false;
     }
+
 
     /// <summary>
     /// Добавляет прокси в blacklist
@@ -185,10 +193,12 @@ public class ProxyInfo
                     File.Create(blacklistFilePath);
 
                 File.AppendAllLines(blacklistFilePath, new[] { proxy });
+
+                EventPublisherManager.RaiseUpdateUIMessage($"Убираю IP {proxy}  в blacklist");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Обработка ошибок записи в файл
+                EventPublisherManager.RaiseUpdateUIMessage($"Не удалось убрать IP {proxy} в блек лист: {ex.Message}");
             }
         }
     }

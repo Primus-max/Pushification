@@ -1,4 +1,4 @@
-﻿using OpenQA.Selenium;
+using OpenQA.Selenium;
 using PuppeteerSharp;
 using Pushification.Manager;
 using Pushification.Models;
@@ -19,7 +19,7 @@ namespace Pushification.Services
     {
         private SubscriptionModeSettings _subscribeSettings = null;
         private readonly PushNotificationModeSettings _notificationModeSettings;
-        private IWebDriver _driver = null;
+        private IBrowser _browser = null;
         private IPage _page = null;
         private Timer timer;
         private bool stopTimer;
@@ -49,7 +49,20 @@ namespace Pushification.Services
             while (_isRunning)
             {
                 List<string> profiles = ProfilesManager.GetAllProfiles();
-                profiles.Sort((p1, p2) => File.GetCreationTime(p1).CompareTo(File.GetCreationTime(p2)));
+                if (profiles == null || profiles.Count == 0)
+                {
+                    EventPublisherManager.RaiseUpdateUIMessage("Не удалось получить список профилей, " +
+                                                                "возможно он пуст, перехожу в режим подписки на уведомления");
+
+                    await StopAsync();
+
+                    SubscribeService subscribeService = new SubscribeService();
+                    await subscribeService.Run();
+
+                    profiles = ProfilesManager.GetAllProfiles();
+                }
+
+                profiles?.Sort((p1, p2) => File.GetCreationTime(p1).CompareTo(File.GetCreationTime(p2)));
                 string userAgent = UserAgetManager.GetRandomUserAgent();
 
                 foreach (string profilePath in profiles)
@@ -107,7 +120,7 @@ namespace Pushification.Services
         // Если срабатывает таймер
         private async void TimerCallback(object state)
         {
-            StopBrowser();
+            await StopAsync();
             // Остановить таймер после выполнения кода
             timer.Dispose();
 
@@ -130,9 +143,10 @@ namespace Pushification.Services
             string proxyFilePath = _subscribeSettings.ProxyList;
             ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 10, true);
 
+
             // Получаю драйвер, открываю страницу
-            _driver =  DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
-            //_page = await _driver.NewPageAsync();
+            _browser = await DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
+            _page = await _browser.NewPageAsync();
 
             IntPtr handle = IntPtr.Zero;
 
@@ -141,8 +155,14 @@ namespace Pushification.Services
             DateTime startTime = DateTime.Now;
 
             // Ожидаю уведомления
-            while (handle == IntPtr.Zero || (DateTime.Now - startTime).TotalSeconds < maxTimeToWaitNotificationIgnoreInSeconds)
+            while (handle == IntPtr.Zero)
             {
+                if ((DateTime.Now - startTime).TotalSeconds > maxTimeToWaitNotificationIgnoreInSeconds)
+                {
+                    await StopAsync();
+                    return;
+                }
+
                 handle = FindNotificationToast();
                 await Task.Delay(1000);
             }
@@ -163,20 +183,24 @@ namespace Pushification.Services
                 }
             }
 
-            StopBrowser();
+            await StopAsync();
         }
 
         // Режим кликов по уведомлениям
         private async Task RunClickModeAsync(string profilePath, string userAgent)
         {
-            EventPublisherManager.RaiseUpdateUIMessage($"Получаю прокси");
             // Получаю прокси
             string proxyFilePath = _subscribeSettings.ProxyList;
             ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 10, true);
-            EventPublisherManager.RaiseUpdateUIMessage($"Получил прокси");
+
+            if (proxyInfo == null)
+                return;
+
+            EventPublisherManager.RaiseUpdateUIMessage($"Получил IP {proxyInfo.ExternalIP}");
+
             // Получаю драйвер, открываю страницу
-            _driver =  DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
-           // _page = await _driver.NewPageAsync();
+            _browser = await DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
+            _page = await _browser.NewPageAsync();
 
             // Получаю рандомное число для закрытия по крестику
             Random random = new Random();
@@ -193,7 +217,7 @@ namespace Pushification.Services
                 IntPtr handle = GetNotificationWindow();
                 if (handle == IntPtr.Zero)
                 {
-                     StopBrowser();
+                    await StopAsync();
                     break;
                 }
 
@@ -206,7 +230,7 @@ namespace Pushification.Services
             int sleepAfterAllNotificationsClickMs = _notificationModeSettings.SleepAfterAllNotificationsClick * 1000;
             await Task.Delay(sleepAfterAllNotificationsClickMs);
 
-             StopBrowser();
+            await StopAsync();
         }
 
         // Метод удаления профиля
@@ -244,14 +268,18 @@ namespace Pushification.Services
         }
 
         // Остановка работы
-        public void StopBrowser()
+        public async Task StopAsync()
         {
             // Закрыть браузер после прошествия времени
-             _driver.Close();
-            //await _page.DisposeAsync();
+            try
+            {
+                await _browser?.CloseAsync();
+                await _page.DisposeAsync();
 
+            }
+            catch (Exception) { }
             // Удаляю лишние папки и файлы из профиля
-            Thread.Sleep(500);
+            await Task.Delay(500);
             ProfilesManager.RemoveCash();
         }
 
@@ -279,7 +307,7 @@ namespace Pushification.Services
             {
                 EventPublisherManager.RaiseUpdateUIMessage("Не удалось кликнуть по push");
                 // TODO логирование
-                 StopBrowser();
+                await StopAsync();
             }
 
         }
@@ -333,7 +361,7 @@ namespace Pushification.Services
             }
             else
             {
-                Console.WriteLine("Окно не найдено.");
+                EventPublisherManager.RaiseUpdateUIMessage("Окно не найдено.");
             }
         }
 
