@@ -46,9 +46,12 @@ namespace Pushification.Services
 
             Random random = new Random();
 
-            while (_isRunning)
+            List<string> profiles = null;
+
+            do
             {
-                List<string> profiles = ProfilesManager.GetAllProfiles();
+                profiles = ProfilesManager.GetAllProfiles();
+
                 if (profiles == null || profiles.Count == 0)
                 {
                     EventPublisherManager.RaiseUpdateUIMessage("Не удалось получить список профилей, " +
@@ -93,7 +96,7 @@ namespace Pushification.Services
 
                 }
 
-            }
+            } while (_isRunning);
         }
 
         // Запускаю таймер

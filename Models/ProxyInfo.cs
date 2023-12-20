@@ -155,6 +155,12 @@ public class ProxyInfo
 
         try
         {
+            // Проверяем существование файла и создаем его, если не существует
+            if (!File.Exists(blacklistFilePath))
+            {
+                File.Create(blacklistFilePath).Close();
+            }
+
             blacklist = File.ReadAllLines(blacklistFilePath);
 
             IPAddress proxyIpAddress;
@@ -175,6 +181,7 @@ public class ProxyInfo
 
         return false;
     }
+
 
 
     /// <summary>

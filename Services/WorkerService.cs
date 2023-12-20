@@ -7,8 +7,8 @@
         {
             while (true)
             {
-                //NotificationService notificationService = new NotificationService();
-                //await notificationService.Run();
+                NotificationService notificationService = new NotificationService();
+                await notificationService.Run();
 
 
                 //SubscribeService subscribeService = new SubscribeService();
