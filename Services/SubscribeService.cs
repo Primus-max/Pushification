@@ -56,12 +56,16 @@ namespace Pushification.Services
                     return;
                 }
 
-                                
-                _page = await _browser.NewPageAsync();
-                await _page.SetUserAgentAsync(userAgent);
 
-                // Авторизую прокси
-                await _page.AuthenticateAsync(new Credentials() { Password = proxy.Password, Username = proxy.Username });
+                try
+                {
+                    _page = await _browser.NewPageAsync();
+                    await _page.SetUserAgentAsync(userAgent);
+
+                    // Авторизую прокси
+                    await _page.AuthenticateAsync(new Credentials() { Password = proxy.Password, Username = proxy.Username });
+                }
+                catch (Exception) { }
 
                 try
                 {
@@ -74,8 +78,15 @@ namespace Pushification.Services
                     //await _page.GoToAsync("https://www.whatismyip.com/");
                     //await _page.ScreenshotAsync("whatismyip.png");
 
-                    EventPublisherManager.RaiseUpdateUIMessage($"Перехожу по адресу {url}");
-                    await _page.GoToAsync(url);
+                    try
+                    {
+                        EventPublisherManager.RaiseUpdateUIMessage($"Перехожу по адресу {url}");
+                        await _page.GoToAsync(url);
+                    }
+                    catch (Exception ex)
+                    {
+                        EventPublisherManager.RaiseUpdateUIMessage($"Не удалось перейти по адресу : {ex.Message}");
+                    }
 
                     // Извлекаем хост (домен) для передачи в виде простой строки без схемы
                     Uri uri = new Uri(_subscribeSettings?.URL);
@@ -87,7 +98,7 @@ namespace Pushification.Services
                     if (IsSuccess)
                     {
                         // Если успешно, то убираю прокси в блеклист
-                        ProxyInfo.AddProxyToBlacklist(proxy.ExternalIP);                       
+                        ProxyInfo.AddProxyToBlacklist(proxy.ExternalIP);
                         // Время ожидания после подписки
                         int afterAllowTimeoutMillisecond = _subscribeSettings.AfterAllowTimeout * 1000;
                         await Task.Delay(afterAllowTimeoutMillisecond);
@@ -95,12 +106,13 @@ namespace Pushification.Services
                     else
                     {
                         await StopAsync();
+                        EventPublisherManager.RaiseUpdateUIMessage($"Не удалось подписаться на уведомление");
                         ProfilesManager.RemoveProfile(profilePath);
                     }
                 }
                 catch (Exception)
                 {
-                    await StopAsync();                    
+                    await StopAsync();
                     ProfilesManager.RemoveProfile(profilePath);
                 }
                 await StopAsync();

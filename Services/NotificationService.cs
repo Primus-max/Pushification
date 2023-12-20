@@ -26,6 +26,8 @@ namespace Pushification.Services
         private bool _isRunning = true;
         public event EventHandler<string> UpdateUIMessage;
 
+        private readonly object lockObject = new object();
+        private TaskCompletionSource<bool> runWithAppModeCompletionSource = null;
         public NotificationService()
         {
             _subscribeSettings = SubscriptionModeSettings.LoadSubscriptionSettingsFromJson();
@@ -93,20 +95,20 @@ namespace Pushification.Services
                             await RunClickModeAsync(profilePath, userAgent);
                         }
                     }
-
                 }
 
             } while (_isRunning);
+
+            // Сигнализируем о завершении RunWithAppModeAsync
+            runWithAppModeCompletionSource?.TrySetResult(true);
         }
 
-        // Запускаю таймер
         private void StartTimer()
         {
             TimeSpan startTime = TimeSpan.Parse(_subscribeSettings.StartOptionOne);
             DateTime currentDate = DateTime.Now;
             DateTime targetTime = currentDate.Date.Add(startTime);
 
-            // Если указанное время уже прошло для текущего дня, добавляем 1 день
             if (currentDate.TimeOfDay > startTime)
             {
                 targetTime = targetTime.AddDays(1);
@@ -120,20 +122,42 @@ namespace Pushification.Services
             }
         }
 
-        // Если срабатывает таймер
         private async void TimerCallback(object state)
         {
             await StopAsync();
-            // Остановить таймер после выполнения кода
             timer.Dispose();
 
             _isRunning = false;
-            SubscribeService subscribeService = new SubscribeService();
-            await subscribeService.Run();
 
-            await RunWithAppModeAsync();
-            StartTimer();
+            // Создаем новый TaskCompletionSource для следующей итерации RunWithAppModeAsync
+            runWithAppModeCompletionSource = new TaskCompletionSource<bool>();
+
+            try
+            {
+                // Ждем завершения RunWithAppModeAsync перед запуском subscribeService.Run()
+                await RunWithAppModeAsync();
+
+                SubscribeService subscribeService = new SubscribeService();
+
+                // Запускаем subscribeService.Run(), дожидаемся его завершения
+                await subscribeService.Run();
+
+                // Завершение RunWithAppModeAsync
+                runWithAppModeCompletionSource.TrySetResult(true);
+            }
+            finally
+            {
+                _isRunning = true;
+
+                // Дожидаемся завершения RunWithAppModeAsync перед стартом таймера
+                await runWithAppModeCompletionSource.Task;
+
+                // Запускаем новую итерацию RunWithAppModeAsync
+                await RunWithAppModeAsync();
+                StartTimer();
+            }
         }
+
 
 
         // Режим Ignore
@@ -144,12 +168,22 @@ namespace Pushification.Services
 
             // Получаю прокси
             string proxyFilePath = _subscribeSettings.ProxyList;
-            ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 10, true);
-
-
-            // Получаю драйвер, открываю страницу
-            _browser = await DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
-            _page = await _browser.NewPageAsync();
+            ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 20, true);            
+            string url = _subscribeSettings.URL;       
+            
+            try
+            {
+                // Получаю драйвер, открываю страницу
+                _browser = await DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
+                _page = await _browser.NewPageAsync();
+                await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
+                EventPublisherManager.RaiseUpdateUIMessage($"Перехожу по адресу {url}");
+                await _page.GoToAsync(url);
+            }
+            catch (Exception ex)
+            {
+                EventPublisherManager.RaiseUpdateUIMessage($"Не удалось перейти по адресу : {ex.Message}");
+            }
 
             IntPtr handle = IntPtr.Zero;
 
@@ -322,6 +356,8 @@ namespace Pushification.Services
 
             foreach (var chromeWindow in chromeWindows)
             {
+                if (chromeWindow != null) return IntPtr.Zero;
+
                 // Фильтруем окна без Name и AutomationId
                 if (string.IsNullOrEmpty(chromeWindow?.Current.Name) && string.IsNullOrEmpty(chromeWindow?.Current.AutomationId))
                 {
