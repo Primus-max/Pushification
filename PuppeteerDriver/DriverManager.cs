@@ -1,5 +1,6 @@
 using PuppeteerSharp;
 using Pushification.Manager;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,7 +10,6 @@ namespace Pushification.PuppeteerDriver
     {
         public static async Task<IBrowser> CreateDriver(string profilePath, ProxyInfo proxyInfo = null, string userAgent = null, bool useHeadlessMode = false)
         {
-
             if (string.IsNullOrEmpty(profilePath))
             {
                 EventPublisherManager.RaiseUpdateUIMessage("Не удалось создать путь к профилю");
@@ -18,19 +18,23 @@ namespace Pushification.PuppeteerDriver
 
             await new BrowserFetcher().DownloadAsync();
 
+            var launchArguments = new List<string>
+    {
+        "--start-maximized",
+        // Другие аргументы, если есть
+    };
+
+            if (proxyInfo != null)
+            {
+                launchArguments.Add($"--proxy-server={proxyInfo.IP}:{proxyInfo.Port}");
+            }
+
             var launchOptions = new LaunchOptions
             {
                 Headless = useHeadlessMode,
-                Args = new[]
-                {
-                    "--start-maximized",
-                    $"--proxy-server={proxyInfo?.IP}:{proxyInfo?.Port}",
-                }
-                .Where(arg => arg != null)
-                .ToArray(),
+                Args = launchArguments.ToArray(),
                 UserDataDir = profilePath,
             };
-
 
             try
             {

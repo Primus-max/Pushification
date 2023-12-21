@@ -43,6 +43,25 @@ public class ProxyInfo
         public string IP { get; set; }
     }
 
+    public static ProxyInfo GetRandomProxy(string filePath)
+    {
+        Random random = new Random();
+        string[] proxies = null;
+
+        try
+        {
+            proxies = File.ReadAllLines(filePath);
+            string randomProxy = proxies[random.Next(0, proxies.Length - 1)];
+
+            return Parse(randomProxy);
+        }
+        catch (Exception ex)
+        {
+            EventPublisherManager.RaiseUpdateUIMessage($"Проблема при получении списка прокси из файла {ex.Message}");
+            return null;
+        }
+    }
+
     /// <summary>
     /// Метод получения валидного прокси, если подходит внешний IP
     /// </summary>
@@ -108,8 +127,6 @@ public class ProxyInfo
 
         return proxy;
     }
-
-
 
     private static async Task<string> GetExternalIP(ProxyInfo proxy, int timeoutInSeconds, CancellationToken cancellationToken)
     {

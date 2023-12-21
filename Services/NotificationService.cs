@@ -1,4 +1,3 @@
-using OpenQA.Selenium;
 using PuppeteerSharp;
 using Pushification.Manager;
 using Pushification.Models;
@@ -168,17 +167,20 @@ namespace Pushification.Services
 
             // Получаю прокси
             string proxyFilePath = _subscribeSettings.ProxyList;
-            ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 20, true);            
-            string url = _subscribeSettings.URL;       
-            
+            ProxyInfo proxyInfo = ProxyInfo.GetRandomProxy(proxyFilePath);
+            string url = _subscribeSettings.URL;
+
             try
             {
                 // Получаю драйвер, открываю страницу
-                _browser = await DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
+                _browser = await DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
                 _page = await _browser.NewPageAsync();
-                await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
-                EventPublisherManager.RaiseUpdateUIMessage($"Перехожу по адресу {url}");
-                await _page.GoToAsync(url);
+
+                if (isUseProxy)
+                    await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
+                //await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
+                //EventPublisherManager.RaiseUpdateUIMessage($"Перехожу по адресу {url}");
+                //await _page.GoToAsync(url);
             }
             catch (Exception ex)
             {
@@ -228,16 +230,15 @@ namespace Pushification.Services
         {
             // Получаю прокси
             string proxyFilePath = _subscribeSettings.ProxyList;
-            ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 10, true);
+            ProxyInfo proxyInfo = ProxyInfo.GetRandomProxy(proxyFilePath);
 
             if (proxyInfo == null)
                 return;
 
-            EventPublisherManager.RaiseUpdateUIMessage($"Получил IP {proxyInfo.ExternalIP}");
-
             // Получаю драйвер, открываю страницу
             _browser = await DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
             _page = await _browser.NewPageAsync();
+            await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
 
             // Получаю рандомное число для закрытия по крестику
             Random random = new Random();
