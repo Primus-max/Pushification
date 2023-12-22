@@ -66,11 +66,12 @@ namespace Pushification.Services
                     profiles = ProfilesManager.GetAllProfiles();
                 }
 
-                profiles?.Sort((p1, p2) => File.GetCreationTime(p1).CompareTo(File.GetCreationTime(p2)));
-                string userAgent = UserAgetManager.GetRandomUserAgent();
+                profiles?.Sort((p1, p2) => File.GetCreationTime(p1).CompareTo(File.GetCreationTime(p2)));                
 
                 foreach (string profilePath in profiles)
                 {
+                    string userAgent = UserAgetManager.GetRandomUserAgent();
+
                     if (!_isRunning)
                         return;
 
@@ -177,10 +178,7 @@ namespace Pushification.Services
                 _page = await _browser.NewPageAsync();
 
                 if (isUseProxy)
-                    await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
-                //await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
-                //EventPublisherManager.RaiseUpdateUIMessage($"Перехожу по адресу {url}");
-                //await _page.GoToAsync(url);
+                    await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });              
             }
             catch (Exception ex)
             {
@@ -189,7 +187,7 @@ namespace Pushification.Services
 
             IntPtr handle = IntPtr.Zero;
 
-            // Время ожиданий уведомлений
+            // Время ожидания уведомлений
             int maxTimeToWaitNotificationIgnoreInSeconds = _notificationModeSettings.MaxTimeToWaitNotificationIgnore;
             DateTime startTime = DateTime.Now;
 
@@ -203,13 +201,9 @@ namespace Pushification.Services
                 }
 
                 handle = FindNotificationToast();
-                await Task.Delay(1000);
+                await Task.Delay(500);
             }
 
-
-            // Ожидаю перед закрытием
-            int sleepBeforeProcessKillIgnore = _notificationModeSettings.SleepBeforeProcessKillIgnore * 1000;
-            await Task.Delay(sleepBeforeProcessKillIgnore);
 
             if (_notificationModeSettings.NotificationCloseByButton)
             {
@@ -256,7 +250,7 @@ namespace Pushification.Services
                 if (handle == IntPtr.Zero)
                 {
                     await StopAsync();
-                    break;
+                    return;
                 }
 
                 ClickByPush(handle);
