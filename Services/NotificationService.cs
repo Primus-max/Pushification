@@ -176,6 +176,7 @@ namespace Pushification.Services
                 // Получаю драйвер, открываю страницу
                 _browser = await DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
                 _page = await _browser.NewPageAsync();
+                 await _page.SetUserAgentAsync(userAgent);
 
                 if (isUseProxy)
                     await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });              
@@ -192,16 +193,11 @@ namespace Pushification.Services
             DateTime startTime = DateTime.Now;
 
             // Ожидаю уведомления
-            while (handle == IntPtr.Zero)
+            handle = GetNotificationWindow(maxTimeToWaitNotificationIgnoreInSeconds);
+            if (handle == IntPtr.Zero)
             {
-                if ((DateTime.Now - startTime).TotalSeconds > maxTimeToWaitNotificationIgnoreInSeconds)
-                {
-                    await StopAsync();
-                    return;
-                }
-
-                handle = FindNotificationToast();
-                await Task.Delay(500);
+                await StopAsync();
+                return;
             }
 
 
@@ -232,6 +228,7 @@ namespace Pushification.Services
             // Получаю драйвер, открываю страницу
             _browser = await DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
             _page = await _browser.NewPageAsync();
+            await _page.SetUserAgentAsync(userAgent);
             await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
 
             // Получаю рандомное число для закрытия по крестику
@@ -246,7 +243,7 @@ namespace Pushification.Services
             int sleepBetweenClick = _notificationModeSettings.SleepBetweenClick * 1000;
             for (int i = 0; i < randomClickByPush; i++)
             {
-                IntPtr handle = GetNotificationWindow();
+                IntPtr handle = GetNotificationWindow(_notificationModeSettings.TimeToWaitNotificationClick);
                 if (handle == IntPtr.Zero)
                 {
                     await StopAsync();
@@ -275,20 +272,19 @@ namespace Pushification.Services
         }
 
         // Ождаю окно уведомлений
-        private IntPtr GetNotificationWindow()
+        private IntPtr GetNotificationWindow(int timeout)
         {
             IntPtr handle = IntPtr.Zero;
 
             // Время ожиданий уведомлений
-            int timeToWaitNotificationClick = _notificationModeSettings.TimeToWaitNotificationClick;
+            int timeToWaitNotificationClick = timeout;
             DateTime startTime = DateTime.Now;
 
             // Ожидаю уведомления
             while (handle == IntPtr.Zero)
             {
                 if (!((DateTime.Now - startTime).TotalSeconds < timeToWaitNotificationClick))
-                {
-                    EventPublisherManager.RaiseUpdateUIMessage("Не удалось получить окно push, истекло время ожидания");
+                {               
                     break;
                 }
 
@@ -351,11 +347,12 @@ namespace Pushification.Services
 
             foreach (var chromeWindow in chromeWindows)
             {
-                if (chromeWindow != null) return IntPtr.Zero;
+                if (chromeWindow == null) continue;
 
                 // Фильтруем окна без Name и AutomationId
                 if (string.IsNullOrEmpty(chromeWindow?.Current.Name) && string.IsNullOrEmpty(chromeWindow?.Current.AutomationId))
                 {
+                    EventPublisherManager.RaiseUpdateUIMessage($"Получил окно push");
                     return new IntPtr(chromeWindow.Current.NativeWindowHandle);
                 }
             }

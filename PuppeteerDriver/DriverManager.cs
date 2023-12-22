@@ -19,10 +19,10 @@ namespace Pushification.PuppeteerDriver
             await new BrowserFetcher().DownloadAsync();
 
             var launchArguments = new List<string>
-    {
-        "--start-maximized",
-        // Другие аргументы, если есть
-    };
+            {
+                "--start-maximized",
+            };
+            
 
             if (proxyInfo != null)
             {
