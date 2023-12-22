@@ -1,7 +1,6 @@
 using PuppeteerSharp;
 using Pushification.Manager;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Pushification.PuppeteerDriver
@@ -19,10 +18,9 @@ namespace Pushification.PuppeteerDriver
             await new BrowserFetcher().DownloadAsync();
 
             var launchArguments = new List<string>
-            {
-                "--start-maximized",
-            };
-            
+    {
+        "--start-maximized",
+    };
 
             if (proxyInfo != null)
             {
@@ -38,7 +36,24 @@ namespace Pushification.PuppeteerDriver
 
             try
             {
-                return await Puppeteer.LaunchAsync(launchOptions);
+                var browser = await Puppeteer.LaunchAsync(launchOptions);
+
+                // Перехватываем создание новой страницы
+                browser.TargetCreated += async (sender, e) =>
+                {
+                    if (e.Target.Type == TargetType.Page)
+                    {
+                        var page = await e.Target.PageAsync();
+                        if (!string.IsNullOrEmpty(userAgent))
+                        {
+                            // Устанавливаем пользовательский агент для каждой новой вкладки
+                            await page.SetUserAgentAsync(userAgent);
+                        }
+                    }
+                };
+
+                // Возвращаем объект браузера
+                return browser;
             }
             catch (System.Exception ex)
             {
@@ -47,6 +62,7 @@ namespace Pushification.PuppeteerDriver
                 // TODO логирование
             }
         }
+
 
     }
 

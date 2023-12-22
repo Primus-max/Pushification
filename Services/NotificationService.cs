@@ -175,6 +175,7 @@ namespace Pushification.Services
             {
                 // Получаю драйвер, открываю страницу
                 _browser = await DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
+              
                 _page = await _browser.NewPageAsync();
                  await _page.SetUserAgentAsync(userAgent);
 
@@ -192,14 +193,15 @@ namespace Pushification.Services
             int maxTimeToWaitNotificationIgnoreInSeconds = _notificationModeSettings.MaxTimeToWaitNotificationIgnore;
             DateTime startTime = DateTime.Now;
 
+            int sleepBeforeProcessKillIgnore = _notificationModeSettings.SleepBeforeProcessKillIgnore * 1000;
+
             // Ожидаю уведомления
             handle = GetNotificationWindow(maxTimeToWaitNotificationIgnoreInSeconds);
             if (handle == IntPtr.Zero)
-            {
+            {              
                 await StopAsync();
                 return;
             }
-
 
             if (_notificationModeSettings.NotificationCloseByButton)
             {
@@ -212,6 +214,7 @@ namespace Pushification.Services
                 }
             }
 
+            await Task.Delay(sleepBeforeProcessKillIgnore);
             await StopAsync();
         }
 
@@ -289,7 +292,7 @@ namespace Pushification.Services
                 }
 
                 handle = FindNotificationToast();
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
             }
 
             return handle;
