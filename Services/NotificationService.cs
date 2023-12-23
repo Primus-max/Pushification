@@ -92,7 +92,7 @@ namespace Pushification.Services
                         else
                         {
                             EventPublisherManager.RaiseUpdateUIMessage("Режим Click -------------------------------------------");
-                            await RunClickModeAsync(profilePath, userAgent);
+                            await RunIgnoreModeAsync(profilePath, userAgent);
                         }
                     }
                 }
@@ -174,29 +174,46 @@ namespace Pushification.Services
             try
             {
                 _browser = await DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
-                _page = await _browser.NewPageAsync();
                 _browser.TargetCreated += async (sender, e) =>
                 {
                     if (e.Target.Type == TargetType.Page)
                     {
-                        _page = await e.Target.PageAsync();
+                        var page = await e.Target.PageAsync();
                         if (!string.IsNullOrEmpty(userAgent))
                         {
                             // Устанавливаем пользовательский агент для каждой новой вкладки
-                            await _page.SetUserAgentAsync(userAgent);
+                            await page.SetUserAgentAsync(userAgent);
                         }
                     }
                 };
 
+                // Пройдитесь по уже открытым вкладкам и установите агент
+                foreach (var target in _browser.Targets())
+                {
+                    if (target.Type == TargetType.Page)
+                    {
+                        var page = await target.PageAsync();
+                        if (!string.IsNullOrEmpty(userAgent))
+                        {
+                            // Устанавливаем пользовательский агент для каждой открытой вкладки
+                            await page.SetUserAgentAsync(userAgent);
+                        }
+                    }
+                }
+
+                _page = await _browser.NewPageAsync();
+
                 if (isUseProxy)
                     await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
-                // await _page.SetUserAgentAsync(userAgent);
+
+               // await _page.SetUserAgentAsync(userAgent);
             }
             catch (Exception ex)
             {
                 EventPublisherManager.RaiseUpdateUIMessage($"Не удалось перейти по адресу : {ex.Message}");
                 return;
             }
+
 
             IntPtr handle = IntPtr.Zero;
 
@@ -242,25 +259,44 @@ namespace Pushification.Services
             // Получаю драйвер, открываю страницу
             try
             {
-                _browser = await DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
-                _page = await _browser.NewPageAsync();
-                // Перехватываем создание новой страницы
+                _browser = await DriverManager.CreateDriver(profilePath, proxyInfo , userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
                 _browser.TargetCreated += async (sender, e) =>
                 {
                     if (e.Target.Type == TargetType.Page)
                     {
-                        _page = await e.Target.PageAsync();
+                        var page = await e.Target.PageAsync();
                         if (!string.IsNullOrEmpty(userAgent))
                         {
                             // Устанавливаем пользовательский агент для каждой новой вкладки
-                            await _page.SetUserAgentAsync(userAgent);
+                            await page.SetUserAgentAsync(userAgent);
                         }
                     }
                 };
-                await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
-                // await _page.SetUserAgentAsync(userAgent);
+
+                // Пройдитесь по уже открытым вкладкам и установите агент
+                foreach (var target in _browser.Targets())
+                {
+                    if (target.Type == TargetType.Page)
+                    {
+                        var page = await target.PageAsync();
+                        if (!string.IsNullOrEmpty(userAgent))
+                        {
+                            // Устанавливаем пользовательский агент для каждой открытой вкладки
+                            await page.SetUserAgentAsync(userAgent);
+                        }
+                    }
+                }
+
+                _page = await _browser.NewPageAsync();               
+
+                //await _page.SetUserAgentAsync(userAgent);
             }
-            catch (Exception) { return; }
+            catch (Exception ex)
+            {
+                EventPublisherManager.RaiseUpdateUIMessage($"Не удалось перейти по адресу : {ex.Message}");
+                return;
+            }
+
 
 
             // Получаю рандомное число для закрытия по крестику
@@ -382,11 +418,15 @@ namespace Pushification.Services
                 if (chromeWindow == null) continue;
 
                 // Фильтруем окна без Name и AutomationId
-                if (string.IsNullOrEmpty(chromeWindow?.Current.Name) && string.IsNullOrEmpty(chromeWindow?.Current.AutomationId))
+                try
                 {
-                    EventPublisherManager.RaiseUpdateUIMessage($"Получил окно push");
-                    return new IntPtr(chromeWindow.Current.NativeWindowHandle);
+                    if (string.IsNullOrEmpty(chromeWindow?.Current.Name) && string.IsNullOrEmpty(chromeWindow?.Current.AutomationId))
+                    {
+                        EventPublisherManager.RaiseUpdateUIMessage($"Получил окно push");
+                        return new IntPtr(chromeWindow.Current.NativeWindowHandle);
+                    }
                 }
+                catch (Exception) { }
             }
 
             return IntPtr.Zero;
