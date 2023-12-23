@@ -48,24 +48,16 @@ namespace Pushification.Services
 
                 string userAgent = UserAgetManager.GetRandomUserAgent();
 
-                _browser = await DriverManager.CreateDriver(profilePath, proxy, userAgent);
-
-                if (_browser == null)
-                {
-                    // TODO здесь будет логирование
-                    return;
-                }
-
-
+               
                 try
                 {
+                    _browser = await DriverManager.CreateDriver(profilePath, proxy, userAgent);
                     _page = await _browser.NewPageAsync();
                     await _page.SetUserAgentAsync(userAgent);
-
                     // Авторизую прокси
                     await _page.AuthenticateAsync(new Credentials() { Password = proxy.Password, Username = proxy.Username });
                 }
-                catch (Exception) { }
+                catch (Exception) { continue; }
 
                 try
                 {

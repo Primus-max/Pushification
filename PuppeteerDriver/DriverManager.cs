@@ -36,21 +36,7 @@ namespace Pushification.PuppeteerDriver
 
             try
             {
-                var browser = await Puppeteer.LaunchAsync(launchOptions);
-
-                // Перехватываем создание новой страницы
-                browser.TargetCreated += async (sender, e) =>
-                {
-                    if (e.Target.Type == TargetType.Page)
-                    {
-                        var page = await e.Target.PageAsync();
-                        if (!string.IsNullOrEmpty(userAgent))
-                        {
-                            // Устанавливаем пользовательский агент для каждой новой вкладки
-                            await page.SetUserAgentAsync(userAgent);
-                        }
-                    }
-                };
+                var browser = await Puppeteer.LaunchAsync(launchOptions);             
 
                 // Возвращаем объект браузера
                 return browser;

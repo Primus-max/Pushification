@@ -66,7 +66,7 @@ namespace Pushification.Services
                     profiles = ProfilesManager.GetAllProfiles();
                 }
 
-                profiles?.Sort((p1, p2) => File.GetCreationTime(p1).CompareTo(File.GetCreationTime(p2)));                
+                profiles?.Sort((p1, p2) => File.GetCreationTime(p1).CompareTo(File.GetCreationTime(p2)));
 
                 foreach (string profilePath in profiles)
                 {
@@ -173,18 +173,29 @@ namespace Pushification.Services
 
             try
             {
-                // Получаю драйвер, открываю страницу
                 _browser = await DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
-              
                 _page = await _browser.NewPageAsync();
-                 await _page.SetUserAgentAsync(userAgent);
+                _browser.TargetCreated += async (sender, e) =>
+                {
+                    if (e.Target.Type == TargetType.Page)
+                    {
+                        _page = await e.Target.PageAsync();
+                        if (!string.IsNullOrEmpty(userAgent))
+                        {
+                            // Устанавливаем пользовательский агент для каждой новой вкладки
+                            await _page.SetUserAgentAsync(userAgent);
+                        }
+                    }
+                };
 
                 if (isUseProxy)
-                    await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });              
+                    await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
+                // await _page.SetUserAgentAsync(userAgent);
             }
             catch (Exception ex)
             {
                 EventPublisherManager.RaiseUpdateUIMessage($"Не удалось перейти по адресу : {ex.Message}");
+                return;
             }
 
             IntPtr handle = IntPtr.Zero;
@@ -198,7 +209,7 @@ namespace Pushification.Services
             // Ожидаю уведомления
             handle = GetNotificationWindow(maxTimeToWaitNotificationIgnoreInSeconds);
             if (handle == IntPtr.Zero)
-            {              
+            {
                 await StopAsync();
                 return;
             }
@@ -229,10 +240,28 @@ namespace Pushification.Services
                 return;
 
             // Получаю драйвер, открываю страницу
-            _browser = await DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
-            _page = await _browser.NewPageAsync();
-            await _page.SetUserAgentAsync(userAgent);
-            await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
+            try
+            {
+                _browser = await DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
+                _page = await _browser.NewPageAsync();
+                // Перехватываем создание новой страницы
+                _browser.TargetCreated += async (sender, e) =>
+                {
+                    if (e.Target.Type == TargetType.Page)
+                    {
+                        _page = await e.Target.PageAsync();
+                        if (!string.IsNullOrEmpty(userAgent))
+                        {
+                            // Устанавливаем пользовательский агент для каждой новой вкладки
+                            await _page.SetUserAgentAsync(userAgent);
+                        }
+                    }
+                };
+                await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
+                // await _page.SetUserAgentAsync(userAgent);
+            }
+            catch (Exception) { return; }
+
 
             // Получаю рандомное число для закрытия по крестику
             Random random = new Random();
@@ -287,7 +316,7 @@ namespace Pushification.Services
             while (handle == IntPtr.Zero)
             {
                 if (!((DateTime.Now - startTime).TotalSeconds < timeToWaitNotificationClick))
-                {               
+                {
                     break;
                 }
 
