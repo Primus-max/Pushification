@@ -12,6 +12,7 @@ namespace Pushification.AutoIt
         public static void Run(string username, string password)
         {
             // Ожидаем активации окна по заголовку
+            
             AutoItX.WinWaitActive(text: "Chrome Legacy Window", timeout: 20);
 
             // Получаем ручку окна

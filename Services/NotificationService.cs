@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Automation;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Microsoft.Playwright;
 
 namespace Pushification.Services
 {
@@ -21,8 +22,8 @@ namespace Pushification.Services
     {
         private SubscriptionModeSettings _subscribeSettings = null;
         private readonly PushNotificationModeSettings _notificationModeSettings;
-        private IBrowser _browser = null;
-        private IPage _page = null;
+        //private IBrowser _browser = null;
+        //private IPage _page = null;
 
         private IWebDriver _driver;
 
@@ -176,12 +177,11 @@ namespace Pushification.Services
             string proxyFilePath = _subscribeSettings.ProxyList;
             ProxyInfo proxyInfo = ProxyInfo.GetRandomProxy(proxyFilePath); //  ProxyInfo.GetRandomProxy(proxyFilePath)
             string url = _subscribeSettings.URL;
-
+            Microsoft.Playwright.IPage page = null;
             try
             {
-                _driver =  DriverManager.CreateDriver(profilePath,  proxyInfo , userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
+                page = await DriverManager.CreatePageAsync(profilePath,  proxyInfo , userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
 
-                _driver.Navigate().GoToUrl(url);
 
                 ProxyAuth.Run(proxyInfo.Username, proxyInfo.Password);
             }
@@ -236,7 +236,7 @@ namespace Pushification.Services
             // Получаю драйвер, открываю страницу
             try
             {
-                _driver = DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);               
+                //_driver = DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);               
             }
             catch (Exception ex)
             {
@@ -316,8 +316,8 @@ namespace Pushification.Services
             // Закрыть браузер после прошествия времени
             try
             {
-                await _browser?.CloseAsync();
-                await _page.DisposeAsync();
+                //await _browser?.CloseAsync();
+                //await _page.DisposeAsync();
 
             }
             catch (Exception) { }

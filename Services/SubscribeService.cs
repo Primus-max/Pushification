@@ -53,7 +53,7 @@ namespace Pushification.Services
                
                 try
                 {
-                    _driver =  DriverManager.CreateDriver(profilePath, proxy, userAgent);
+                   // _driver =  DriverManager.CreateDriver(profilePath, proxy, userAgent);
                     //_page = await _browser.NewPageAsync();
                     //await _page.SetUserAgentAsync(userAgent);
                     //// Авторизую прокси

@@ -1,55 +1,36 @@
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+using Microsoft.Playwright;
 using System;
+using System.Threading.Tasks;
 
 namespace Pushification.PuppeteerDriver
 {
     public class DriverManager
     {
-        public static IWebDriver CreateDriver(string profilePath, ProxyInfo proxyInfo = null, string userAgent = null, bool useHeadlessMode = false)
+        public static async Task<IPage> CreatePageAsync(string profilePath, ProxyInfo proxyInfo = null, string userAgent = null, bool useHeadlessMode = false)
         {
-            // Проверка наличия пути к папке профиля
-            if (string.IsNullOrEmpty(profilePath))
-            {
-                Console.WriteLine("Не удалось создать путь к профилю");
-                return null;
-            }
-
-            // Создание опций для браузера
-            ChromeOptions options = new ChromeOptions();
-
-            // Добавление аргумента для максимизации окна
-            options.AddArgument("--start-maximized");
-
-            // Добавление аргумента для указания папки профиля
-            options.AddArgument($"--user-data-dir={profilePath}");
-
-            // Установка юзер-агента
-            options.AddArgument($"--user-agent={userAgent}");
-
-            // Добавление аргумента для безголового режима
-            if (useHeadlessMode)
-            {
-                options.AddArgument("--headless");
-            }
-
-            // Добавление опций для прокси, если они указаны
-            if (proxyInfo != null)
-            {
-                options.AddArgument($"--proxy-server={proxyInfo.IP}:{proxyInfo.Port}");
-            }
-
             try
-            {
-                // Создание экземпляра ChromeDriver с указанными опциями
-                IWebDriver driver = new ChromeDriver(options);
+            {             
+                Proxy proxy = new Proxy();
+                proxy.Server = "http://"+ proxyInfo.IP + proxyInfo.Port;
+                proxy.Username = proxyInfo.Username;
+                proxy.Password = proxyInfo.Password;
 
-                // Возвращение объекта драйвера
-                return driver;
+                var playwright = await Playwright.CreateAsync();
+                var browser = await playwright.Chromium.LaunchPersistentContextAsync(profilePath, new BrowserTypeLaunchPersistentContextOptions
+                {
+                    Headless = useHeadlessMode,
+                    UserAgent = userAgent,
+                    Proxy = proxy
+                });
+                              
+
+                var page = await browser.NewPageAsync();
+                
+                return page;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Не удалось создать драйвер: {ex.Message}");
+                Console.WriteLine($"Не удалось создать страницу: {ex.Message}");
                 // TODO: логирование
                 return null;
             }
