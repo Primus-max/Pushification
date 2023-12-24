@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Automation;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Pushification.Services
 {
@@ -92,7 +93,7 @@ namespace Pushification.Services
                         else
                         {
                             EventPublisherManager.RaiseUpdateUIMessage("Режим Click -------------------------------------------");
-                            await RunIgnoreModeAsync(profilePath, userAgent);
+                            await RunClickModeAsync(profilePath, userAgent);
                         }
                     }
                 }
@@ -174,39 +175,40 @@ namespace Pushification.Services
             try
             {
                 _browser = await DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
-                _browser.TargetCreated += async (sender, e) =>
-                {
-                    if (e.Target.Type == TargetType.Page)
-                    {
-                        var page = await e.Target.PageAsync();
-                        if (!string.IsNullOrEmpty(userAgent))
-                        {
-                            // Устанавливаем пользовательский агент для каждой новой вкладки
-                            await page.SetUserAgentAsync(userAgent);
-                        }
-                    }
-                };
+                //_browser.TargetCreated += async (sender, e) =>
+                //{
+                //    if (e.Target.Type == TargetType.Page)
+                //    {
+                //        var page = await e.Target.PageAsync();
+                //        if (!string.IsNullOrEmpty(userAgent))
+                //        {
+                //            // Устанавливаем пользовательский агент для каждой новой вкладки
+                //            await page.SetUserAgentAsync(userAgent);
+                //        }
+                //    }
+                //};
+                
+                //// Пройдитесь по уже открытым вкладкам и установите агент
+                //foreach (var target in _browser.Targets())
+                //{
+                //    if (target.Type == TargetType.Page)
+                //    {
+                //        var page = await target.PageAsync();
+                //        if (!string.IsNullOrEmpty(userAgent))
+                //        {
+                //            // Устанавливаем пользовательский агент для каждой открытой вкладки
+                //            await page.SetUserAgentAsync(userAgent);
+                //        }
+                //    }
+                //}
 
-                // Пройдитесь по уже открытым вкладкам и установите агент
-                foreach (var target in _browser.Targets())
-                {
-                    if (target.Type == TargetType.Page)
-                    {
-                        var page = await target.PageAsync();
-                        if (!string.IsNullOrEmpty(userAgent))
-                        {
-                            // Устанавливаем пользовательский агент для каждой открытой вкладки
-                            await page.SetUserAgentAsync(userAgent);
-                        }
-                    }
-                }
+               // _page = await _browser.NewPageAsync();
 
-                _page = await _browser.NewPageAsync();
+                //if (isUseProxy)
+                //    await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
 
-                if (isUseProxy)
-                    await _page.AuthenticateAsync(new Credentials() { Password = proxyInfo.Password, Username = proxyInfo.Username });
-
-               // await _page.SetUserAgentAsync(userAgent);
+              //  var ua = await _page.Browser.GetUserAgentAsync();
+                // await _page.SetUserAgentAsync(userAgent);
             }
             catch (Exception ex)
             {
@@ -260,34 +262,34 @@ namespace Pushification.Services
             try
             {
                 _browser = await DriverManager.CreateDriver(profilePath, proxyInfo , userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
-                _browser.TargetCreated += async (sender, e) =>
-                {
-                    if (e.Target.Type == TargetType.Page)
-                    {
-                        var page = await e.Target.PageAsync();
-                        if (!string.IsNullOrEmpty(userAgent))
-                        {
-                            // Устанавливаем пользовательский агент для каждой новой вкладки
-                            await page.SetUserAgentAsync(userAgent);
-                        }
-                    }
-                };
+                //_browser.TargetCreated += async (sender, e) =>
+                //{
+                //    if (e.Target.Type == TargetType.Page)
+                //    {
+                //        var page = await e.Target.PageAsync();
+                //        if (!string.IsNullOrEmpty(userAgent))
+                //        {
+                //            // Устанавливаем пользовательский агент для каждой новой вкладки
+                //            await page.SetUserAgentAsync(userAgent);
+                //        }
+                //    }
+                //};
 
-                // Пройдитесь по уже открытым вкладкам и установите агент
-                foreach (var target in _browser.Targets())
-                {
-                    if (target.Type == TargetType.Page)
-                    {
-                        var page = await target.PageAsync();
-                        if (!string.IsNullOrEmpty(userAgent))
-                        {
-                            // Устанавливаем пользовательский агент для каждой открытой вкладки
-                            await page.SetUserAgentAsync(userAgent);
-                        }
-                    }
-                }
+                //// Пройдитесь по уже открытым вкладкам и установите агент
+                //foreach (var target in _browser.Targets())
+                //{
+                //    if (target.Type == TargetType.Page)
+                //    {
+                //        var page = await target.PageAsync();
+                //        if (!string.IsNullOrEmpty(userAgent))
+                //        {
+                //            // Устанавливаем пользовательский агент для каждой открытой вкладки
+                //            await page.SetUserAgentAsync(userAgent);
+                //        }
+                //    }
+                //}
 
-                _page = await _browser.NewPageAsync();               
+                //_page = await _browser.NewPageAsync();               
 
                 //await _page.SetUserAgentAsync(userAgent);
             }
