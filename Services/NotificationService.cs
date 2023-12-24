@@ -173,12 +173,14 @@ namespace Pushification.Services
 
             // Получаю прокси
             string proxyFilePath = _subscribeSettings.ProxyList;
-            ProxyInfo proxyInfo =null; //  ProxyInfo.GetRandomProxy(proxyFilePath)
+            ProxyInfo proxyInfo = ProxyInfo.GetRandomProxy(proxyFilePath); //  ProxyInfo.GetRandomProxy(proxyFilePath)
             string url = _subscribeSettings.URL;
 
             try
             {
-                _driver =  DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);              
+                _driver =  DriverManager.CreateDriver(profilePath,  proxyInfo , userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
+
+                _driver.Navigate().GoToUrl(url);
             }
             catch (Exception ex)
             {
