@@ -1,3 +1,4 @@
+using OpenQA.Selenium;
 using PuppeteerSharp;
 using Pushification.Manager;
 using Pushification.Models;
@@ -16,6 +17,7 @@ namespace Pushification.Services
         private SubscriptionModeSettings _subscribeSettings = null;
         private IBrowser _browser = null;
         private IPage _page = null;
+        private IWebDriver _driver = null;
 
         public SubscribeService()
         {
@@ -51,11 +53,11 @@ namespace Pushification.Services
                
                 try
                 {
-                    _browser = await DriverManager.CreateDriver(profilePath, proxy, userAgent);
-                    _page = await _browser.NewPageAsync();
-                    await _page.SetUserAgentAsync(userAgent);
-                    // Авторизую прокси
-                    await _page.AuthenticateAsync(new Credentials() { Password = proxy.Password, Username = proxy.Username });
+                    _driver =  DriverManager.CreateDriver(profilePath, proxy, userAgent);
+                    //_page = await _browser.NewPageAsync();
+                    //await _page.SetUserAgentAsync(userAgent);
+                    //// Авторизую прокси
+                    //await _page.AuthenticateAsync(new Credentials() { Password = proxy.Password, Username = proxy.Username });
                 }
                 catch (Exception) { continue; }
 
