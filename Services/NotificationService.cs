@@ -20,6 +20,7 @@ namespace Pushification.Services
     {
         private SubscriptionModeSettings _subscribeSettings = null;
         private readonly PushNotificationModeSettings _notificationModeSettings;
+        private IBrowserContext _browserContext;
         private IPage _page = null;
         private Timer timer;
         private bool stopTimer;
@@ -173,7 +174,8 @@ namespace Pushification.Services
             
             try
             {
-                _page = await DriverManager.CreatePageAsync(profilePath, isUseProxy ? proxyInfo :null, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);                
+                _browserContext = await DriverManager.CreatePageAsync(profilePath, isUseProxy ? null : proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
+                _page = await _browserContext.NewPageAsync();                
             }
             catch (Exception ex)
             {
@@ -226,7 +228,8 @@ namespace Pushification.Services
             // Получаю драйвер, открываю страницу
             try
             {
-                _page = await DriverManager.CreatePageAsync(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);               
+                _browserContext = await DriverManager.CreatePageAsync(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
+                _page = await _browserContext.NewPageAsync();
             }
             catch (Exception ex)
             {
@@ -306,7 +309,7 @@ namespace Pushification.Services
             // Закрыть браузер после прошествия времени
             try
             {
-                await _page.CloseAsync();
+                await _browserContext.CloseAsync();
             }
             catch (Exception) { }
             // Удаляю лишние папки и файлы из профиля

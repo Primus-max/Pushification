@@ -15,6 +15,7 @@ namespace Pushification.Services
     public class SubscribeService : IServiceWorker
     {
         private SubscriptionModeSettings _subscribeSettings = null;
+        private IBrowserContext _browserContext;
         private IPage _page = null;
 
         public SubscribeService()
@@ -51,7 +52,8 @@ namespace Pushification.Services
 
                 try
                 {
-                     _page = await  DriverManager.CreatePageAsync(profilePath, proxy, userAgent);                 
+                    _browserContext = await  DriverManager.CreatePageAsync(profilePath, proxy, userAgent);
+                    _page = await _browserContext.NewPageAsync();
                 }
                 catch (Exception) { continue; }
 
@@ -111,7 +113,7 @@ namespace Pushification.Services
         public async Task StopAsync()
         {
             // Закрыть браузер после прошествия времени
-            await _page.CloseAsync();
+            await _browserContext.CloseAsync();          
 
             // Удаляю лишние папки и файлы из профиля
             await Task.Delay(1000);

@@ -2,12 +2,13 @@ using Microsoft.Playwright;
 using Pushification.Manager;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Pushification.PuppeteerDriver
 {
     public class DriverManager
     {
-        public static async Task<IPage> CreatePageAsync(string profilePath, ProxyInfo proxyInfo = null, string userAgent = null, bool useHeadlessMode = false)
+        public static async Task<IBrowserContext> CreatePageAsync(string profilePath, ProxyInfo proxyInfo = null, string userAgent = null, bool useHeadlessMode = false)
         {
             try
             {
@@ -23,21 +24,22 @@ namespace Pushification.PuppeteerDriver
 
                 var playwright = await Playwright.CreateAsync();
 
-                ViewportSize viewportSize = new ViewportSize();
-                viewportSize.Width = 1920;
-                viewportSize.Height = 1080;
+                //Screen screen = Screen.PrimaryScreen;
 
+                //ViewportSize viewportSize = new ViewportSize();
+                //viewportSize.Width = screen.Bounds.Width;
+                //viewportSize.Height = screen.Bounds.Height;\
+              
                 var browser = await playwright.Chromium.LaunchPersistentContextAsync(profilePath, new BrowserTypeLaunchPersistentContextOptions
                 {
                     Headless = useHeadlessMode,
                     UserAgent = userAgent,
                     Proxy = proxy != null ? proxy : null,
-                    ViewportSize = viewportSize
-                }); ;
+                   ViewportSize = ViewportSize.NoViewport,
+                    Args = new[] { "--start-maximized" }
+                }) ;
 
-
-                var page = await browser.NewPageAsync();
-                return page;
+                return browser;
             }
             catch (Exception ex)
             {
