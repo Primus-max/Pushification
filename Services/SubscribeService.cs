@@ -1,5 +1,5 @@
+using Microsoft.Playwright;
 using OpenQA.Selenium;
-using PuppeteerSharp;
 using Pushification.Manager;
 using Pushification.Models;
 using Pushification.PuppeteerDriver;
@@ -15,9 +15,7 @@ namespace Pushification.Services
     public class SubscribeService : IServiceWorker
     {
         private SubscriptionModeSettings _subscribeSettings = null;
-        private IBrowser _browser = null;
         private IPage _page = null;
-        private IWebDriver _driver = null;
 
         public SubscribeService()
         {
@@ -50,14 +48,10 @@ namespace Pushification.Services
 
                 string userAgent = UserAgetManager.GetRandomUserAgent();
 
-               
+
                 try
                 {
-                   // _driver =  DriverManager.CreateDriver(profilePath, proxy, userAgent);
-                    //_page = await _browser.NewPageAsync();
-                    //await _page.SetUserAgentAsync(userAgent);
-                    //// Авторизую прокси
-                    //await _page.AuthenticateAsync(new Credentials() { Password = proxy.Password, Username = proxy.Username });
+                     _page = await  DriverManager.CreatePageAsync(profilePath, proxy, userAgent);                 
                 }
                 catch (Exception) { continue; }
 
@@ -67,7 +61,7 @@ namespace Pushification.Services
                     int timeOutMillisecond = _subscribeSettings.MaxTimePageLoading * 1000;
                     // await _page.SetCacheEnabledAsync(false);
                     // Ожидание загрузки страниц
-                    _page.DefaultNavigationTimeout = timeOutMillisecond;
+                    _page.SetDefaultTimeout(timeOutMillisecond);
 
                     //await _page.GoToAsync("https://www.whatismyip.com/");
                     //await _page.ScreenshotAsync("whatismyip.png");
@@ -75,7 +69,7 @@ namespace Pushification.Services
                     try
                     {
                         EventPublisherManager.RaiseUpdateUIMessage($"Перехожу по адресу {url}");
-                        await _page.GoToAsync(url);
+                        await _page.GotoAsync(url);
                     }
                     catch (Exception ex)
                     {
@@ -117,8 +111,7 @@ namespace Pushification.Services
         public async Task StopAsync()
         {
             // Закрыть браузер после прошествия времени
-            await _browser.CloseAsync();
-            await _page.DisposeAsync();
+            await _page.CloseAsync();
 
             // Удаляю лишние папки и файлы из профиля
             await Task.Delay(1000);

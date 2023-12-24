@@ -1,5 +1,5 @@
+using Microsoft.Playwright;
 using OpenQA.Selenium;
-using PuppeteerSharp;
 using Pushification.AutoIt;
 using Pushification.Manager;
 using Pushification.Models;
@@ -13,8 +13,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Automation;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using Microsoft.Playwright;
 
 namespace Pushification.Services
 {
@@ -22,11 +20,7 @@ namespace Pushification.Services
     {
         private SubscriptionModeSettings _subscribeSettings = null;
         private readonly PushNotificationModeSettings _notificationModeSettings;
-        //private IBrowser _browser = null;
-        //private IPage _page = null;
-
-        private IWebDriver _driver;
-
+        private IPage _page = null;
         private Timer timer;
         private bool stopTimer;
         private bool _isRunning = true;
@@ -166,7 +160,6 @@ namespace Pushification.Services
         }
 
 
-
         // Режим Ignore
         private async Task RunIgnoreModeAsync(string profilePath, string userAgent)
         {
@@ -177,13 +170,10 @@ namespace Pushification.Services
             string proxyFilePath = _subscribeSettings.ProxyList;
             ProxyInfo proxyInfo = ProxyInfo.GetRandomProxy(proxyFilePath); //  ProxyInfo.GetRandomProxy(proxyFilePath)
             string url = _subscribeSettings.URL;
-            Microsoft.Playwright.IPage page = null;
+            
             try
             {
-                page = await DriverManager.CreatePageAsync(profilePath,  proxyInfo , userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
-
-
-                ProxyAuth.Run(proxyInfo.Username, proxyInfo.Password);
+                _page = await DriverManager.CreatePageAsync(profilePath, isUseProxy ? proxyInfo :null, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);                
             }
             catch (Exception ex)
             {
@@ -228,7 +218,7 @@ namespace Pushification.Services
         {
             // Получаю прокси
             string proxyFilePath = _subscribeSettings.ProxyList;
-            ProxyInfo proxyInfo = null; //ProxyInfo.GetRandomProxy(proxyFilePath)
+            ProxyInfo proxyInfo = ProxyInfo.GetRandomProxy(proxyFilePath); 
 
             if (proxyInfo == null)
                 return;
@@ -236,7 +226,7 @@ namespace Pushification.Services
             // Получаю драйвер, открываю страницу
             try
             {
-                //_driver = DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);               
+                _page = await DriverManager.CreatePageAsync(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);               
             }
             catch (Exception ex)
             {
@@ -316,9 +306,7 @@ namespace Pushification.Services
             // Закрыть браузер после прошествия времени
             try
             {
-                //await _browser?.CloseAsync();
-                //await _page.DisposeAsync();
-
+                await _page.CloseAsync();
             }
             catch (Exception) { }
             // Удаляю лишние папки и файлы из профиля
