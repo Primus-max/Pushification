@@ -1,5 +1,6 @@
 using OpenQA.Selenium;
 using PuppeteerSharp;
+using Pushification.AutoIt;
 using Pushification.Manager;
 using Pushification.Models;
 using Pushification.PuppeteerDriver;
@@ -181,6 +182,8 @@ namespace Pushification.Services
                 _driver =  DriverManager.CreateDriver(profilePath,  proxyInfo , userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
 
                 _driver.Navigate().GoToUrl(url);
+
+                ProxyAuth.Run(proxyInfo.Username, proxyInfo.Password);
             }
             catch (Exception ex)
             {

@@ -37,9 +37,6 @@ namespace Pushification.PuppeteerDriver
             if (proxyInfo != null)
             {
                 options.AddArgument($"--proxy-server={proxyInfo.IP}:{proxyInfo.Port}");
-
-                // Установка данных для аутентификации, если есть
-                options.AddArgument($"--proxy-auth={proxyInfo.Username}:{proxyInfo.Password}");
             }
 
             try
