@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Pushification.Services
@@ -53,21 +54,14 @@ namespace Pushification.Services
                
                 try
                 {
-                    _driver =  DriverManager.CreateDriver(profilePath, proxy, userAgent);
-                    //_page = await _browser.NewPageAsync();
-                    //await _page.SetUserAgentAsync(userAgent);
-                    //// Авторизую прокси
-                    //await _page.AuthenticateAsync(new Credentials() { Password = proxy.Password, Username = proxy.Username });
+                    _driver =  DriverManager.CreateDriver(profilePath, proxy, userAgent);                   
                 }
                 catch (Exception) { continue; }
 
                 try
                 {
                     // Устанавливаю время ожидания загрузки страницы
-                    int timeOutMillisecond = _subscribeSettings.MaxTimePageLoading * 1000;
-                    // await _page.SetCacheEnabledAsync(false);
-                    // Ожидание загрузки страниц
-                   // _page.DefaultNavigationTimeout = timeOutMillisecond;
+                    int timeOutMillisecond = _subscribeSettings.MaxTimePageLoading * 1000;                  
 
                     //await _page.GoToAsync("https://www.whatismyip.com/");
                     //await _page.ScreenshotAsync("whatismyip.png");
@@ -75,7 +69,7 @@ namespace Pushification.Services
                     try
                     {
                         EventPublisherManager.RaiseUpdateUIMessage($"Перехожу по адресу {url}");
-                        await _page.GoToAsync(url);
+                        _driver.Navigate().GoToUrl(url);
                     }
                     catch (Exception ex)
                     {
@@ -99,29 +93,36 @@ namespace Pushification.Services
                     }
                     else
                     {
-                        await StopAsync();
+                         CloseBrowser();
                         EventPublisherManager.RaiseUpdateUIMessage($"Не удалось подписаться на уведомление");
                         ProfilesManager.RemoveProfile(profilePath);
                     }
                 }
                 catch (Exception)
                 {
-                    await StopAsync();
+                     CloseBrowser();
                     ProfilesManager.RemoveProfile(profilePath);
                 }
-                await StopAsync();
+                 CloseBrowser();
             }
         }
 
         // Закрываю браузер
-        public async Task StopAsync()
+        public void CloseBrowser()
         {
-            // Закрыть браузер после прошествия времени
-            await _browser.CloseAsync();
-            await _page.DisposeAsync();
+            try
+            {
+                _driver.Quit();
+                _driver.Close();
+                _driver.Dispose();
+            }
+            catch (Exception)
+            {
+
+            }
 
             // Удаляю лишние папки и файлы из профиля
-            await Task.Delay(1000);
+           Thread.Sleep(1000);
             ProfilesManager.RemoveCash();
         }
 

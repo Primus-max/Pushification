@@ -12,7 +12,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Automation;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Pushification.Services
 {
@@ -63,7 +62,7 @@ namespace Pushification.Services
                     EventPublisherManager.RaiseUpdateUIMessage("Не удалось получить список профилей, " +
                                                                 "возможно он пуст, перехожу в режим подписки на уведомления");
 
-                    await StopAsync();
+                    CloseBrowser();
 
                     SubscribeService subscribeService = new SubscribeService();
                     await subscribeService.Run();
@@ -129,7 +128,7 @@ namespace Pushification.Services
 
         private async void TimerCallback(object state)
         {
-            await StopAsync();
+            CloseBrowser();
             timer.Dispose();
 
             _isRunning = false;
@@ -178,9 +177,7 @@ namespace Pushification.Services
 
             try
             {
-                _driver =  DriverManager.CreateDriver(profilePath,  proxyInfo , userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
-
-                _driver.Navigate().GoToUrl(url);
+                _driver = DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
             }
             catch (Exception ex)
             {
@@ -201,7 +198,7 @@ namespace Pushification.Services
             handle = GetNotificationWindow(maxTimeToWaitNotificationIgnoreInSeconds);
             if (handle == IntPtr.Zero)
             {
-                await StopAsync();
+                CloseBrowser();
                 return;
             }
 
@@ -217,7 +214,7 @@ namespace Pushification.Services
             }
 
             await Task.Delay(sleepBeforeProcessKillIgnore);
-            await StopAsync();
+            CloseBrowser();
         }
 
         // Режим кликов по уведомлениям
@@ -225,7 +222,7 @@ namespace Pushification.Services
         {
             // Получаю прокси
             string proxyFilePath = _subscribeSettings.ProxyList;
-            ProxyInfo proxyInfo = null; //ProxyInfo.GetRandomProxy(proxyFilePath)
+            ProxyInfo proxyInfo = ProxyInfo.GetRandomProxy(proxyFilePath); //ProxyInfo.GetRandomProxy(proxyFilePath)
 
             if (proxyInfo == null)
                 return;
@@ -233,7 +230,7 @@ namespace Pushification.Services
             // Получаю драйвер, открываю страницу
             try
             {
-                _driver = DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);               
+                _driver = DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
             }
             catch (Exception ex)
             {
@@ -258,7 +255,7 @@ namespace Pushification.Services
                 IntPtr handle = GetNotificationWindow(_notificationModeSettings.TimeToWaitNotificationClick);
                 if (handle == IntPtr.Zero)
                 {
-                    await StopAsync();
+                    CloseBrowser();
                     return;
                 }
 
@@ -271,7 +268,7 @@ namespace Pushification.Services
             int sleepAfterAllNotificationsClickMs = _notificationModeSettings.SleepAfterAllNotificationsClick * 1000;
             await Task.Delay(sleepAfterAllNotificationsClickMs);
 
-            await StopAsync();
+            CloseBrowser();
         }
 
         // Метод удаления профиля
@@ -279,6 +276,18 @@ namespace Pushification.Services
         {
             int sleepBeforeUnsubscribeMS = _notificationModeSettings.SleepBeforeUnsubscribe * 1000;
             await Task.Delay(sleepBeforeUnsubscribeMS);
+
+            // Здесь отписка от уведомлений
+
+            int sleepAfterUnsubscribe = _notificationModeSettings.SleepAfterUnsubscribe * 1000;
+            await Task.Delay(sleepAfterUnsubscribe);
+
+            CloseBrowser();
+
+            _driver = DriverManager.CreateDriver(profilePath);
+
+
+
             EventPublisherManager.RaiseUpdateUIMessage($"Удаляю профиль : {profilePath}");
             ProfilesManager.RemoveProfile(profilePath);
         }
@@ -308,18 +317,19 @@ namespace Pushification.Services
         }
 
         // Остановка работы
-        public async Task StopAsync()
+        public void CloseBrowser()
         {
             // Закрыть браузер после прошествия времени
             try
             {
-                await _browser?.CloseAsync();
-                await _page.DisposeAsync();
+                _driver.Quit();
+                _driver.Close();
+                _driver.Dispose();
 
             }
             catch (Exception) { }
             // Удаляю лишние папки и файлы из профиля
-            await Task.Delay(500);
+            Thread.Sleep(500);
             ProfilesManager.RemoveCash();
         }
 
@@ -347,7 +357,7 @@ namespace Pushification.Services
             {
                 EventPublisherManager.RaiseUpdateUIMessage("Не удалось кликнуть по push");
                 // TODO логирование
-                await StopAsync();
+                 CloseBrowser();
             }
 
         }
