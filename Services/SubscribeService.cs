@@ -67,7 +67,7 @@ namespace Pushification.Services
                     int timeOutMillisecond = _subscribeSettings.MaxTimePageLoading * 1000;
                     // await _page.SetCacheEnabledAsync(false);
                     // Ожидание загрузки страниц
-                    _page.DefaultNavigationTimeout = timeOutMillisecond;
+                   // _page.DefaultNavigationTimeout = timeOutMillisecond;
 
                     //await _page.GoToAsync("https://www.whatismyip.com/");
                     //await _page.ScreenshotAsync("whatismyip.png");

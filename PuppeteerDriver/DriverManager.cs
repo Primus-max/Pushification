@@ -1,5 +1,6 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Chrome.ChromeDriverExtensions;
 using System;
 
 namespace Pushification.PuppeteerDriver
@@ -33,14 +34,8 @@ namespace Pushification.PuppeteerDriver
                 options.AddArgument("--headless");
             }
 
-            // Добавление опций для прокси, если они указаны
             if (proxyInfo != null)
-            {
-                options.AddArgument($"--proxy-server={proxyInfo.IP}:{proxyInfo.Port}");
-
-                // Установка данных для аутентификации, если есть
-                options.AddArgument($"--proxy-auth={proxyInfo.Username}:{proxyInfo.Password}");
-            }
+                options.AddHttpProxy(proxyInfo.IP, proxyInfo.Port, proxyInfo.Username, proxyInfo.Password);
 
             try
             {
