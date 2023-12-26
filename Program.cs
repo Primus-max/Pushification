@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Pushification.PuppeteerDriver;
 using System;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Pushification
@@ -22,6 +23,7 @@ namespace Pushification
                 return;
             }
 
+          
             // Добавляем глобальный обработчик исключений
             // Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
 

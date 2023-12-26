@@ -23,16 +23,17 @@ namespace Pushification.PuppeteerDriver
             options.AddArgument("--start-maximized");
 
             // Добавление аргумента для указания папки профиля
-            options.AddArgument($"--user-data-dir={profilePath}");
+            if (!string.IsNullOrEmpty(profilePath))
+                options.AddArgument($"--user-data-dir={profilePath}");
 
             // Установка юзер-агента
-            options.AddArgument($"--user-agent={userAgent}");
+            if (proxyInfo != null)
+                options.AddArgument($"--user-agent={userAgent}");
 
             // Добавление аргумента для безголового режима
             if (useHeadlessMode)
-            {
                 options.AddArgument("--headless");
-            }
+
 
             if (proxyInfo != null)
                 options.AddHttpProxy(proxyInfo.IP, proxyInfo.Port, proxyInfo.Username, proxyInfo.Password);

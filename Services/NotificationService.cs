@@ -1,4 +1,5 @@
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using PuppeteerSharp;
 using Pushification.Manager;
 using Pushification.Models;
@@ -274,22 +275,34 @@ namespace Pushification.Services
         // Метод удаления профиля
         private async Task RunDeleteModeAsync(string profilePath, string userAgent)
         {
-            int sleepBeforeUnsubscribeMS = _notificationModeSettings.SleepBeforeUnsubscribe * 1000;
-            await Task.Delay(sleepBeforeUnsubscribeMS);
+            try
+            {
+                int sleepBeforeUnsubscribeMS = _notificationModeSettings.SleepBeforeUnsubscribe * 1000;
+                await Task.Delay(sleepBeforeUnsubscribeMS);
 
-            // Здесь отписка от уведомлений
+                _driver = DriverManager.CreateDriver(profilePath);
 
-            int sleepAfterUnsubscribe = _notificationModeSettings.SleepAfterUnsubscribe * 1000;
-            await Task.Delay(sleepAfterUnsubscribe);
+                string settingsUrl = $"chrome://settings/content/siteDetails?site={Uri.EscapeDataString(_subscribeSettings.URL)}";
+                _driver.Navigate().GoToUrl(settingsUrl);
 
-            CloseBrowser();
+                Thread.Sleep(1500);
+                AutoIt.AutoItX.MouseClick(x: 1183, y: 376, speed: 2);
 
-            _driver = DriverManager.CreateDriver(profilePath);
+                Thread.Sleep(1500);
+                AutoIt.AutoItX.MouseClick(x: 1152, y: 605, speed: 2);
 
+                int sleepAfterUnsubscribe = _notificationModeSettings.SleepAfterUnsubscribe * 1000;
+                await Task.Delay(sleepAfterUnsubscribe);
 
+                CloseBrowser();
 
-            EventPublisherManager.RaiseUpdateUIMessage($"Удаляю профиль : {profilePath}");
-            ProfilesManager.RemoveProfile(profilePath);
+                EventPublisherManager.RaiseUpdateUIMessage($"Удаляю профиль : {profilePath}");
+                ProfilesManager.RemoveProfile(profilePath);
+            }
+            catch (Exception ex)
+            {
+                EventPublisherManager.RaiseUpdateUIMessage($"Ошибка в режиме удаления : {ex.Message}");
+            }
         }
 
         // Ождаю окно уведомлений
@@ -357,7 +370,7 @@ namespace Pushification.Services
             {
                 EventPublisherManager.RaiseUpdateUIMessage("Не удалось кликнуть по push");
                 // TODO логирование
-                 CloseBrowser();
+                CloseBrowser();
             }
 
         }
