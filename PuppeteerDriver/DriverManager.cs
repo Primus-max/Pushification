@@ -1,8 +1,8 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Chrome.ChromeDriverExtensions;
+using Pushification.Manager;
 using System;
-using System.Collections.Generic;
 
 namespace Pushification.PuppeteerDriver
 {
@@ -42,18 +42,19 @@ namespace Pushification.PuppeteerDriver
             if (disableNotifivation)
                 DisableNotifications(options);
 
+            //string chromeDriverPath = @"C:\Users\FedoTT\source\repos\Pushification\bin\Debug\chromedriver.exe";
 
             try
             {
                 // Создание экземпляра ChromeDriver с указанными опциями
-                IWebDriver driver = new ChromeDriver(options);
+                IWebDriver driver = new ChromeDriver( options);
 
                 // Возвращение объекта драйвера
                 return driver;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Не удалось создать драйвер: {ex.Message}");
+                EventPublisherManager.RaiseUpdateUIMessage($"Не удалось создать драйвер: {ex.Message}");
                 // TODO: логирование
                 return null;
             }
