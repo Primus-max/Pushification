@@ -280,7 +280,7 @@ namespace Pushification.Services
                 int sleepBeforeUnsubscribeMS = _notificationModeSettings.SleepBeforeUnsubscribe * 1000;
                 await Task.Delay(sleepBeforeUnsubscribeMS);
 
-                _driver = DriverManager.CreateDriver(profilePath);
+                _driver = DriverManager.CreateDriver(profilePath, disableNotifivation: true);
 
                 string settingsUrl = $"chrome://settings/content/siteDetails?site={Uri.EscapeDataString(_subscribeSettings.URL)}";
                 _driver.Navigate().GoToUrl(settingsUrl);
