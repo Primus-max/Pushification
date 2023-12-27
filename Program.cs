@@ -22,7 +22,6 @@ namespace Pushification
                 MessageBox.Show("Свяжитесь с разработчиком");
                 return;
             }
-
           
             // Добавляем глобальный обработчик исключений
             // Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);

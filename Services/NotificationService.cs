@@ -296,6 +296,9 @@ namespace Pushification.Services
 
                 CloseBrowser();
 
+                int sleepBeforeProfileDeletion = _notificationModeSettings.SleepBeforeProfileDeletion * 1000;
+                await Task.Delay(sleepBeforeProfileDeletion);
+
                 EventPublisherManager.RaiseUpdateUIMessage($"Удаляю профиль : {profilePath}");
                 ProfilesManager.RemoveProfile(profilePath);
             }
@@ -335,8 +338,8 @@ namespace Pushification.Services
             // Закрыть браузер после прошествия времени
             try
             {
-                _driver.Quit();
                 _driver.Close();
+                _driver.Quit();              
                 _driver.Dispose();
 
             }
@@ -347,7 +350,7 @@ namespace Pushification.Services
         }
 
         // Ищу и кликаю на уведомлении
-        public async void ClickByPush(IntPtr handle)
+        public void ClickByPush(IntPtr handle)
         {
 
             if (handle != IntPtr.Zero)
@@ -378,7 +381,7 @@ namespace Pushification.Services
         // Метод получения окна toast
         private IntPtr FindNotificationToast()
         {
-            List<AutomationElement> chromeWindows = FindWindowsByClassName("Chrome_WidgetWin_1");
+            List<AutomationElement> chromeWindows = FindWindowsByClassName("Windows.UI.Core.CoreWindow");
 
             foreach (var chromeWindow in chromeWindows)
             {
@@ -434,14 +437,7 @@ namespace Pushification.Services
                 EventPublisherManager.RaiseUpdateUIMessage("Окно не найдено.");
             }
         }
-
-        // Метод, вызывающий событие
-        private void RaiseUpdateUIMessage(string message)
-        {
-            UpdateUIMessage?.Invoke(this, message);
-        }
-
-
+              
 
         // Импорт зависимостей из библиотеки
 
