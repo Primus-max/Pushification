@@ -1,4 +1,5 @@
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using PuppeteerSharp;
 using Pushification.Manager;
 using Pushification.Models;
@@ -21,11 +22,16 @@ namespace Pushification.Services
         private readonly PushNotificationModeSettings _notificationModeSettings;
         private IBrowser _browser = null;
         private IPage _page = null;
+
+        private IWebDriver _driver;
+
         private Timer timer;
         private bool stopTimer;
         private bool _isRunning = true;
         public event EventHandler<string> UpdateUIMessage;
 
+        private readonly object lockObject = new object();
+        private TaskCompletionSource<bool> runWithAppModeCompletionSource = null;
         public NotificationService()
         {
             _subscribeSettings = SubscriptionModeSettings.LoadSubscriptionSettingsFromJson();
@@ -46,15 +52,18 @@ namespace Pushification.Services
 
             Random random = new Random();
 
-            while (_isRunning)
+            List<string> profiles = null;
+
+            do
             {
-                List<string> profiles = ProfilesManager.GetAllProfiles();
+                profiles = ProfilesManager.GetAllProfiles();
+
                 if (profiles == null || profiles.Count == 0)
                 {
                     EventPublisherManager.RaiseUpdateUIMessage("Не удалось получить список профилей, " +
                                                                 "возможно он пуст, перехожу в режим подписки на уведомления");
 
-                    await StopAsync();
+                    CloseBrowser();
 
                     SubscribeService subscribeService = new SubscribeService();
                     await subscribeService.Run();
@@ -63,10 +72,11 @@ namespace Pushification.Services
                 }
 
                 profiles?.Sort((p1, p2) => File.GetCreationTime(p1).CompareTo(File.GetCreationTime(p2)));
-                string userAgent = UserAgetManager.GetRandomUserAgent();
 
                 foreach (string profilePath in profiles)
                 {
+                    string userAgent = UserAgetManager.GetRandomUserAgent();
+
                     if (!_isRunning)
                         return;
 
@@ -90,20 +100,20 @@ namespace Pushification.Services
                             await RunClickModeAsync(profilePath, userAgent);
                         }
                     }
-
                 }
 
-            }
+            } while (_isRunning);
+
+            // Сигнализируем о завершении RunWithAppModeAsync
+            runWithAppModeCompletionSource?.TrySetResult(true);
         }
 
-        // Запускаю таймер
         private void StartTimer()
         {
             TimeSpan startTime = TimeSpan.Parse(_subscribeSettings.StartOptionOne);
             DateTime currentDate = DateTime.Now;
             DateTime targetTime = currentDate.Date.Add(startTime);
 
-            // Если указанное время уже прошло для текущего дня, добавляем 1 день
             if (currentDate.TimeOfDay > startTime)
             {
                 targetTime = targetTime.AddDays(1);
@@ -117,20 +127,42 @@ namespace Pushification.Services
             }
         }
 
-        // Если срабатывает таймер
         private async void TimerCallback(object state)
         {
-            await StopAsync();
-            // Остановить таймер после выполнения кода
+            CloseBrowser();
             timer.Dispose();
 
             _isRunning = false;
-            SubscribeService subscribeService = new SubscribeService();
-            await subscribeService.Run();
 
-            await RunWithAppModeAsync();
-            StartTimer();
+            // Создаем новый TaskCompletionSource для следующей итерации RunWithAppModeAsync
+            runWithAppModeCompletionSource = new TaskCompletionSource<bool>();
+
+            try
+            {
+                // Ждем завершения RunWithAppModeAsync перед запуском subscribeService.Run()
+                await RunWithAppModeAsync();
+
+                SubscribeService subscribeService = new SubscribeService();
+
+                // Запускаем subscribeService.Run(), дожидаемся его завершения
+                await subscribeService.Run();
+
+                // Завершение RunWithAppModeAsync
+                runWithAppModeCompletionSource.TrySetResult(true);
+            }
+            finally
+            {
+                _isRunning = true;
+
+                // Дожидаемся завершения RunWithAppModeAsync перед стартом таймера
+                await runWithAppModeCompletionSource.Task;
+
+                // Запускаем новую итерацию RunWithAppModeAsync
+                await RunWithAppModeAsync();
+                StartTimer();
+            }
         }
+
 
 
         // Режим Ignore
@@ -141,36 +173,35 @@ namespace Pushification.Services
 
             // Получаю прокси
             string proxyFilePath = _subscribeSettings.ProxyList;
-            ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 10, true);
+            ProxyInfo proxyInfo = ProxyInfo.GetRandomProxy(proxyFilePath); //  ProxyInfo.GetRandomProxy(proxyFilePath)
+            string url = _subscribeSettings.URL;
 
-
-            // Получаю драйвер, открываю страницу
-            _browser = await DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
-            _page = await _browser.NewPageAsync();
-
-            IntPtr handle = IntPtr.Zero;
-
-            // Время ожиданий уведомлений
-            int maxTimeToWaitNotificationIgnoreInSeconds = _notificationModeSettings.MaxTimeToWaitNotificationIgnore;
-            DateTime startTime = DateTime.Now;
-
-            // Ожидаю уведомления
-            while (handle == IntPtr.Zero)
+            try
             {
-                if ((DateTime.Now - startTime).TotalSeconds > maxTimeToWaitNotificationIgnoreInSeconds)
-                {
-                    await StopAsync();
-                    return;
-                }
-
-                handle = FindNotificationToast();
-                await Task.Delay(1000);
+                _driver = DriverManager.CreateDriver(profilePath, isUseProxy ? proxyInfo : null, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
+            }
+            catch (Exception ex)
+            {
+                EventPublisherManager.RaiseUpdateUIMessage($"Не удалось перейти по адресу : {ex.Message}");
+                return;
             }
 
 
-            // Ожидаю перед закрытием
+            IntPtr handle = IntPtr.Zero;
+
+            // Время ожидания уведомлений
+            int maxTimeToWaitNotificationIgnoreInSeconds = _notificationModeSettings.MaxTimeToWaitNotificationIgnore;
+            DateTime startTime = DateTime.Now;
+
             int sleepBeforeProcessKillIgnore = _notificationModeSettings.SleepBeforeProcessKillIgnore * 1000;
-            await Task.Delay(sleepBeforeProcessKillIgnore);
+
+            // Ожидаю уведомления
+            handle = GetNotificationWindow(maxTimeToWaitNotificationIgnoreInSeconds);
+            if (handle == IntPtr.Zero)
+            {
+                CloseBrowser();
+                return;
+            }
 
             if (_notificationModeSettings.NotificationCloseByButton)
             {
@@ -183,7 +214,8 @@ namespace Pushification.Services
                 }
             }
 
-            await StopAsync();
+            await Task.Delay(sleepBeforeProcessKillIgnore);
+            CloseBrowser();
         }
 
         // Режим кликов по уведомлениям
@@ -191,16 +223,23 @@ namespace Pushification.Services
         {
             // Получаю прокси
             string proxyFilePath = _subscribeSettings.ProxyList;
-            ProxyInfo proxyInfo = await ProxyInfo.GetProxy(proxyFilePath, 10, true);
+            ProxyInfo proxyInfo = ProxyInfo.GetRandomProxy(proxyFilePath); //ProxyInfo.GetRandomProxy(proxyFilePath)
 
             if (proxyInfo == null)
                 return;
 
-            EventPublisherManager.RaiseUpdateUIMessage($"Получил IP {proxyInfo.ExternalIP}");
-
             // Получаю драйвер, открываю страницу
-            _browser = await DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
-            _page = await _browser.NewPageAsync();
+            try
+            {
+                _driver = DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
+            }
+            catch (Exception ex)
+            {
+                EventPublisherManager.RaiseUpdateUIMessage($"Не удалось перейти по адресу : {ex.Message}");
+                return;
+            }
+
+
 
             // Получаю рандомное число для закрытия по крестику
             Random random = new Random();
@@ -214,11 +253,11 @@ namespace Pushification.Services
             int sleepBetweenClick = _notificationModeSettings.SleepBetweenClick * 1000;
             for (int i = 0; i < randomClickByPush; i++)
             {
-                IntPtr handle = GetNotificationWindow();
+                IntPtr handle = GetNotificationWindow(_notificationModeSettings.TimeToWaitNotificationClick);
                 if (handle == IntPtr.Zero)
                 {
-                    await StopAsync();
-                    break;
+                    CloseBrowser();
+                    return;
                 }
 
                 ClickByPush(handle);
@@ -230,25 +269,52 @@ namespace Pushification.Services
             int sleepAfterAllNotificationsClickMs = _notificationModeSettings.SleepAfterAllNotificationsClick * 1000;
             await Task.Delay(sleepAfterAllNotificationsClickMs);
 
-            await StopAsync();
+            CloseBrowser();
         }
 
         // Метод удаления профиля
         private async Task RunDeleteModeAsync(string profilePath, string userAgent)
         {
-            int sleepBeforeUnsubscribeMS = _notificationModeSettings.SleepBeforeUnsubscribe * 1000;
-            await Task.Delay(sleepBeforeUnsubscribeMS);
-            EventPublisherManager.RaiseUpdateUIMessage($"Удаляю профиль : {profilePath}");
-            ProfilesManager.RemoveProfile(profilePath);
+            try
+            {
+                int sleepBeforeUnsubscribeMS = _notificationModeSettings.SleepBeforeUnsubscribe * 1000;
+                await Task.Delay(sleepBeforeUnsubscribeMS);
+
+                _driver = DriverManager.CreateDriver(profilePath);
+
+                string settingsUrl = $"chrome://settings/content/siteDetails?site={Uri.EscapeDataString(_subscribeSettings.URL)}";
+                _driver.Navigate().GoToUrl(settingsUrl);
+
+                Thread.Sleep(1500);
+                AutoIt.AutoItX.MouseClick(x: 1183, y: 376, speed: 2);
+
+                Thread.Sleep(1500);
+                AutoIt.AutoItX.MouseClick(x: 1152, y: 605, speed: 2);
+
+                int sleepAfterUnsubscribe = _notificationModeSettings.SleepAfterUnsubscribe * 1000;
+                await Task.Delay(sleepAfterUnsubscribe);
+
+                CloseBrowser();
+
+                int sleepBeforeProfileDeletion = _notificationModeSettings.SleepBeforeProfileDeletion * 1000;
+                await Task.Delay(sleepBeforeProfileDeletion);
+
+                EventPublisherManager.RaiseUpdateUIMessage($"Удаляю профиль : {profilePath}");
+                ProfilesManager.RemoveProfile(profilePath);
+            }
+            catch (Exception ex)
+            {
+                EventPublisherManager.RaiseUpdateUIMessage($"Ошибка в режиме удаления : {ex.Message}");
+            }
         }
 
         // Ождаю окно уведомлений
-        private IntPtr GetNotificationWindow()
+        private IntPtr GetNotificationWindow(int timeout)
         {
             IntPtr handle = IntPtr.Zero;
 
             // Время ожиданий уведомлений
-            int timeToWaitNotificationClick = _notificationModeSettings.TimeToWaitNotificationClick;
+            int timeToWaitNotificationClick = timeout;
             DateTime startTime = DateTime.Now;
 
             // Ожидаю уведомления
@@ -256,35 +322,35 @@ namespace Pushification.Services
             {
                 if (!((DateTime.Now - startTime).TotalSeconds < timeToWaitNotificationClick))
                 {
-                    EventPublisherManager.RaiseUpdateUIMessage("Не удалось получить окно push, истекло время ожидания");
                     break;
                 }
 
                 handle = FindNotificationToast();
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
             }
 
             return handle;
         }
 
         // Остановка работы
-        public async Task StopAsync()
+        public void CloseBrowser()
         {
             // Закрыть браузер после прошествия времени
             try
             {
-                await _browser?.CloseAsync();
-                await _page.DisposeAsync();
+                _driver.Close();
+                _driver.Quit();              
+                _driver.Dispose();
 
             }
             catch (Exception) { }
             // Удаляю лишние папки и файлы из профиля
-            await Task.Delay(500);
+            Thread.Sleep(500);
             ProfilesManager.RemoveCash();
         }
 
         // Ищу и кликаю на уведомлении
-        public async void ClickByPush(IntPtr handle)
+        public void ClickByPush(IntPtr handle)
         {
 
             if (handle != IntPtr.Zero)
@@ -307,7 +373,7 @@ namespace Pushification.Services
             {
                 EventPublisherManager.RaiseUpdateUIMessage("Не удалось кликнуть по push");
                 // TODO логирование
-                await StopAsync();
+                CloseBrowser();
             }
 
         }
@@ -315,15 +381,22 @@ namespace Pushification.Services
         // Метод получения окна toast
         private IntPtr FindNotificationToast()
         {
-            List<AutomationElement> chromeWindows = FindWindowsByClassName("Chrome_WidgetWin_1");
+            List<AutomationElement> chromeWindows = FindWindowsByClassName("Windows.UI.Core.CoreWindow");
 
             foreach (var chromeWindow in chromeWindows)
             {
+                if (chromeWindow == null) continue;
+
                 // Фильтруем окна без Name и AutomationId
-                if (string.IsNullOrEmpty(chromeWindow?.Current.Name) && string.IsNullOrEmpty(chromeWindow?.Current.AutomationId))
+                try
                 {
-                    return new IntPtr(chromeWindow.Current.NativeWindowHandle);
+                    if (string.IsNullOrEmpty(chromeWindow?.Current.Name) && string.IsNullOrEmpty(chromeWindow?.Current.AutomationId))
+                    {
+                        EventPublisherManager.RaiseUpdateUIMessage($"Получил окно push");
+                        return new IntPtr(chromeWindow.Current.NativeWindowHandle);
+                    }
                 }
+                catch (Exception) { }
             }
 
             return IntPtr.Zero;
@@ -364,14 +437,7 @@ namespace Pushification.Services
                 EventPublisherManager.RaiseUpdateUIMessage("Окно не найдено.");
             }
         }
-
-        // Метод, вызывающий событие
-        private void RaiseUpdateUIMessage(string message)
-        {
-            UpdateUIMessage?.Invoke(this, message);
-        }
-
-
+              
 
         // Импорт зависимостей из библиотеки
 

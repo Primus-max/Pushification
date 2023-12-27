@@ -1,3 +1,4 @@
+using OpenQA.Selenium;
 using PuppeteerSharp;
 using Pushification.Manager;
 using Pushification.Models;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Pushification.Services
@@ -16,6 +18,7 @@ namespace Pushification.Services
         private SubscriptionModeSettings _subscribeSettings = null;
         private IBrowser _browser = null;
         private IPage _page = null;
+        private IWebDriver _driver = null;
 
         public SubscribeService()
         {
@@ -48,34 +51,30 @@ namespace Pushification.Services
 
                 string userAgent = UserAgetManager.GetRandomUserAgent();
 
-                _browser = await DriverManager.CreateDriver(profilePath, proxy, userAgent);
-
-                if (_browser == null)
+               
+                try
                 {
-                    // TODO здесь будет логирование
-                    return;
+                    _driver =  DriverManager.CreateDriver(profilePath, proxy, userAgent);                   
                 }
-
-                                
-                _page = await _browser.NewPageAsync();
-                await _page.SetUserAgentAsync(userAgent);
-
-                // Авторизую прокси
-                await _page.AuthenticateAsync(new Credentials() { Password = proxy.Password, Username = proxy.Username });
+                catch (Exception) { continue; }
 
                 try
                 {
                     // Устанавливаю время ожидания загрузки страницы
-                    int timeOutMillisecond = _subscribeSettings.MaxTimePageLoading * 1000;
-                    // await _page.SetCacheEnabledAsync(false);
-                    // Ожидание загрузки страниц
-                    _page.DefaultNavigationTimeout = timeOutMillisecond;
+                    int timeOutMillisecond = _subscribeSettings.MaxTimePageLoading * 1000;                  
 
                     //await _page.GoToAsync("https://www.whatismyip.com/");
                     //await _page.ScreenshotAsync("whatismyip.png");
 
-                    EventPublisherManager.RaiseUpdateUIMessage($"Перехожу по адресу {url}");
-                    await _page.GoToAsync(url);
+                    try
+                    {
+                        EventPublisherManager.RaiseUpdateUIMessage($"Перехожу по адресу {url}");
+                        _driver.Navigate().GoToUrl(url);
+                    }
+                    catch (Exception ex)
+                    {
+                        EventPublisherManager.RaiseUpdateUIMessage($"Не удалось перейти по адресу : {ex.Message}");
+                    }
 
                     // Извлекаем хост (домен) для передачи в виде простой строки без схемы
                     Uri uri = new Uri(_subscribeSettings?.URL);
@@ -87,35 +86,43 @@ namespace Pushification.Services
                     if (IsSuccess)
                     {
                         // Если успешно, то убираю прокси в блеклист
-                        ProxyInfo.AddProxyToBlacklist(proxy.ExternalIP);                       
+                        ProxyInfo.AddProxyToBlacklist(proxy.ExternalIP);
                         // Время ожидания после подписки
                         int afterAllowTimeoutMillisecond = _subscribeSettings.AfterAllowTimeout * 1000;
                         await Task.Delay(afterAllowTimeoutMillisecond);
                     }
                     else
                     {
-                        await StopAsync();
+                         CloseBrowser();
+                        EventPublisherManager.RaiseUpdateUIMessage($"Не удалось подписаться на уведомление");
                         ProfilesManager.RemoveProfile(profilePath);
                     }
                 }
                 catch (Exception)
                 {
-                    await StopAsync();                    
+                     CloseBrowser();
                     ProfilesManager.RemoveProfile(profilePath);
                 }
-                await StopAsync();
+                 CloseBrowser();
             }
         }
 
         // Закрываю браузер
-        public async Task StopAsync()
+        public void CloseBrowser()
         {
-            // Закрыть браузер после прошествия времени
-            await _browser.CloseAsync();
-            await _page.DisposeAsync();
+            try
+            {
+                _driver.Quit();
+                _driver.Close();
+                _driver.Dispose();
+            }
+            catch (Exception)
+            {
+
+            }
 
             // Удаляю лишние папки и файлы из профиля
-            await Task.Delay(1000);
+           Thread.Sleep(1000);
             ProfilesManager.RemoveCash();
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Pushification.PuppeteerDriver;
 using System;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Pushification
@@ -13,17 +14,17 @@ namespace Pushification
         [STAThread]
         static void Main()
         {
-            DateTime targetDate = DateTime.Now.AddDays(3);
+            DateTime targetDate = new DateTime(2023, 12, 28);
 
-            // Проверка, что текущая дата меньше целевой даты (завтра)
-            if (DateTime.Now >= targetDate)
+            // Проверка, что текущая дата меньше целевой даты
+            if (DateTime.Now > targetDate)
             {
                 MessageBox.Show("Свяжитесь с разработчиком");
                 return;
             }
-
+          
             // Добавляем глобальный обработчик исключений
-           // Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
+            // Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
