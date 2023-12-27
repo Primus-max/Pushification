@@ -2,12 +2,13 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Chrome.ChromeDriverExtensions;
 using System;
+using System.Collections.Generic;
 
 namespace Pushification.PuppeteerDriver
 {
     public class DriverManager
     {
-        public static IWebDriver CreateDriver(string profilePath, ProxyInfo proxyInfo = null, string userAgent = null, bool useHeadlessMode = false)
+        public static IWebDriver CreateDriver(string profilePath, ProxyInfo proxyInfo = null, string userAgent = null, bool useHeadlessMode = false, bool disableNotifivation = false)
         {
             // Проверка наличия пути к папке профиля
             if (string.IsNullOrEmpty(profilePath))
@@ -38,6 +39,10 @@ namespace Pushification.PuppeteerDriver
             if (proxyInfo != null)
                 options.AddHttpProxy(proxyInfo.IP, proxyInfo.Port, proxyInfo.Username, proxyInfo.Password);
 
+            if (disableNotifivation)
+                DisableNotifications(options);
+
+
             try
             {
                 // Создание экземпляра ChromeDriver с указанными опциями
@@ -52,6 +57,15 @@ namespace Pushification.PuppeteerDriver
                 // TODO: логирование
                 return null;
             }
+        }
+
+        public static void DisableNotifications(ChromeOptions options)
+        {
+            options.AddUserProfilePreference("profile.default_content_settings.notifications", 2);
+            options.AddUserProfilePreference("profile.default_content_setting_values.notifications", 2);
+            options.AddUserProfilePreference("profile.contentSettings.notifications", 2);
+            options.AddUserProfilePreference("profile.content_settings.exceptions.notifications", 2);
+            options.AddUserProfilePreference("profile.managed_default_content_settings.notifications", 2);
         }
     }
 }
