@@ -163,8 +163,6 @@ namespace Pushification.Services
             }
         }
 
-
-
         // Режим Ignore
         private async Task RunIgnoreModeAsync(string profilePath, string userAgent)
         {
@@ -282,8 +280,8 @@ namespace Pushification.Services
 
                 _driver = DriverManager.CreateDriver(profilePath, disableNotifivation: true);
 
-                string settingsUrl = $"chrome://settings/content/siteDetails?site={Uri.EscapeDataString(_subscribeSettings.URL)}";
-                _driver.Navigate().GoToUrl(settingsUrl);
+                //string settingsUrl = $"chrome://settings/content/siteDetails?site={Uri.EscapeDataString(_subscribeSettings.URL)}";
+                //_driver.Navigate().GoToUrl(settingsUrl);
 
                 Thread.Sleep(1500);
                 AutoIt.AutoItX.MouseClick(x: 1183, y: 376, speed: 2);
