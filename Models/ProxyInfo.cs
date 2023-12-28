@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,6 +17,7 @@ public class ProxyInfo
     public string Username { get; set; }
     public string Password { get; set; }
     public string ExternalIP { get; set; }
+
 
     public static ProxyInfo Parse(string proxyInfo)
     {
@@ -115,7 +117,7 @@ public class ProxyInfo
 
         while (IsIPInBlacklist(proxy.ExternalIP))
         {
-            // Если IP все еще в черном списке, ждем некоторое время (может быть, добавьте задержку)
+            EventPublisherManager.RaiseUpdateUIMessage($"Прокси : {proxy.ExternalIP} в чернём списке");
             await Task.Delay(500, cancellationToken);
 
             // Повторно проверяем IP
@@ -142,6 +144,8 @@ public class ProxyInfo
                 client.Timeout = TimeSpan.FromSeconds(timeoutInSeconds);
                 try
                 {
+                    await Task.Delay(1000);
+                     
                     // Получаем внешний IP 
                     HttpResponseMessage response = await client.GetAsync("https://api64.ipify.org?format=json", cancellationToken);
 
@@ -149,12 +153,15 @@ public class ProxyInfo
                     {
                         string responseBody = await response.Content.ReadAsStringAsync();
                         ExternalIPInfo externalIPInfo = JsonConvert.DeserializeObject<ExternalIPInfo>(responseBody);
+                        EventPublisherManager.RaiseUpdateUIMessage($"Получил внешний IP: {proxy.ExternalIP}");
                         return externalIPInfo.IP;
                     }
                 }
                 catch (HttpRequestException e)
-                {
-                    Console.WriteLine($"Error: {e.Message}");
+                {                                        
+                    EventPublisherManager.RaiseUpdateUIMessage($"Error: {e.ToString()}");
+                    EventPublisherManager.RaiseUpdateUIMessage($"Error: {e.Source}");
+                    EventPublisherManager.RaiseUpdateUIMessage($"Error: {e.Data}");
                     cancellationToken.ThrowIfCancellationRequested();
                 }
             }

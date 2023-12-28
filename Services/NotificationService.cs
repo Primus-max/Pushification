@@ -184,7 +184,6 @@ namespace Pushification.Services
                 return;
             }
 
-
             IntPtr handle = IntPtr.Zero;
 
             // Время ожидания уведомлений
@@ -379,7 +378,7 @@ namespace Pushification.Services
         // Метод получения окна toast
         private IntPtr FindNotificationToast()
         {
-            List<AutomationElement> chromeWindows = FindWindowsByClassName("Windows.UI.Core.CoreWindow");
+            List<AutomationElement> chromeWindows = FindWindowsByClassName("Chrome_WidgetWin_1");
 
             foreach (var chromeWindow in chromeWindows)
             {

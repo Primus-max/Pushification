@@ -16,8 +16,6 @@ namespace Pushification.Services
     public class SubscribeService : IServiceWorker
     {
         private SubscriptionModeSettings _subscribeSettings = null;
-        private IBrowser _browser = null;
-        private IPage _page = null;
         private IWebDriver _driver = null;
 
         public SubscribeService()
@@ -36,14 +34,20 @@ namespace Pushification.Services
             DateTime startTime = DateTime.Now;
             while ((DateTime.Now - startTime).TotalMilliseconds < workingTime)
             {
+                EventPublisherManager.RaiseUpdateUIMessage($"Время выполнения данного режима будет: {workingTime}");
                 ClearBlackList(); // Проверяю пороговое значение IP и удаляю если нужно
 
                 // Получаю прокси 
                 string proxyFilePath = _subscribeSettings.ProxyList;
+                EventPublisherManager.RaiseUpdateUIMessage($"Путь к файлу с прокси: {proxyFilePath}");
                 ProxyInfo proxy = await ProxyInfo.GetProxy(proxyFilePath, _subscribeSettings.MaxTimeGettingOutIP);
 
                 if (proxy == null || string.IsNullOrEmpty(proxy.ExternalIP))
+                {
+                    EventPublisherManager.RaiseUpdateUIMessage("Не удалось получить прокси, пробую ещё раз"); 
                     continue;
+                }
+                    
 
                 EventPublisherManager.RaiseUpdateUIMessage($"Получил IP {proxy.ExternalIP}");
 
