@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,6 +17,7 @@ public class ProxyInfo
     public string Username { get; set; }
     public string Password { get; set; }
     public string ExternalIP { get; set; }
+
 
     public static ProxyInfo Parse(string proxyInfo)
     {
@@ -142,11 +144,10 @@ public class ProxyInfo
                 client.Timeout = TimeSpan.FromSeconds(timeoutInSeconds);
                 try
                 {
-                    ServicePointManager.Expect100Continue = true;
-                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
+                    await Task.Delay(1000);
+                     
                     // Получаем внешний IP 
-                    HttpResponseMessage response = await client.GetAsync("https://api64.ipify.org?format=json", cancellationToken);
+                    HttpResponseMessage response = await client.GetAsync("http://api64.ipify.org?format=json", cancellationToken);
 
                     if (response.IsSuccessStatusCode)
                     {
