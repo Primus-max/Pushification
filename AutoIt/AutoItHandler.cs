@@ -1,47 +1,106 @@
 ﻿using AutoIt;
 using Pushification.Manager;
 using System;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 
 public class AutoItHandler
 {
-    public static bool SubscribeToWindow(string title,  int waitingBeforeClick)
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool SetCursorPos(int x, int y);
+
+    [DllImport("user32.dll")]
+    private static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, IntPtr dwExtraInfo);
+
+    private const int MOUSEEVENTF_LEFTDOWN = 0x02;
+    private const int MOUSEEVENTF_LEFTUP = 0x04;
+
+    private const int SW_RESTORE = 9;
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct RECT
     {
-        int waitingWindow = 10;
+        public int Left;
+        public int Top;
+        public int Right;
+        public int Bottom;
+    }
+    public static bool SubscribeToWindow(int waitingBeforeClick)
+    {
+        string targetClass = "SysShadow";
 
-        int x = 247;
-        int y = 172;
+        IntPtr targetWindowHandle = IntPtr.Zero;
 
-        string windowTitle = $"{title} запрашивает разрешение на:";
+        // Указанное в настройках время ожидания перед кликом
+        int waitingBeforeClickMilliseconds = waitingBeforeClick * 1000;
+        Thread.Sleep(waitingBeforeClickMilliseconds);
 
-        try
+        EnumWindows((hWnd, lParam) =>
         {
-            // Ожидаем окно с подпиской
-            AutoItX.WinWait(title: windowTitle, timeout: waitingWindow);
-            // На всякий случай делаем активным. На случай если перекрыло другое окно
-            AutoItX.WinActivate(title: windowTitle);
+            StringBuilder className = new StringBuilder(256);
+            GetClassName(hWnd, className, className.Capacity);
 
-           string strin =  AutoItX.ControlGetText(title: windowTitle, text: "Разрешить", control: "Button");
-            // Указаное в настройках время ожидания перед кликом
-            int waitingBeforeClickMilliseconf = waitingBeforeClick * 1000;
-            Thread.Sleep(waitingBeforeClickMilliseconf);
+            if (className.ToString() == targetClass)
+            {
+                targetWindowHandle = hWnd;
+                return false; // Остановка перечисления окон
+            }
 
-            // КЛикаем на Разрешить получать уведомления
-            AutoItX.MouseMove(x, y, speed: 2);
-            AutoItX.MouseClick(button: "LEFT", x: x, y: y, numClicks: 1, speed: 1);
+            return true;
+        }, IntPtr.Zero);
 
-            // Отсутствие этого окна будет означать успешный клик
-            int isSucsess = AutoItX.WinWait(title: windowTitle, timeout: 5);            
-                
-            if (isSucsess == 0)
-                EventPublisherManager.RaiseUpdateUIMessage($"Подписался на уведомление");
+        if (targetWindowHandle != IntPtr.Zero)
+        {
+            // Показываем и активируем окно
+            ShowWindow(targetWindowHandle, SW_RESTORE);
+            SetForegroundWindow(targetWindowHandle);         
 
-            return Convert.ToBoolean(isSucsess);
+            // Координаты, где нужно кликнуть
+            int x = 247;
+            int y = 172;
+
+            // Установка позиции курсора
+            SetCursorPos(x, y);
+
+            Thread.Sleep(1000);
+            // Выполняем клик
+            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, IntPtr.Zero);
+            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, IntPtr.Zero);
+
+            return true;
         }
-        catch (Exception ex)
+        else
         {
-            EventPublisherManager.RaiseUpdateUIMessage($"Не удалось подписаться на уведомление {ex.Message}");
+            EventPublisherManager.RaiseUpdateUIMessage("Не удалось получить окно или подписаться на уведомления");
             return false;
         }
+
+        return false;
     }
+
+    private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
+
+    [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+    private static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 }

@@ -31,7 +31,8 @@ namespace Pushification.Models
         {           
             try
             {
-                string json = File.ReadAllText(FilePath);
+                string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, FilePath);
+                string json = File.ReadAllText(fullPath);
                 return JsonConvert.DeserializeObject<PushNotificationModeSettings>(json);
             }
             catch (Exception ex)

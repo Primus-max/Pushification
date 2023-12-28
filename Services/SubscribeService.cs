@@ -85,7 +85,7 @@ namespace Pushification.Services
                     string siteName = uri.Host;
 
                     // Подписываюсь на уведомление
-                    bool IsSuccess = AutoItHandler.SubscribeToWindow(siteName, _subscribeSettings.BeforeAllowTimeout);
+                    bool IsSuccess = AutoItHandler.SubscribeToWindow(_subscribeSettings.BeforeAllowTimeout);
 
                     if (IsSuccess)
                     {
