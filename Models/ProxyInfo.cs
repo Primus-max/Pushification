@@ -147,7 +147,7 @@ public class ProxyInfo
                     await Task.Delay(1000);
                      
                     // Получаем внешний IP 
-                    HttpResponseMessage response = await client.GetAsync("http://api64.ipify.org?format=json", cancellationToken);
+                    HttpResponseMessage response = await client.GetAsync("https://api64.ipify.org?format=json", cancellationToken);
 
                     if (response.IsSuccessStatusCode)
                     {

@@ -21,6 +21,7 @@ public class AutoItHandler
             // На всякий случай делаем активным. На случай если перекрыло другое окно
             AutoItX.WinActivate(title: windowTitle);
 
+           string strin =  AutoItX.ControlGetText(title: windowTitle, text: "Разрешить", control: "Button");
             // Указаное в настройках время ожидания перед кликом
             int waitingBeforeClickMilliseconf = waitingBeforeClick * 1000;
             Thread.Sleep(waitingBeforeClickMilliseconf);

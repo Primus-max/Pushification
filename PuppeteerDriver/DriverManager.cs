@@ -8,7 +8,7 @@ namespace Pushification.PuppeteerDriver
 {
     public class DriverManager
     {
-        public static IWebDriver CreateDriver(string profilePath, ProxyInfo proxyInfo = null, string userAgent = null, bool useHeadlessMode = false, bool disableNotifivation = false)
+        public static IWebDriver CreateDriver(string profilePath, ProxyInfo proxyInfo = null, string userAgent = null, bool useHeadlessMode = false, bool disableNotifivation = false, bool enableNotifications = false)
         {
             // Проверка наличия пути к папке профиля
             if (string.IsNullOrEmpty(profilePath))
@@ -39,8 +39,13 @@ namespace Pushification.PuppeteerDriver
             if (proxyInfo != null)
                 options.AddHttpProxy(proxyInfo.IP, proxyInfo.Port, proxyInfo.Username, proxyInfo.Password);
 
+            // Отключаю уведомления
             if (disableNotifivation)
                 DisableNotifications(options);
+
+            // Включаю уведомления
+            //if(enableNotifications)
+            //    EnableNotifications(options);
 
             //string chromeDriverPath = @"C:\Users\FedoTT\source\repos\Pushification\bin\Debug\chromedriver.exe";
 
@@ -67,6 +72,15 @@ namespace Pushification.PuppeteerDriver
             options.AddUserProfilePreference("profile.contentSettings.notifications", 2);
             options.AddUserProfilePreference("profile.content_settings.exceptions.notifications", 2);
             options.AddUserProfilePreference("profile.managed_default_content_settings.notifications", 2);
+        }
+
+        public static void EnableNotifications(ChromeOptions options)
+        {
+            options.AddUserProfilePreference("profile.default_content_settings.notifications", 1);
+            options.AddUserProfilePreference("profile.default_content_setting_values.notifications", 1);
+            options.AddUserProfilePreference("profile.contentSettings.notifications", 1);
+            options.AddUserProfilePreference("profile.content_settings.exceptions.notifications", 1);
+            options.AddUserProfilePreference("profile.managed_default_content_settings.notifications", 1);
         }
     }
 }
