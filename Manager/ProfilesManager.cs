@@ -137,6 +137,24 @@ namespace Pushification.Manager
             }
         }
 
+        // Удаление папки Default
+        public static void ClearDefaultDirectory(string directoryPath)
+        {
+            try
+            {
+                string defaultDirecrotyPath = Path.Combine(directoryPath, "Default");
+
+                if (Directory.Exists(defaultDirecrotyPath))
+                {
+                    Directory.Delete(defaultDirecrotyPath, true);
+                }               
+            }
+            catch (Exception ex)
+            {
+               // Console.WriteLine($"Error clearing profile directory: {ex.Message}");
+            }
+        }
+
 
         // Удаление папки кэша, занимает место
         public static void RemoveCashFolders(string profilePath)

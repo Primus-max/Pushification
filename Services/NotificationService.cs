@@ -273,20 +273,20 @@ namespace Pushification.Services
         private async Task RunDeleteModeAsync(string profilePath, string userAgent)
         {
             try
-            {
+            {            
+                _driver = DriverManager.CreateDriver(profilePath, disableNotifivation: true);
+
                 int sleepBeforeUnsubscribeMS = _notificationModeSettings.SleepBeforeUnsubscribe * 1000;
                 await Task.Delay(sleepBeforeUnsubscribeMS);
-
-                _driver = DriverManager.CreateDriver(profilePath, disableNotifivation: true);
 
                 //string settingsUrl = $"chrome://settings/content/siteDetails?site={Uri.EscapeDataString(_subscribeSettings.URL)}";
                 //_driver.Navigate().GoToUrl(settingsUrl);
 
-                Thread.Sleep(1500);
-                AutoIt.AutoItX.MouseClick(x: 1183, y: 376, speed: 2);
+                //Thread.Sleep(1500);
+                //AutoIt.AutoItX.MouseClick(x: 1183, y: 376, speed: 2);
 
-                Thread.Sleep(1500);
-                AutoIt.AutoItX.MouseClick(x: 1152, y: 605, speed: 2);
+                //Thread.Sleep(1500);
+                //AutoIt.AutoItX.MouseClick(x: 1152, y: 605, speed: 2);
 
                 int sleepAfterUnsubscribe = _notificationModeSettings.SleepAfterUnsubscribe * 1000;
                 await Task.Delay(sleepAfterUnsubscribe);
