@@ -368,5 +368,10 @@ namespace Pushification
             //_subscriptionSettings.StartOptionOne = value;
             //_subscriptionSettings.SaveSubscriptionSettingsToJson();
         }
+
+        private void label29_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

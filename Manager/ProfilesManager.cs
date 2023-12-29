@@ -62,6 +62,17 @@ namespace Pushification.Manager
             }
         }
 
+        public static void RemoveProxyAtPref(string profile)
+        {
+            //string rootPath = AppDomain.CurrentDomain.BaseDirectory;
+            string foolPath = $"{profile}\\Default\\Secure Preferences";            
+
+            if (File.Exists(foolPath))
+            {
+                File.Delete(foolPath);
+            }
+        }
+
 
         /// <summary>
         /// Метод создания пути профиля
@@ -134,6 +145,24 @@ namespace Pushification.Manager
             catch (Exception ex)
             {
                 EventPublisherManager.RaiseUpdateUIMessage($"Не удалось удалить профиль: {ex.Message}");
+            }
+        }
+
+        // Удаление папки Default
+        public static void ClearDefaultDirectory(string directoryPath)
+        {
+            try
+            {
+                string defaultDirecrotyPath = Path.Combine(directoryPath, "Default");
+
+                if (Directory.Exists(defaultDirecrotyPath))
+                {
+                    Directory.Delete(defaultDirecrotyPath, true);
+                }               
+            }
+            catch (Exception ex)
+            {
+               // Console.WriteLine($"Error clearing profile directory: {ex.Message}");
             }
         }
 

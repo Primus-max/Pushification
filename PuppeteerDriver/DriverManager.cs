@@ -35,9 +35,17 @@ namespace Pushification.PuppeteerDriver
             if (useHeadlessMode)
                 options.AddArgument("--headless");
 
+            ChromeDriverService driverService = ChromeDriverService.CreateDefaultService();
 
             if (proxyInfo != null)
+            {
                 options.AddHttpProxy(proxyInfo.IP, proxyInfo.Port, proxyInfo.Username, proxyInfo.Password);
+            }
+            else
+            {
+                ProfilesManager.RemoveProxyAtPref(profilePath);
+            }
+                
 
             // Отключаю уведомления
             if (disableNotifivation)

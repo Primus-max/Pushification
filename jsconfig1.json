@@ -1,0 +1,174 @@
+{
+    "extensions": {
+        "settings": {
+            "ahfgeienlihckogmohjhadlkjgocpleb": {
+                "active_permissions": {
+                    "api": [ "management", "system.display", "system.storage", "webstorePrivate", "system.cpu", "system.memory", "system.network" ],
+                    "explicit_host": [],
+                    "manifest_permissions": [],
+                    "scriptable_host": []
+                },
+                "app_launcher_ordinal": "t",
+                "commands": {},
+                "content_settings": [],
+                "creation_flags": 1,
+                "events": [],
+                "from_webstore": false,
+                "incognito_content_settings": [],
+                "incognito_preferences": {},
+                "install_time": "13348392934261045",
+                "location": 5,
+                "manifest": {
+                    "app": {
+                        "launch": { "web_url": "https://chrome.google.com/webstore" },
+                        "urls": [ "https://chrome.google.com/webstore" ]
+                    },
+                    "description": "Ўирокий выбор приложений, игр, расширений и тем дл€ Google Chrome.",
+                    "icons": {
+                        "128": "webstore_icon_128.png",
+                        "16": "webstore_icon_16.png"
+                    },
+                    "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCtl3tO0osjuzRsf6xtD2SKxPlTfuoy7AWoObysitBPvH5fE1NaAA1/2JkPWkVDhdLBWLaIBPYeXbzlHp3y4Vv/4XG+aN5qFE3z+1RU/NqkzVYHtIpVScf3DjTYtKVL66mzVGijSoAIwbFCC3LpGdaoe6Q1rSRDp76wR6jjFzsYwQIDAQAB",
+                    "name": "»нтернет-магазин Chrome",
+                    "permissions": [ "webstorePrivate", "management", "system.cpu", "system.display", "system.memory", "system.network", "system.storage" ],
+                    "version": "0.2"
+                },
+                "page_ordinal": "n",
+                "path": "C:\\Program Files\\Google\\Chrome\\Application\\109.0.5414.120\\resources\\web_store",
+                "preferences": {},
+                "regular_only_preferences": {},
+                "state": 1,
+                "was_installed_by_default": false,
+                "was_installed_by_oem": false
+            },
+            "bnlmobnfclpjgdkgdmdookilelepkajd": {
+                "active_permissions": {
+                    "api": [ "proxy", "storage", "tabs", "unlimitedStorage", "webRequest", "webRequestBlocking" ],
+                    "explicit_host": [ "\u003Call_urls>", "chrome://favicon/*" ],
+                    "manifest_permissions": [],
+                    "scriptable_host": []
+                },
+                "commands": {},
+                "content_settings": [],
+                "creation_flags": 38,
+                "events": [],
+                "from_webstore": false,
+                "granted_permissions": {
+                    "api": [ "proxy", "storage", "tabs", "unlimitedStorage", "webRequest", "webRequestBlocking" ],
+                    "explicit_host": [ "\u003Call_urls>", "chrome://favicon/*" ],
+                    "manifest_permissions": [],
+                    "scriptable_host": []
+                },
+                "incognito_content_settings": [],
+                "incognito_preferences": {},
+                "install_time": "13348392935138237",
+                "location": 8,
+                "newAllowFileAccess": true,
+                "path": "C:\\Users\\FedoTT\\AppData\\Local\\Temp\\scoped_dir2640_336252424\\extension_bnlmobnfclpjgdkgdmdookilelepkajd",
+                "preferences": {
+                    "proxy": {
+                        "mode": "fixed_servers",
+                        "server": "95.79.129.33:15630"
+                    }
+                },
+                "regular_only_preferences": {},
+                "state": 1,
+                "was_installed_by_default": false,
+                "was_installed_by_oem": false,
+                "withholding_permissions": false
+            },
+            "mhjfbmdgcfjbbpaeojofohoefgiehjai": {
+                "active_permissions": {
+                    "api": [ "contentSettings", "fileSystem", "fileSystem.write", "metricsPrivate", "tabs", "resourcesPrivate" ],
+                    "explicit_host": [ "chrome://resources/*", "chrome://webui-test/*" ],
+                    "manifest_permissions": [],
+                    "scriptable_host": []
+                },
+                "commands": {},
+                "content_settings": [],
+                "creation_flags": 1,
+                "events": [],
+                "from_webstore": false,
+                "incognito_content_settings": [],
+                "incognito_preferences": {},
+                "install_time": "13348392934261094",
+                "location": 5,
+                "manifest": {
+                    "content_security_policy": "script-src 'self' 'wasm-eval' blob: filesystem: chrome://resources chrome://webui-test; object-src * blob: externalfile: file: filesystem: data:",
+                    "description": "",
+                    "incognito": "split",
+                    "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDN6hM0rsDYGbzQPQfOygqlRtQgKUXMfnSjhIBL7LnReAVBEd7ZmKtyN2qmSasMl4HZpMhVe2rPWVVwBDl6iyNE/Kok6E6v6V3vCLGsOpQAuuNVye/3QxzIldzG/jQAdWZiyXReRVapOhZtLjGfywCvlWq7Sl/e3sbc0vWybSDI2QIDAQAB",
+                    "manifest_version": 2,
+                    "mime_types": [ "application/pdf" ],
+                    "mime_types_handler": "index.html",
+                    "name": "Chrome PDF Viewer",
+                    "offline_enabled": true,
+                    "permissions": [
+                        "chrome://resources/",
+                        "chrome://webui-test/",
+                        "contentSettings",
+                        "metricsPrivate",
+                        "resourcesPrivate",
+                        "tabs",
+                        { "fileSystem": [ "write" ] }
+                    ],
+                    "version": "1"
+                },
+                "path": "C:\\Program Files\\Google\\Chrome\\Application\\109.0.5414.120\\resources\\pdf",
+                "preferences": {},
+                "regular_only_preferences": {},
+                "state": 1,
+                "was_installed_by_default": false,
+                "was_installed_by_oem": false
+            }
+        }
+    },
+    "pinned_tabs": [],
+    "protection": {
+        "macs": {
+            "browser": { "show_home_button": "19BB011C84856C811A440630CED641A91E2DAE442837D43C56B0B79378FCA3D7" },
+            "default_search_provider_data": { "template_url_data": "B6EE0B7A77D3B768AD346EAFC1402E337B79988D508BE433B6F86266A5961ED2" },
+            "extensions": {
+                "settings": {
+                    "ahfgeienlihckogmohjhadlkjgocpleb": "CD17A4E9308D10B3F0A7405AF154FAE501F92F84D1B8822204092CD188C916D1",
+                    "bnlmobnfclpjgdkgdmdookilelepkajd": "D7F1D1715A6C0FA29106E6A7F94035C87A0C05EC9A708D190731AC7975053C31",
+                    "mhjfbmdgcfjbbpaeojofohoefgiehjai": "C17E0DB2375A65F360F909CD7F9F97E12C443F1A26A18C718E5E1E19EFA235D2"
+                }
+            },
+            "google": {
+                "services": {
+                    "account_id": "0F1C70EDF61531C9F685F2137BC2A09B45DF0A13277142212F674124B3539BA0",
+                    "last_account_id": "7D93CF3F2041BDF1637E6198087338C14C1227A3F8A683ECE9576A6BB14952D0",
+                    "last_username": "BDA4829E3206825397DCFC380B19726890EA32E233CFD7E20226E68487642863"
+                }
+            },
+            "homepage": "CBCE6CD9B2595F21CABBEE64475A34294F17B77534225C83CFE3F3668538A6A7",
+            "homepage_is_newtabpage": "932208E198A83B4ABCC0792E4B02DF9AA8A80A9093E90DCA923AFBCD5047A76B",
+            "media": {
+                "cdm": { "origin_data": "E08003DDD5EE7433FD25C03164D4891D44066E651C300616F1D9D375EF77A6C7" },
+                "storage_id_salt": "62B62D50541CA6592D55FDADE25CE1777F2A702C10D9FEC61C07C2F323C68331"
+            },
+            "module_blocklist_cache_md5_digest": "EDFC2DEC2CB384FA89416BA8D433B6DAA4FB3D6764FCDFE470B02C4FF4228F1A",
+            "pinned_tabs": "758D47EA0480223F2BAD7CD5641570ED51B05F3FA26465DF6649EBB0DF444BEE",
+            "prefs": { "preference_reset_time": "5C7D8B57B504404EF33B9707225EE11AE4A9180118EB2EE8F6C22E961A98B9F9" },
+            "safebrowsing": { "incidents_sent": "17E015DF9F6DC40E5003B18454E3FE3B581A6B2BF8153AC90CA16EDDB76E025F" },
+            "search_provider_overrides": "8B289D8A707C45BE8B7F0850220BBFE2EDB46EF405C9933BC4020BD1B5F053D2",
+            "session": {
+                "restore_on_startup": "E66C164DD531A56799E3C1E3D978771EA74EC7B713A32EC03EA1859692C6279F",
+                "startup_urls": "8A43807CA90EE41B7D07AB2D695A4459DA7F57C3495A94C8CA86637BB08B76AD"
+            },
+            "settings_reset_prompt": {
+                "last_triggered_for_default_search": "7BE621CF64926A510971D09613DF28CE19E799EBCA84966E614C5A00E64C2A1E",
+                "last_triggered_for_homepage": "055112281075EECAD086C6B1D9BC0E7CB2ED6E2E8DF83A5822BBAE4F19E4C53B",
+                "last_triggered_for_startup_urls": "9F4A047E02B0859F210FF3D15B5EBD191A35D76BAF252E38A39753BCED965710",
+                "prompt_wave": "B131FED7B262616A8935F9BC809545094B38B7B720DBE1C041A6EC32C31A3181"
+            },
+            "software_reporter": {
+                "prompt_seed": "078B5A079EC6CABE39A87C21DABBEAB1E0140552113AC8220D4DB3DF2E583DC9",
+                "prompt_version": "D68A3CBCEABBE76AFAB226F522A8A4A3027A2D250B81E61879240E819735BF9E",
+                "reporting": "8C8110D0AC83ED5131EEC1EEE792F159298575A65D4BCF598C21CFFFD362C70E"
+            }
+        },
+        "super_mac": "398E6CF99A76A3C4EDBC5C4A67F855F910DF09FA1E9979F5FCE537CB6E70F2AE"
+    }
+}
