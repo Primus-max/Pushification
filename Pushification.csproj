@@ -207,7 +207,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="jsconfig1.json" />
     <None Include="ProxyExtension\manifest.json" />
     <None Include="subscriptionModeSettings .json" />
     <None Include="pushNotificationModeSettings.json" />

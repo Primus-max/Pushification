@@ -1,4 +1,5 @@
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using PuppeteerSharp;
 using Pushification.Manager;
 using Pushification.Models;
@@ -63,10 +64,7 @@ namespace Pushification.Services
                 catch (Exception) { continue; }
 
                 try
-                {
-                    // Устанавливаю время ожидания загрузки страницы
-                    int timeOutMillisecond = _subscribeSettings.MaxTimePageLoading * 1000;                  
-
+                {                 
                     //await _page.GoToAsync("https://www.whatismyip.com/");
                     //await _page.ScreenshotAsync("whatismyip.png");
 
@@ -74,6 +72,10 @@ namespace Pushification.Services
                     {
                         EventPublisherManager.RaiseUpdateUIMessage($"Перехожу по адресу {url}");
                         _driver.Navigate().GoToUrl(url);
+
+                        // Устанавливаю время ожидания загрузки страницы
+                        int maxTimePageLoading = _subscribeSettings.MaxTimePageLoading * 1000;
+                        _driver.Manage().Timeouts().PageLoad = TimeSpan.FromMilliseconds(maxTimePageLoading);
                     }
                     catch (Exception ex)
                     {
@@ -109,7 +111,7 @@ namespace Pushification.Services
                 }
                  CloseBrowser();
             }
-        }
+        }       
 
         // Закрываю браузер
         public void CloseBrowser()
