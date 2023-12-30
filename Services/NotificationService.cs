@@ -1,10 +1,3 @@
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using PuppeteerSharp;
-using Pushification.Manager;
-using Pushification.Models;
-using Pushification.PuppeteerDriver;
-using Pushification.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +6,12 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Automation;
+using OpenQA.Selenium;
+using PuppeteerSharp;
+using Pushification.Manager;
+using Pushification.Models;
+using Pushification.PuppeteerDriver;
+using Pushification.Services.Interfaces;
 
 namespace Pushification.Services
 {
@@ -273,20 +272,18 @@ namespace Pushification.Services
         private async Task RunDeleteModeAsync(string profilePath, string userAgent)
         {
             try
-            {            
-                _driver = DriverManager.CreateDriver(profilePath, disableNotifivation: true);
+            {
+                _driver = DriverManager.CreateDriver(profilePath, disableNotifivation: true);              
 
                 int sleepBeforeUnsubscribeMS = _notificationModeSettings.SleepBeforeUnsubscribe * 1000;
                 await Task.Delay(sleepBeforeUnsubscribeMS);
-
-                //string settingsUrl = $"chrome://settings/content/siteDetails?site={Uri.EscapeDataString(_subscribeSettings.URL)}";
-                //_driver.Navigate().GoToUrl(settingsUrl);
+                _driver.Navigate().Refresh();
 
                 //Thread.Sleep(1500);
                 //AutoIt.AutoItX.MouseClick(x: 1183, y: 376, speed: 2);
 
                 //Thread.Sleep(1500);
-                //AutoIt.AutoItX.MouseClick(x: 1152, y: 605, speed: 2);
+                //AutoIt.AutoItX.MouseClick(x: 1152, y: 605, speed: 2);               
 
                 int sleepAfterUnsubscribe = _notificationModeSettings.SleepAfterUnsubscribe * 1000;
                 await Task.Delay(sleepAfterUnsubscribe);
@@ -304,6 +301,7 @@ namespace Pushification.Services
                 EventPublisherManager.RaiseUpdateUIMessage($"Ошибка в режиме удаления : {ex.Message}");
             }
         }
+
 
         // Ождаю окно уведомлений
         private IntPtr GetNotificationWindow(int timeout)
@@ -327,7 +325,9 @@ namespace Pushification.Services
             }
 
             return handle;
-        }
+       }
+
+    
 
         // Остановка работы
         public void CloseBrowser()
@@ -336,7 +336,7 @@ namespace Pushification.Services
             try
             {
                 _driver.Close();
-                _driver.Quit();              
+                _driver.Quit();
                 _driver.Dispose();
 
             }
@@ -434,7 +434,7 @@ namespace Pushification.Services
                 EventPublisherManager.RaiseUpdateUIMessage("Окно не найдено.");
             }
         }
-              
+
 
         // Импорт зависимостей из библиотеки
 

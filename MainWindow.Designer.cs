@@ -137,7 +137,7 @@ namespace Pushification
             this.TabMainPanel.Controls.Add(this.Mode2Tab);
             this.TabMainPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.TabMainPanel.Location = new System.Drawing.Point(9, 10);
-            this.TabMainPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TabMainPanel.Margin = new System.Windows.Forms.Padding(2);
             this.TabMainPanel.Name = "TabMainPanel";
             this.TabMainPanel.Padding = new System.Drawing.Point(8, 8);
             this.TabMainPanel.SelectedIndex = 0;
@@ -150,9 +150,9 @@ namespace Pushification
             this.LogsTab.Controls.Add(this.label18);
             this.LogsTab.Controls.Add(this.richTextBox1);
             this.LogsTab.Location = new System.Drawing.Point(4, 39);
-            this.LogsTab.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.LogsTab.Margin = new System.Windows.Forms.Padding(2);
             this.LogsTab.Name = "LogsTab";
-            this.LogsTab.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.LogsTab.Padding = new System.Windows.Forms.Padding(2);
             this.LogsTab.Size = new System.Drawing.Size(697, 667);
             this.LogsTab.TabIndex = 0;
             this.LogsTab.Text = "Logs";
@@ -161,7 +161,7 @@ namespace Pushification
             // SrartButton
             // 
             this.SrartButton.Location = new System.Drawing.Point(511, 3);
-            this.SrartButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SrartButton.Margin = new System.Windows.Forms.Padding(2);
             this.SrartButton.Name = "SrartButton";
             this.SrartButton.Size = new System.Drawing.Size(170, 44);
             this.SrartButton.TabIndex = 2;
@@ -183,7 +183,7 @@ namespace Pushification
             // richTextBox1
             // 
             this.richTextBox1.Location = new System.Drawing.Point(8, 50);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(2);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(674, 538);
             this.richTextBox1.TabIndex = 0;
@@ -200,9 +200,9 @@ namespace Pushification
             this.Mode1Tab.Controls.Add(this.label2);
             this.Mode1Tab.Controls.Add(this.label1);
             this.Mode1Tab.Location = new System.Drawing.Point(4, 39);
-            this.Mode1Tab.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Mode1Tab.Margin = new System.Windows.Forms.Padding(2);
             this.Mode1Tab.Name = "Mode1Tab";
-            this.Mode1Tab.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Mode1Tab.Padding = new System.Windows.Forms.Padding(2);
             this.Mode1Tab.Size = new System.Drawing.Size(697, 667);
             this.Mode1Tab.TabIndex = 1;
             this.Mode1Tab.Text = "Подписка";
@@ -216,9 +216,9 @@ namespace Pushification
             this.groupBox2.Controls.Add(this.label16);
             this.groupBox2.Controls.Add(this.label17);
             this.groupBox2.Location = new System.Drawing.Point(16, 489);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox2.Size = new System.Drawing.Size(664, 99);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
@@ -230,7 +230,7 @@ namespace Pushification
             this.StartOptionOneTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.StartOptionOneTimePicker.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.StartOptionOneTimePicker.Location = new System.Drawing.Point(185, 37);
-            this.StartOptionOneTimePicker.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.StartOptionOneTimePicker.Margin = new System.Windows.Forms.Padding(2);
             this.StartOptionOneTimePicker.Name = "StartOptionOneTimePicker";
             this.StartOptionOneTimePicker.Size = new System.Drawing.Size(103, 26);
             this.StartOptionOneTimePicker.TabIndex = 1;
@@ -251,7 +251,7 @@ namespace Pushification
             // TimeOptionOneTextBox
             // 
             this.TimeOptionOneTextBox.Location = new System.Drawing.Point(470, 37);
-            this.TimeOptionOneTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TimeOptionOneTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.TimeOptionOneTextBox.Name = "TimeOptionOneTextBox";
             this.TimeOptionOneTextBox.Size = new System.Drawing.Size(63, 26);
             this.TimeOptionOneTextBox.TabIndex = 2;
@@ -288,9 +288,9 @@ namespace Pushification
             this.IP.Controls.Add(this.label14);
             this.IP.Controls.Add(this.label7);
             this.IP.Location = new System.Drawing.Point(16, 382);
-            this.IP.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.IP.Margin = new System.Windows.Forms.Padding(2);
             this.IP.Name = "IP";
-            this.IP.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.IP.Padding = new System.Windows.Forms.Padding(2);
             this.IP.Size = new System.Drawing.Size(664, 83);
             this.IP.TabIndex = 6;
             this.IP.TabStop = false;
@@ -321,7 +321,7 @@ namespace Pushification
             // CountIPDeletionPerTimeTextBox
             // 
             this.CountIPDeletionPerTimeTextBox.Location = new System.Drawing.Point(537, 33);
-            this.CountIPDeletionPerTimeTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CountIPDeletionPerTimeTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.CountIPDeletionPerTimeTextBox.Name = "CountIPDeletionPerTimeTextBox";
             this.CountIPDeletionPerTimeTextBox.Size = new System.Drawing.Size(63, 26);
             this.CountIPDeletionPerTimeTextBox.TabIndex = 2;
@@ -330,7 +330,7 @@ namespace Pushification
             // CountIPToDeleteTextBlock
             // 
             this.CountIPToDeleteTextBlock.Location = new System.Drawing.Point(185, 33);
-            this.CountIPToDeleteTextBlock.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CountIPToDeleteTextBlock.Margin = new System.Windows.Forms.Padding(2);
             this.CountIPToDeleteTextBlock.Name = "CountIPToDeleteTextBlock";
             this.CountIPToDeleteTextBlock.Size = new System.Drawing.Size(63, 26);
             this.CountIPToDeleteTextBlock.TabIndex = 2;
@@ -376,9 +376,9 @@ namespace Pushification
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Location = new System.Drawing.Point(16, 196);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(664, 169);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
@@ -387,7 +387,7 @@ namespace Pushification
             // ProxyWaitingTimeoutTextBox
             // 
             this.ProxyWaitingTimeoutTextBox.Location = new System.Drawing.Point(537, 67);
-            this.ProxyWaitingTimeoutTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ProxyWaitingTimeoutTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.ProxyWaitingTimeoutTextBox.Name = "ProxyWaitingTimeoutTextBox";
             this.ProxyWaitingTimeoutTextBox.Size = new System.Drawing.Size(63, 26);
             this.ProxyWaitingTimeoutTextBox.TabIndex = 2;
@@ -396,7 +396,7 @@ namespace Pushification
             // AfterAllowTimeoutTextBox
             // 
             this.AfterAllowTimeoutTextBox.Location = new System.Drawing.Point(537, 28);
-            this.AfterAllowTimeoutTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.AfterAllowTimeoutTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.AfterAllowTimeoutTextBox.Name = "AfterAllowTimeoutTextBox";
             this.AfterAllowTimeoutTextBox.Size = new System.Drawing.Size(63, 26);
             this.AfterAllowTimeoutTextBox.TabIndex = 2;
@@ -405,7 +405,7 @@ namespace Pushification
             // MaxTimeGettingOutITextBlock
             // 
             this.MaxTimeGettingOutITextBlock.Location = new System.Drawing.Point(220, 114);
-            this.MaxTimeGettingOutITextBlock.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MaxTimeGettingOutITextBlock.Margin = new System.Windows.Forms.Padding(2);
             this.MaxTimeGettingOutITextBlock.Name = "MaxTimeGettingOutITextBlock";
             this.MaxTimeGettingOutITextBlock.Size = new System.Drawing.Size(63, 26);
             this.MaxTimeGettingOutITextBlock.TabIndex = 2;
@@ -414,7 +414,7 @@ namespace Pushification
             // BeforeAllowTimeoutTextBox
             // 
             this.BeforeAllowTimeoutTextBox.Location = new System.Drawing.Point(220, 67);
-            this.BeforeAllowTimeoutTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BeforeAllowTimeoutTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.BeforeAllowTimeoutTextBox.Name = "BeforeAllowTimeoutTextBox";
             this.BeforeAllowTimeoutTextBox.Size = new System.Drawing.Size(63, 26);
             this.BeforeAllowTimeoutTextBox.TabIndex = 2;
@@ -423,7 +423,7 @@ namespace Pushification
             // MaxTimePageLoadingTextBox
             // 
             this.MaxTimePageLoadingTextBox.Location = new System.Drawing.Point(220, 28);
-            this.MaxTimePageLoadingTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MaxTimePageLoadingTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.MaxTimePageLoadingTextBox.Name = "MaxTimePageLoadingTextBox";
             this.MaxTimePageLoadingTextBox.Size = new System.Drawing.Size(63, 26);
             this.MaxTimePageLoadingTextBox.TabIndex = 2;
@@ -542,7 +542,7 @@ namespace Pushification
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(237, 124);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(210, 38);
             this.button1.TabIndex = 4;
@@ -554,7 +554,7 @@ namespace Pushification
             // 
             this.URLTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.URLTextBox.Location = new System.Drawing.Point(237, 51);
-            this.URLTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.URLTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.URLTextBox.Name = "URLTextBox";
             this.URLTextBox.Size = new System.Drawing.Size(404, 29);
             this.URLTextBox.TabIndex = 3;
@@ -597,9 +597,9 @@ namespace Pushification
             this.Mode2Tab.Controls.Add(this.groupBox4);
             this.Mode2Tab.Controls.Add(this.groupBox3);
             this.Mode2Tab.Location = new System.Drawing.Point(4, 39);
-            this.Mode2Tab.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Mode2Tab.Margin = new System.Windows.Forms.Padding(2);
             this.Mode2Tab.Name = "Mode2Tab";
-            this.Mode2Tab.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Mode2Tab.Padding = new System.Windows.Forms.Padding(2);
             this.Mode2Tab.Size = new System.Drawing.Size(697, 667);
             this.Mode2Tab.TabIndex = 2;
             this.Mode2Tab.Text = "Приём";
@@ -611,9 +611,9 @@ namespace Pushification
             this.groupBox5.Controls.Add(this.NotificationCloseByButtonCheckBox);
             this.groupBox5.Controls.Add(this.ProxyForIgnoreCheckBox);
             this.groupBox5.Location = new System.Drawing.Point(11, 514);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox5.Size = new System.Drawing.Size(676, 111);
             this.groupBox5.TabIndex = 1;
             this.groupBox5.TabStop = false;
@@ -624,7 +624,7 @@ namespace Pushification
             this.HeadlessModeCheckBox.AutoSize = true;
             this.HeadlessModeCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.HeadlessModeCheckBox.Location = new System.Drawing.Point(464, 54);
-            this.HeadlessModeCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.HeadlessModeCheckBox.Margin = new System.Windows.Forms.Padding(2);
             this.HeadlessModeCheckBox.Name = "HeadlessModeCheckBox";
             this.HeadlessModeCheckBox.Size = new System.Drawing.Size(199, 21);
             this.HeadlessModeCheckBox.TabIndex = 2;
@@ -637,7 +637,7 @@ namespace Pushification
             this.NotificationCloseByButtonCheckBox.AutoSize = true;
             this.NotificationCloseByButtonCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.NotificationCloseByButtonCheckBox.Location = new System.Drawing.Point(208, 46);
-            this.NotificationCloseByButtonCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NotificationCloseByButtonCheckBox.Margin = new System.Windows.Forms.Padding(2);
             this.NotificationCloseByButtonCheckBox.Name = "NotificationCloseByButtonCheckBox";
             this.NotificationCloseByButtonCheckBox.Size = new System.Drawing.Size(223, 38);
             this.NotificationCloseByButtonCheckBox.TabIndex = 2;
@@ -650,7 +650,7 @@ namespace Pushification
             this.ProxyForIgnoreCheckBox.AutoSize = true;
             this.ProxyForIgnoreCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ProxyForIgnoreCheckBox.Location = new System.Drawing.Point(15, 46);
-            this.ProxyForIgnoreCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ProxyForIgnoreCheckBox.Margin = new System.Windows.Forms.Padding(2);
             this.ProxyForIgnoreCheckBox.Name = "ProxyForIgnoreCheckBox";
             this.ProxyForIgnoreCheckBox.Size = new System.Drawing.Size(149, 38);
             this.ProxyForIgnoreCheckBox.TabIndex = 2;
@@ -667,9 +667,9 @@ namespace Pushification
             this.Клики.Controls.Add(this.label41);
             this.Клики.Controls.Add(this.label42);
             this.Клики.Location = new System.Drawing.Point(11, 402);
-            this.Клики.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Клики.Margin = new System.Windows.Forms.Padding(2);
             this.Клики.Name = "Клики";
-            this.Клики.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Клики.Padding = new System.Windows.Forms.Padding(2);
             this.Клики.Size = new System.Drawing.Size(676, 96);
             this.Клики.TabIndex = 1;
             this.Клики.TabStop = false;
@@ -679,7 +679,7 @@ namespace Pushification
             // 
             this.MinNumberOfClicksTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MinNumberOfClicksTextBox.Location = new System.Drawing.Point(178, 34);
-            this.MinNumberOfClicksTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MinNumberOfClicksTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.MinNumberOfClicksTextBox.Name = "MinNumberOfClicksTextBox";
             this.MinNumberOfClicksTextBox.Size = new System.Drawing.Size(56, 29);
             this.MinNumberOfClicksTextBox.TabIndex = 1;
@@ -711,7 +711,7 @@ namespace Pushification
             // 
             this.MaxNumberOfClicksTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MaxNumberOfClicksTextBox.Location = new System.Drawing.Point(538, 34);
-            this.MaxNumberOfClicksTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MaxNumberOfClicksTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.MaxNumberOfClicksTextBox.Name = "MaxNumberOfClicksTextBox";
             this.MaxNumberOfClicksTextBox.Size = new System.Drawing.Size(56, 29);
             this.MaxNumberOfClicksTextBox.TabIndex = 1;
@@ -751,9 +751,9 @@ namespace Pushification
             this.groupBox4.Controls.Add(this.label38);
             this.groupBox4.Controls.Add(this.label36);
             this.groupBox4.Location = new System.Drawing.Point(11, 282);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox4.Size = new System.Drawing.Size(676, 103);
             this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
@@ -763,7 +763,7 @@ namespace Pushification
             // 
             this.PercentToIgnoreTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.PercentToIgnoreTextBox.Location = new System.Drawing.Point(178, 63);
-            this.PercentToIgnoreTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PercentToIgnoreTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.PercentToIgnoreTextBox.Name = "PercentToIgnoreTextBox";
             this.PercentToIgnoreTextBox.Size = new System.Drawing.Size(56, 29);
             this.PercentToIgnoreTextBox.TabIndex = 1;
@@ -773,7 +773,7 @@ namespace Pushification
             // 
             this.PercentToDeleteTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.PercentToDeleteTextBox.Location = new System.Drawing.Point(178, 24);
-            this.PercentToDeleteTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PercentToDeleteTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.PercentToDeleteTextBox.Name = "PercentToDeleteTextBox";
             this.PercentToDeleteTextBox.Size = new System.Drawing.Size(56, 29);
             this.PercentToDeleteTextBox.TabIndex = 1;
@@ -816,7 +816,7 @@ namespace Pushification
             // 
             this.PercentToClickTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.PercentToClickTextBox.Location = new System.Drawing.Point(538, 24);
-            this.PercentToClickTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PercentToClickTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.PercentToClickTextBox.Name = "PercentToClickTextBox";
             this.PercentToClickTextBox.Size = new System.Drawing.Size(56, 29);
             this.PercentToClickTextBox.TabIndex = 1;
@@ -882,9 +882,9 @@ namespace Pushification
             this.groupBox3.Controls.Add(this.label27);
             this.groupBox3.Controls.Add(this.label19);
             this.groupBox3.Location = new System.Drawing.Point(11, 14);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox3.Size = new System.Drawing.Size(676, 251);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
@@ -894,7 +894,7 @@ namespace Pushification
             // 
             this.SleepAfterUnsubscribeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.SleepAfterUnsubscribeTextBox.Location = new System.Drawing.Point(270, 189);
-            this.SleepAfterUnsubscribeTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SleepAfterUnsubscribeTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.SleepAfterUnsubscribeTextBox.Name = "SleepAfterUnsubscribeTextBox";
             this.SleepAfterUnsubscribeTextBox.Size = new System.Drawing.Size(56, 29);
             this.SleepAfterUnsubscribeTextBox.TabIndex = 1;
@@ -904,7 +904,7 @@ namespace Pushification
             // 
             this.SleepAfterAllNotificationsClickTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.SleepAfterAllNotificationsClickTextBox.Location = new System.Drawing.Point(270, 136);
-            this.SleepAfterAllNotificationsClickTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SleepAfterAllNotificationsClickTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.SleepAfterAllNotificationsClickTextBox.Name = "SleepAfterAllNotificationsClickTextBox";
             this.SleepAfterAllNotificationsClickTextBox.Size = new System.Drawing.Size(56, 29);
             this.SleepAfterAllNotificationsClickTextBox.TabIndex = 1;
@@ -914,7 +914,7 @@ namespace Pushification
             // 
             this.MaxTimeToWaitNotificationIgnoreTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MaxTimeToWaitNotificationIgnoreTextBox.Location = new System.Drawing.Point(270, 81);
-            this.MaxTimeToWaitNotificationIgnoreTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MaxTimeToWaitNotificationIgnoreTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.MaxTimeToWaitNotificationIgnoreTextBox.Name = "MaxTimeToWaitNotificationIgnoreTextBox";
             this.MaxTimeToWaitNotificationIgnoreTextBox.Size = new System.Drawing.Size(56, 29);
             this.MaxTimeToWaitNotificationIgnoreTextBox.TabIndex = 1;
@@ -924,7 +924,7 @@ namespace Pushification
             // 
             this.SleepBeforeProfileDeletionTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.SleepBeforeProfileDeletionTextBox.Location = new System.Drawing.Point(556, 189);
-            this.SleepBeforeProfileDeletionTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SleepBeforeProfileDeletionTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.SleepBeforeProfileDeletionTextBox.Name = "SleepBeforeProfileDeletionTextBox";
             this.SleepBeforeProfileDeletionTextBox.Size = new System.Drawing.Size(56, 29);
             this.SleepBeforeProfileDeletionTextBox.TabIndex = 1;
@@ -934,7 +934,7 @@ namespace Pushification
             // 
             this.SleepBeforeUnsubscribeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.SleepBeforeUnsubscribeTextBox.Location = new System.Drawing.Point(556, 136);
-            this.SleepBeforeUnsubscribeTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SleepBeforeUnsubscribeTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.SleepBeforeUnsubscribeTextBox.Name = "SleepBeforeUnsubscribeTextBox";
             this.SleepBeforeUnsubscribeTextBox.Size = new System.Drawing.Size(56, 29);
             this.SleepBeforeUnsubscribeTextBox.TabIndex = 1;
@@ -944,7 +944,7 @@ namespace Pushification
             // 
             this.SleepBetweenClickTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.SleepBetweenClickTextBox.Location = new System.Drawing.Point(558, 81);
-            this.SleepBetweenClickTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SleepBetweenClickTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.SleepBetweenClickTextBox.Name = "SleepBetweenClickTextBox";
             this.SleepBetweenClickTextBox.Size = new System.Drawing.Size(56, 29);
             this.SleepBetweenClickTextBox.TabIndex = 1;
@@ -954,7 +954,7 @@ namespace Pushification
             // 
             this.TimeToWaitNotificationClickTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.TimeToWaitNotificationClickTextBox.Location = new System.Drawing.Point(558, 33);
-            this.TimeToWaitNotificationClickTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TimeToWaitNotificationClickTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.TimeToWaitNotificationClickTextBox.Name = "TimeToWaitNotificationClickTextBox";
             this.TimeToWaitNotificationClickTextBox.Size = new System.Drawing.Size(56, 29);
             this.TimeToWaitNotificationClickTextBox.TabIndex = 1;
@@ -964,7 +964,7 @@ namespace Pushification
             // 
             this.SleepBeforeProcessKillIgnoreTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.SleepBeforeProcessKillIgnoreTextBox.Location = new System.Drawing.Point(270, 33);
-            this.SleepBeforeProcessKillIgnoreTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SleepBeforeProcessKillIgnoreTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.SleepBeforeProcessKillIgnoreTextBox.Name = "SleepBeforeProcessKillIgnoreTextBox";
             this.SleepBeforeProcessKillIgnoreTextBox.Size = new System.Drawing.Size(56, 29);
             this.SleepBeforeProcessKillIgnoreTextBox.TabIndex = 1;
@@ -1153,7 +1153,7 @@ namespace Pushification
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(724, 741);
             this.Controls.Add(this.TabMainPanel);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimumSize = new System.Drawing.Size(740, 699);
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

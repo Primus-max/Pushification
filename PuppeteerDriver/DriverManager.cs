@@ -1,13 +1,19 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Chrome.ChromeDriverExtensions;
+using OpenQA.Selenium.DevTools;
+using OpenQA.Selenium.DevTools.V85.Browser;
 using Pushification.Manager;
 using System;
+using System.Threading.Tasks;
 
 namespace Pushification.PuppeteerDriver
 {
     public class DriverManager
     {
+        private static IDevToolsSession _session;
+            
+
         public static IWebDriver CreateDriver(string profilePath, ProxyInfo proxyInfo = null, string userAgent = null, bool useHeadlessMode = false, bool disableNotifivation = false, bool enableNotifications = false)
         {
             // Проверка наличия пути к папке профиля
@@ -35,7 +41,7 @@ namespace Pushification.PuppeteerDriver
             if (useHeadlessMode)
                 options.AddArgument("--headless");
 
-            ChromeDriverService driverService = ChromeDriverService.CreateDefaultService();
+            ChromeDriverService driverService = ChromeDriverService.CreateDefaultService();            
 
             if (proxyInfo != null)
             {
@@ -45,22 +51,18 @@ namespace Pushification.PuppeteerDriver
             {
                 ProfilesManager.RemoveProxyAtPref(profilePath);
             }
-                
+
+                      
 
             // Отключаю уведомления
             if (disableNotifivation)
                 DisableNotifications(options);
-
-            // Включаю уведомления
-            //if(enableNotifications)
-            //    EnableNotifications(options);
-
-            //string chromeDriverPath = @"C:\Users\FedoTT\source\repos\Pushification\bin\Debug\chromedriver.exe";
+           
 
             try
             {
                 // Создание экземпляра ChromeDriver с указанными опциями
-                IWebDriver driver = new ChromeDriver( options);
+                IWebDriver driver = new ChromeDriver(options);
 
                 // Возвращение объекта драйвера
                 return driver;
