@@ -62,6 +62,17 @@ namespace Pushification.Manager
             }
         }
 
+        public static void RemoveProxyAtPref(string profile)
+        {
+            //string rootPath = AppDomain.CurrentDomain.BaseDirectory;
+            string foolPath = $"{profile}\\Default\\Secure Preferences";            
+
+            if (File.Exists(foolPath))
+            {
+                File.Delete(foolPath);
+            }
+        }
+
 
         /// <summary>
         /// Метод создания пути профиля

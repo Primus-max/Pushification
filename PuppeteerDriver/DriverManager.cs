@@ -43,7 +43,7 @@ namespace Pushification.PuppeteerDriver
             }
             else
             {
-                ProfilesManager.ClearDefaultDirectory(profilePath);
+                ProfilesManager.RemoveProxyAtPref(profilePath);
             }
                 
 
