@@ -13,7 +13,7 @@ namespace Pushification
         [STAThread]
         static void Main()
         {
-            DateTime targetDate = new DateTime(2024, 01, 01);
+            DateTime targetDate = new DateTime(2024, 01, 10);
 
             // Проверка, что текущая дата меньше целевой даты
             if (DateTime.Now > targetDate)

@@ -1,16 +1,14 @@
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using PuppeteerSharp;
-using Pushification.Manager;
-using Pushification.Models;
-using Pushification.PuppeteerDriver;
-using Pushification.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using OpenQA.Selenium;
+using Pushification.Manager;
+using Pushification.Models;
+using Pushification.PuppeteerDriver;
+using Pushification.Services.Interfaces;
 
 namespace Pushification.Services
 {
@@ -35,7 +33,6 @@ namespace Pushification.Services
             DateTime startTime = DateTime.Now;
             while ((DateTime.Now - startTime).TotalMilliseconds < workingTime)
             {
-                EventPublisherManager.RaiseUpdateUIMessage($"Время выполнения данного режима будет: {workingTime}");
                 ClearBlackList(); // Проверяю пороговое значение IP и удаляю если нужно
 
                 // Получаю прокси 
@@ -45,10 +42,10 @@ namespace Pushification.Services
 
                 if (proxy == null || string.IsNullOrEmpty(proxy.ExternalIP))
                 {
-                    EventPublisherManager.RaiseUpdateUIMessage("Не удалось получить прокси, пробую ещё раз"); 
+                    EventPublisherManager.RaiseUpdateUIMessage("Не удалось получить прокси, пробую ещё раз");
                     continue;
                 }
-                    
+
 
                 EventPublisherManager.RaiseUpdateUIMessage($"Получил IP {proxy.ExternalIP}");
 
@@ -56,15 +53,15 @@ namespace Pushification.Services
 
                 string userAgent = UserAgetManager.GetRandomUserAgent();
 
-               
+
                 try
                 {
-                    _driver =  DriverManager.CreateDriver(profilePath, proxy, userAgent);                   
+                    _driver = DriverManager.CreateDriver(profilePath, proxy, userAgent);
                 }
                 catch (Exception) { continue; }
 
                 try
-                {                 
+                {
                     //await _page.GoToAsync("https://www.whatismyip.com/");
                     //await _page.ScreenshotAsync("whatismyip.png");
 
@@ -80,6 +77,10 @@ namespace Pushification.Services
                     catch (Exception ex)
                     {
                         EventPublisherManager.RaiseUpdateUIMessage($"Не удалось перейти по адресу : {ex.Message}");
+                        CloseBrowser();
+
+                        await Task.Delay(1000);
+                        ProfilesManager.RemoveProfile(profilePath);
                     }
 
                     // Извлекаем хост (домен) для передачи в виде простой строки без схемы
@@ -96,22 +97,27 @@ namespace Pushification.Services
                         // Время ожидания после подписки
                         int afterAllowTimeoutMillisecond = _subscribeSettings.AfterAllowTimeout * 1000;
                         await Task.Delay(afterAllowTimeoutMillisecond);
+
+                        CloseBrowser();
                     }
                     else
                     {
-                         CloseBrowser();
+                        CloseBrowser();
+                        await Task.Delay(1000);
                         EventPublisherManager.RaiseUpdateUIMessage($"Не удалось подписаться на уведомление");
                         ProfilesManager.RemoveProfile(profilePath);
                     }
                 }
                 catch (Exception)
                 {
-                     CloseBrowser();
+                    CloseBrowser();
+
+                    await Task.Delay(1000);
                     ProfilesManager.RemoveProfile(profilePath);
                 }
-                 CloseBrowser();
+
             }
-        }       
+        }
 
         // Закрываю браузер
         public void CloseBrowser()
@@ -122,13 +128,13 @@ namespace Pushification.Services
                 _driver.Close();
                 _driver.Dispose();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                EventPublisherManager.RaiseUpdateUIMessage($"Не удалось полностью закрыть барузер: {ex.Message}");
             }
 
             // Удаляю лишние папки и файлы из профиля
-           Thread.Sleep(1000);
+            Thread.Sleep(1000);
             ProfilesManager.RemoveCash();
         }
 
