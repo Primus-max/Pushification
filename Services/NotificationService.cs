@@ -227,14 +227,13 @@ namespace Pushification.Services
             // Получаю драйвер, открываю страницу
             try
             {
-                _driver = DriverManager.CreateDriver(profilePath, proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
+                _driver = DriverManager.CreateDriver(profilePath, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
             }
             catch (Exception ex)
             {
                 EventPublisherManager.RaiseUpdateUIMessage($"Не удалось перейти по адресу : {ex.Message}");
                 return;
             }
-
 
 
             // Получаю рандомное число для закрытия по крестику
