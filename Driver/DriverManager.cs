@@ -19,7 +19,7 @@ namespace Pushification.PuppeteerDriver
             // Проверка наличия пути к папке профиля
             if (string.IsNullOrEmpty(profilePath))
             {
-                Console.WriteLine("Не удалось создать путь к профилю");
+                Console.WriteLine("Не удалось поучить путь к профилю");
                 return null;
             }
 
@@ -51,8 +51,7 @@ namespace Pushification.PuppeteerDriver
             {
                 ProfilesManager.RemoveProxyAtPref(profilePath);
             }
-
-                      
+                                 
 
             // Отключаю уведомления
             if (disableNotifivation)

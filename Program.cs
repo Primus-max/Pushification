@@ -13,15 +13,7 @@ namespace Pushification
         [STAThread]
         static void Main()
         {
-            DateTime targetDate = new DateTime(2024, 01, 10);
-
-            // Проверка, что текущая дата меньше целевой даты
-            if (DateTime.Now > targetDate)
-            {
-                MessageBox.Show("Свяжитесь с разработчиком");
-                return;
-            }
-
+          
             // Добавляем глобальный обработчик исключений
             // Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
 

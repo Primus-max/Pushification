@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Automation;
 using OpenQA.Selenium;
-using PuppeteerSharp;
+using OpenQA.Selenium.Interactions;
 using Pushification.Manager;
 using Pushification.Models;
 using Pushification.PuppeteerDriver;
@@ -19,9 +19,7 @@ namespace Pushification.Services
     {
         private SubscriptionModeSettings _subscribeSettings = null;
         private readonly PushNotificationModeSettings _notificationModeSettings;
-        private IBrowser _browser = null;
-        private IPage _page = null;
-
+       
         private IWebDriver _driver;
 
         private Timer timer;
@@ -227,7 +225,7 @@ namespace Pushification.Services
             // Получаю драйвер, открываю страницу
             try
             {
-                _driver = DriverManager.CreateDriver(profilePath, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
+                _driver = DriverManager.CreateDriver(profilePath, proxyInfo:proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
             }
             catch (Exception ex)
             {
@@ -272,11 +270,43 @@ namespace Pushification.Services
         {
             try
             {
-                _driver = DriverManager.CreateDriver(profilePath, disableNotifivation: true);              
+                _driver = DriverManager.CreateDriver(profilePath, disableNotifivation: true);
 
                 int sleepBeforeUnsubscribeMS = _notificationModeSettings.SleepBeforeUnsubscribe * 1000;
                 await Task.Delay(sleepBeforeUnsubscribeMS);
-                _driver.Navigate().Refresh();
+                _driver.Navigate().GoToUrl("chrome://settings/content/all/");
+
+                IWebElement button;
+
+                // Находим элемент с помощью JavaScript
+                IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)_driver;
+                Actions actions = new Actions(_driver);
+
+                string deleteBtn = @"
+                return document.querySelector('body settings-ui')
+                .shadowRoot.querySelector('#main')
+                .shadowRoot.querySelector('settings-basic-page')
+                .shadowRoot.querySelector('#basicPage settings-section.expanded settings-privacy-page')
+                .shadowRoot.querySelector('#pages settings-subpage all-sites')
+                .shadowRoot.querySelector('#clearAllButton cr-button');
+                ";
+
+                button = (IWebElement)jsExecutor.ExecuteScript(deleteBtn);
+                actions.Click(button).Build().Perform();
+
+
+                string confirmBnt = @"
+                return document.querySelector('body settings-ui')
+                .shadowRoot.querySelector('#main')
+                .shadowRoot.querySelector('settings-basic-page')
+                .shadowRoot.querySelector('#basicPage settings-section.expanded settings-privacy-page')
+                .shadowRoot.querySelector('#pages settings-subpage all-sites')
+                .shadowRoot.querySelector('cr-dialog > div:nth-child(3) > cr-button.action-button');
+                ";
+
+                button = (IWebElement)jsExecutor.ExecuteScript(confirmBnt);
+                actions.Click(button).Build().Perform();
+
 
                 //Thread.Sleep(1500);
                 //AutoIt.AutoItX.MouseClick(x: 1183, y: 376, speed: 2);
@@ -302,7 +332,7 @@ namespace Pushification.Services
         }
 
 
-        // Ождаю окно уведомлений
+        // Ожидаю окно уведомлений
         private IntPtr GetNotificationWindow(int timeout)
         {
             IntPtr handle = IntPtr.Zero;
@@ -324,9 +354,9 @@ namespace Pushification.Services
             }
 
             return handle;
-       }
+        }
 
-    
+
 
         // Остановка работы
         public void CloseBrowser()
@@ -341,7 +371,7 @@ namespace Pushification.Services
             }
             catch (Exception) { }
             // Удаляю лишние папки и файлы из профиля
-            Thread.Sleep(500);
+            Thread.Sleep(1000);
             ProfilesManager.RemoveCash();
         }
 
