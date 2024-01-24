@@ -183,7 +183,9 @@ namespace Pushification.Manager
             "GrShaderCache",
             "ShaderCache",
             "Crashpad",
-            "GraphiteDawnCache"
+            "GraphiteDawnCache",
+            "WidevineCdm",
+            "pnacl"
         };
 
             try
