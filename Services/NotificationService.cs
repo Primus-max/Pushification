@@ -19,7 +19,7 @@ namespace Pushification.Services
     {
         private SubscriptionModeSettings _subscribeSettings = null;
         private readonly PushNotificationModeSettings _notificationModeSettings;
-       
+
         private IWebDriver _driver;
 
         private Timer timer;
@@ -225,7 +225,7 @@ namespace Pushification.Services
             // Получаю драйвер, открываю страницу
             try
             {
-                _driver = DriverManager.CreateDriver(profilePath, proxyInfo:proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
+                _driver = DriverManager.CreateDriver(profilePath, proxyInfo: proxyInfo, userAgent: userAgent, useHeadlessMode: _notificationModeSettings.HeadlessMode);
             }
             catch (Exception ex)
             {
@@ -270,7 +270,7 @@ namespace Pushification.Services
         {
             try
             {
-                _driver = DriverManager.CreateDriver(profilePath, disableNotifivation: true);
+                _driver = DriverManager.CreateDriver(profilePath, userAgent: userAgent, disableNotifivation: true);
 
                 int sleepBeforeUnsubscribeMS = _notificationModeSettings.SleepBeforeUnsubscribe * 1000;
                 await Task.Delay(sleepBeforeUnsubscribeMS);
@@ -306,13 +306,6 @@ namespace Pushification.Services
 
                 button = (IWebElement)jsExecutor.ExecuteScript(confirmBnt);
                 actions.Click(button).Build().Perform();
-
-
-                //Thread.Sleep(1500);
-                //AutoIt.AutoItX.MouseClick(x: 1183, y: 376, speed: 2);
-
-                //Thread.Sleep(1500);
-                //AutoIt.AutoItX.MouseClick(x: 1152, y: 605, speed: 2);               
 
                 int sleepAfterUnsubscribe = _notificationModeSettings.SleepAfterUnsubscribe * 1000;
                 await Task.Delay(sleepAfterUnsubscribe);

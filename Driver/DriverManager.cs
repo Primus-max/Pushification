@@ -1,18 +1,13 @@
+using System;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Chrome.ChromeDriverExtensions;
-using OpenQA.Selenium.DevTools;
-using OpenQA.Selenium.DevTools.V85.Browser;
 using Pushification.Manager;
-using System;
-using System.Threading.Tasks;
 
 namespace Pushification.PuppeteerDriver
 {
     public class DriverManager
     {
-        private static IDevToolsSession _session;
-            
 
         public static IWebDriver CreateDriver(string profilePath, ProxyInfo proxyInfo = null, string userAgent = null, bool useHeadlessMode = false, bool disableNotifivation = false, bool enableNotifications = false)
         {
@@ -34,14 +29,12 @@ namespace Pushification.PuppeteerDriver
                 options.AddArgument($"--user-data-dir={profilePath}");
 
             // Установка юзер-агента
-            if (proxyInfo != null)
+            if (userAgent != null)
                 options.AddArgument($"--user-agent={userAgent}");
 
             // Добавление аргумента для безголового режима
             if (useHeadlessMode)
                 options.AddArgument("--headless");
-
-            ChromeDriverService driverService = ChromeDriverService.CreateDefaultService();            
 
             if (proxyInfo != null)
             {
@@ -51,12 +44,12 @@ namespace Pushification.PuppeteerDriver
             {
                 ProfilesManager.RemoveProxyAtPref(profilePath);
             }
-                                 
+
 
             // Отключаю уведомления
-            if (disableNotifivation)
-                DisableNotifications(options);
-           
+            //if (disableNotifivation)
+            //    DisableNotifications(options);
+
 
             try
             {
