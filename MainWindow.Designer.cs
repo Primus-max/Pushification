@@ -117,6 +117,8 @@ namespace Pushification
             this.label31 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
+            this.label48 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.TabMainPanel.SuspendLayout();
             this.LogsTab.SuspendLayout();
             this.Mode1Tab.SuspendLayout();
@@ -194,9 +196,11 @@ namespace Pushification
             this.Mode1Tab.Controls.Add(this.groupBox2);
             this.Mode1Tab.Controls.Add(this.IP);
             this.Mode1Tab.Controls.Add(this.groupBox1);
+            this.Mode1Tab.Controls.Add(this.button2);
             this.Mode1Tab.Controls.Add(this.button1);
             this.Mode1Tab.Controls.Add(this.URLTextBox);
             this.Mode1Tab.Controls.Add(this.label3);
+            this.Mode1Tab.Controls.Add(this.label48);
             this.Mode1Tab.Controls.Add(this.label2);
             this.Mode1Tab.Controls.Add(this.label1);
             this.Mode1Tab.Location = new System.Drawing.Point(4, 39);
@@ -541,7 +545,7 @@ namespace Pushification
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(237, 124);
+            this.button1.Location = new System.Drawing.Point(236, 98);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(210, 38);
@@ -563,7 +567,7 @@ namespace Pushification
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(470, 141);
+            this.label3.Location = new System.Drawing.Point(465, 107);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(57, 20);
@@ -573,7 +577,7 @@ namespace Pushification
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(26, 141);
+            this.label2.Location = new System.Drawing.Point(28, 107);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(143, 20);
@@ -1147,6 +1151,28 @@ namespace Pushification
             this.label19.TabIndex = 0;
             this.label19.Text = "Задержка перед закрытием браузер\r\nпосле того как пришли уведомления";
             // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Location = new System.Drawing.Point(28, 157);
+            this.label48.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(179, 20);
+            this.label48.TabIndex = 2;
+            this.label48.Text = "Чёрный список прокси";
+            this.label48.Click += new System.EventHandler(this.label48_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(236, 148);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(210, 38);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "Выбрать файл с прокси\r\n";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.OpenBlackListFileButton_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1272,6 +1298,8 @@ namespace Pushification
         private System.Windows.Forms.TextBox PercentToIgnoreTextBox;
         private System.Windows.Forms.Label label47;
         private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.Button button2;
     }
    
 }

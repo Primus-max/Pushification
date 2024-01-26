@@ -1,6 +1,7 @@
 {
   "URL": "https://example.com",
   "ProxyList": "",
+  "BlackListProxy": "",
   "MaxTimePageLoading": 30,
   "BeforeAllowTimeout": 5,
   "AfterAllowTimeout": 10,

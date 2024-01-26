@@ -11,6 +11,7 @@ namespace Pushification.Models
 
         public string URL { get; set; }
         public string ProxyList { get; set; }
+        public string BlackListProxy { get; set; }
         public int MaxTimePageLoading { get; set; }
         public int BeforeAllowTimeout { get; set; }
         public int AfterAllowTimeout { get; set; }

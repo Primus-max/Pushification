@@ -1,12 +1,10 @@
-﻿using Pushification.Manager;
-using Pushification.Models;
-using Pushification.Services;
-using System;
-using System.Globalization;
+﻿using System;
 using System.IO;
 using System.Threading;
-using System.Windows.Automation;
 using System.Windows.Forms;
+using Pushification.Manager;
+using Pushification.Models;
+using Pushification.Services;
 
 
 namespace Pushification
@@ -29,8 +27,8 @@ namespace Pushification
 
             // Подписка на событие
             EventPublisherManager.UpdateUIMessage += EventPublisher_UpdateUIMessage;
-           
-        }     
+
+        }
 
         // Обработчик события Обновления интерфейса
         private void EventPublisher_UpdateUIMessage(object sender, string message)
@@ -74,6 +72,32 @@ namespace Pushification
 
                         // Установка пути к скопированному файлу
                         _subscriptionSettings.ProxyList = destinationPath;
+                        _subscriptionSettings.SaveSubscriptionSettingsToJson();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка при копировании файла: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        // Выбираю файл с чёрным списком прокси
+        private void OpenBlackListFileButton_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Title = "Выберите файл с прокси";
+                openFileDialog.Filter = "Текстовые файлы|*.txt|Все файлы|*.*";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string selectedFilePath = openFileDialog.FileName;                 
+
+                    try
+                    {                        
+                        // Установка пути к скопированному файлу
+                        _subscriptionSettings.BlackListProxy = selectedFilePath;
                         _subscriptionSettings.SaveSubscriptionSettingsToJson();
                     }
                     catch (Exception ex)
@@ -155,7 +179,7 @@ namespace Pushification
         // Настройка времени
         private void Form1_Load(object sender, EventArgs e)
         {
-           
+
         }
 
 
@@ -373,5 +397,12 @@ namespace Pushification
         {
 
         }
+
+        private void label48_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
     }
 }
