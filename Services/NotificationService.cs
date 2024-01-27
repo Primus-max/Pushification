@@ -357,14 +357,13 @@ namespace Pushification.Services
             // Закрыть браузер после прошествия времени
             try
             {
-                _driver.Close();
                 _driver.Quit();
                 _driver.Dispose();
-
             }
             catch (Exception) { }
+
             // Удаляю лишние папки и файлы из профиля
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
             ProfilesManager.RemoveCash();
         }
 

@@ -1,10 +1,8 @@
-﻿using System.IO;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using OpenQA.Selenium;
 
 namespace Pushification.Manager
 {
@@ -14,7 +12,7 @@ namespace Pushification.Manager
         /// Метод получения всех профилей
         /// </summary>
         /// <returns></returns>
-        public static List<string> GetAllProfiles() 
+        public static List<string> GetAllProfiles()
         {
             List<string> profiles = new List<string>();
             string profilesDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "profiles");
@@ -65,7 +63,7 @@ namespace Pushification.Manager
         public static void RemoveProxyAtPref(string profile)
         {
             //string rootPath = AppDomain.CurrentDomain.BaseDirectory;
-            string foolPath = $"{profile}\\Default\\Secure Preferences";            
+            string foolPath = $"{profile}\\Default\\Secure Preferences";
 
             if (File.Exists(foolPath))
             {
@@ -158,11 +156,11 @@ namespace Pushification.Manager
                 if (Directory.Exists(defaultDirecrotyPath))
                 {
                     Directory.Delete(defaultDirecrotyPath, true);
-                }               
+                }
             }
             catch (Exception ex)
             {
-               // Console.WriteLine($"Error clearing profile directory: {ex.Message}");
+                // Console.WriteLine($"Error clearing profile directory: {ex.Message}");
             }
         }
 

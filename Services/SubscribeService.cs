@@ -37,7 +37,7 @@ namespace Pushification.Services
 
                 // Получаю прокси 
                 string proxyFilePath = _subscribeSettings.ProxyList;
-                EventPublisherManager.RaiseUpdateUIMessage($"Путь к файлу с прокси: {proxyFilePath}");
+
                 ProxyInfo proxy = await ProxyInfo.GetProxy(proxyFilePath, _subscribeSettings.MaxTimeGettingOutIP);
 
                 if (proxy == null || string.IsNullOrEmpty(proxy.ExternalIP))
@@ -68,11 +68,10 @@ namespace Pushification.Services
                     try
                     {
                         EventPublisherManager.RaiseUpdateUIMessage($"Перехожу по адресу {url}");
-                        _driver.Navigate().GoToUrl(url);
-
                         // Устанавливаю время ожидания загрузки страницы
                         int maxTimePageLoading = _subscribeSettings.MaxTimePageLoading * 1000;
                         _driver.Manage().Timeouts().PageLoad = TimeSpan.FromMilliseconds(maxTimePageLoading);
+                        _driver.Navigate().GoToUrl(url);
                     }
                     catch (Exception ex)
                     {
@@ -128,10 +127,7 @@ namespace Pushification.Services
                 _driver.Close();
                 _driver.Dispose();
             }
-            catch (Exception ex)
-            {
-                EventPublisherManager.RaiseUpdateUIMessage($"Не удалось полностью закрыть барузер: {ex.Message}");
-            }
+            catch (Exception ex) { }
 
             // Удаляю лишние папки и файлы из профиля
             Thread.Sleep(1000);
@@ -141,7 +137,7 @@ namespace Pushification.Services
         // Метод удаления IP
         private void ClearBlackList()
         {
-            string blacklistFilePath = "blacklistproxy.txt";
+            string blacklistFilePath = _subscribeSettings.BlackListProxy;
             string[] blacklist = null;
 
             try

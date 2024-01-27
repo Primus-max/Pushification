@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Pushification.Manager;
+using Pushification.Models;
 using System;
 using System.IO;
 using System.Linq;
@@ -18,6 +19,11 @@ public class ProxyInfo
     public string Password { get; set; }
     public string ExternalIP { get; set; }
 
+    public static SubscriptionModeSettings _subscribeSettings = null;
+    public ProxyInfo()
+    {
+        _subscribeSettings = SubscriptionModeSettings.LoadSubscriptionSettingsFromJson();
+    }
 
     public static ProxyInfo Parse(string proxyInfo)
     {
@@ -174,7 +180,7 @@ public class ProxyInfo
     // Проверка наличи IP в блеклисте
     private static bool IsIPInBlacklist(string proxy)
     {
-        string blacklistFilePath = "blacklistproxy.txt";
+        string blacklistFilePath = _subscribeSettings.BlackListProxy; ;
         string[] blacklist = null;
 
         try
@@ -214,7 +220,7 @@ public class ProxyInfo
     /// <param name="proxy"></param>
     public static void AddProxyToBlacklist(string proxy)
     {
-        string blacklistFilePath = "blacklistproxy.txt";
+        string blacklistFilePath = _subscribeSettings.BlackListProxy;
 
         if (!IsIPInBlacklist(proxy))
         {
@@ -237,7 +243,7 @@ public class ProxyInfo
     // Удаление прокси из черного списка
     public static void RemoveProxyFromBlacklist(string proxy)
     {
-        string blacklistFilePath = "blacklistproxy.txt";
+        string blacklistFilePath = _subscribeSettings.BlackListProxy; 
 
         // Удаляем прокси из черного списка
         string[] updatedBlacklist = File.ReadAllLines(blacklistFilePath)

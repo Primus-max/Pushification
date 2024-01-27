@@ -45,7 +45,9 @@ namespace Pushification.PuppeteerDriver
                 ProfilesManager.RemoveProxyAtPref(profilePath);
             }
 
-
+            string remoteAdress =  options.DebuggerAddress;
+            options.PageLoadStrategy = PageLoadStrategy.None;
+            
             // Отключаю уведомления
             //if (disableNotifivation)
             //    DisableNotifications(options);
